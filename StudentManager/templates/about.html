@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %} About {% endblock %}
+
+{% block body_block %}
+{% load static %}
+
+<img src="{% static 'images/image1.jpeg' %}" height="152" width="470">
+<p style="text-align:left">
+FILTRER PAR : <input type="text" id="myInput1" onkeyup="filtreMyTable('myTable','myInput1', 0)" placeholder="NOM">
+</p>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for perso in personnels %}
+      <tr>
+        <th scope="row">{{ perso.id }}</th>
+        <td><a href="/perso/{{ perso.id }}">{{ perso.nom }}</a> </td>
+        <td>{{ perso.prenom }}</td>
+        <td>{{ perso.fid_statut }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
