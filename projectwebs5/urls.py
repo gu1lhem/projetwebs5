@@ -20,9 +20,7 @@ from StudentManager.views import *
 
 
 urlpatterns = [
-   path('', views.index, name='home'),
    path('home/', home, name = 'homepage'),
-   path('other/', other, name = 'otherpage'),
    path('admin/', admin.site.urls),
    path('perso/', perso, name = 'perso'),
    path('persoX/<int:id>', persoX, name = 'persoX'),   

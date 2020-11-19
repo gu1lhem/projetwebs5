@@ -6,4 +6,3 @@ class SelectNom(forms.Form):
    def clean_def_nom(self):
       data = self.cleaned_data['def_nom']
       return data
- 

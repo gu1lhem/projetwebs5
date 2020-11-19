@@ -12,21 +12,11 @@ from StudentManager.forms import SelectNom
 
 from django.contrib.auth.decorators import login_required
 
-def index(request):
-   now = datetime.datetime.now()
-   html = "<html><body>Ma première application donne l'heure : Il est %s.</body></html>" % now
-   return HttpResponse(html)
-
 
 def home(request):
-   return render(request, 'base.html')
-
-
-def other(request):
-   context = {
-   'k1': 'Welcome to the Second page',
-   }
-   return render(request, 'others.html', context)
+   # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
+   # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
+   return render(request, 'layout.html', {'title': 'Bienvenue'})
 
 # @login_required
 def perso(request):
