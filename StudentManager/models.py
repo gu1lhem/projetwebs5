@@ -7,7 +7,7 @@ from django.db import models
 
 # Create your models here.
 class Individu(models.Model):
-   Prenom = models.CharField(max_length=30)         
+         Prenom = models.CharField(max_length=30)         
    Nom = models.CharField(max_length=30)  
    Adressemail = models.CharField(max_length=50)
    Naiss = models.DateField(auto_now_add=True)
