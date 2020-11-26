@@ -78,7 +78,6 @@ WSGI_APPLICATION = 'projectwebs5.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'projet_jfpp',
@@ -90,23 +89,6 @@ DATABASES = {
         'ENGINE':'django.db.backend.sqlite3',
         'NAME':BASE_DIR/ 'db.sqlite3',
     }
-=======
-   'default': {
-      'ENGINE': 'mysql.connector.django',
-         # L'utilisation de ce connecteur est nécessaire pour résoudre https://stackoverflow.com/questions/54633968/2059-authentication-plugin-caching-sha2-password-when-running-server-conne
-         # Informations sur le connecteur utilisé ici : https://dev.mysql.com/doc/connector-python/en/connector-python-django-backend.html
-         # Pour l'installer : pip install mysql-connector-python voir https://pypi.org/project/mysql-connector-python/
-      'NAME': config('MYSQL_BASE'),
-      'USER': config('MYSQL_USER'),
-      'PASSWORD': config('MYSQL_PWD'),
-      'HOST': '127.0.0.1',
-      'PORT': '3306',
-   },
-   'sqlite': {
-      'ENGINE': 'django.db.backends.sqlite3',
-      'NAME': BASE_DIR / 'db.sqlite3',
-   }
->>>>>>> f9e5b4bb8c2ca566f9e6ff58615cef79a0edd7c3
 }
 
 
