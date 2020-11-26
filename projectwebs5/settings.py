@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b1*68q!-$d95-piz1pibk38ts7#=ns%a!_()f*jzezfb8xx&6z'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,40 +34,41 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+   'django.contrib.admin',
+   'django.contrib.auth',
+   'django.contrib.contenttypes',
+   'django.contrib.sessions',
+   'django.contrib.messages',
+   'django.contrib.staticfiles',
+   'StudentManager',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   'django.middleware.security.SecurityMiddleware',
+   'django.contrib.sessions.middleware.SessionMiddleware',
+   'django.middleware.common.CommonMiddleware',
+   'django.middleware.csrf.CsrfViewMiddleware',
+   'django.contrib.auth.middleware.AuthenticationMiddleware',
+   'django.contrib.messages.middleware.MessageMiddleware',
+   'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'projectwebs5.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+   {
+      'BACKEND': 'django.template.backends.django.DjangoTemplates',
+      'DIRS': [],
+      'APP_DIRS': True,
+      'OPTIONS': {
+         'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+         ],
+      },
+   },
 ]
 
 WSGI_APPLICATION = 'projectwebs5.wsgi.application'
@@ -74,6 +78,7 @@ WSGI_APPLICATION = 'projectwebs5.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'projet_jfpp',
@@ -85,6 +90,23 @@ DATABASES = {
         'ENGINE':'django.db.backend.sqlite3',
         'NAME':BASE_DIR/ 'db.sqlite3',
     }
+=======
+   'default': {
+      'ENGINE': 'mysql.connector.django',
+         # L'utilisation de ce connecteur est nécessaire pour résoudre https://stackoverflow.com/questions/54633968/2059-authentication-plugin-caching-sha2-password-when-running-server-conne
+         # Informations sur le connecteur utilisé ici : https://dev.mysql.com/doc/connector-python/en/connector-python-django-backend.html
+         # Pour l'installer : pip install mysql-connector-python voir https://pypi.org/project/mysql-connector-python/
+      'NAME': config('MYSQL_BASE'),
+      'USER': config('MYSQL_USER'),
+      'PASSWORD': config('MYSQL_PWD'),
+      'HOST': '127.0.0.1',
+      'PORT': '3306',
+   },
+   'sqlite': {
+      'ENGINE': 'django.db.backends.sqlite3',
+      'NAME': BASE_DIR / 'db.sqlite3',
+   }
+>>>>>>> f9e5b4bb8c2ca566f9e6ff58615cef79a0edd7c3
 }
 
 
@@ -92,27 +114,27 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+   {
+      'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+   },
+   {
+      'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+   },
+   {
+      'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+   },
+   {
+      'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+   },
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -125,3 +147,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#--------------------------------------------------
+STATIC_ROOT = os.path.join(BASE_DIR, 'root')
+#-----------------------------------------------------
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, 'static'),
+   os.path.join(BASE_DIR, 'boot'),
+]

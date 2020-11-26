@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body_block %}
+
+<script>
+  $(document).ready(function () {
+    //Dès qu'une option différente est choisie, récupère et affiche sa valeur
+    $("selection").change(function () {
+      $("span").text($(this).val());
+    });
+  });
+</script>
+
+<div class="container">
+  <h1>Formulaires</h1>
+  <form>
+    <fieldset>
+      <legend>Exemple de formulaire Bootstrap</legend>
+
+      <div class="form-group">
+        <label for="selection">Une liste select</label>
+        <select class="form-control">
+          <option value="">Liste de choix...</option>
+          <optgroup label="Groupe d'options 1">
+            {% for perso in personnels %}
+            <option value="">{{ perso.nom }}</option>
+            {% endfor %}
+
+          </optgroup>
+
+          <optgroup label="Groupe d'options 2">
+            <option value="">Option 4</option>
+            <option value="">Option 5</option>
+          </optgroup>
+
+        </select>
+      </div>
+      <div class="form-group">
+
+      </div>
+    </fieldset>
+  </form>
+  <p>Option choisie : <span></span></p>
+</div>
+
+
+{% endblock %}

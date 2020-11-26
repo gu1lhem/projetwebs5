@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %} Service de {{ personnel.prenom }} {{ personnel.nom }} {% endblock %}
+
+{% block body_block %}
+
+
+NOM = {{ personnel.nom }}, {{ personnel.fid_statut }}, du = {{ minH }}, H_SUP = {{ H_SUP }}
+<p></p>
+FILTRER PAR :
+<input type="text" id="myInput2" onkeyup="filtreMyTable('myTable','myInput2', 2)" placeholder="EC">
+<input type="text" id="myInput3" onkeyup="filtreMyTable('myTable','myInput3', 3)" placeholder="GROUPE">
+<input type="text" id="myInput4" onkeyup="filtreMyTable('myTable','myInput4', 4)" placeholder="SEM">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prenom</th>
+      <th>EC</th>
+      <th>GROUPE</th>
+      <th>SEM</th>
+      <th>H_CM</th>
+      <th>H_TD</th>
+      <th>HETD</th>
+    </tr>
+  </thead>
+  <tbody id="myTable">
+    {% for ls in services %}
+    <tr>
+      <td>{{ ls.nom }} </td>
+      <td>{{ ls.prenom }}</td>
+      <td>{{ ls.libelle_ec }}</td>
+      <td>{{ ls.groupe }}</td>
+      <td>{{ ls.sem }}</td>
+      <td>{{ ls.h_cm }}</td>
+      <td>{{ ls.h_td }}</td>
+      <td>{{ ls.hetd }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}
