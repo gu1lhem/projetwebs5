@@ -76,13 +76,3 @@ class Formation(models.Model):
    NomFormation = models.CharField(max_length=100)
    UFRRattachement = models.CharField(max_length=100,default='Segmi')
 
-
-
-
-    class Individu(Model):
-   Prenom      = CharField(max_length=30)       
-   Nom         = CharField(max_length=30)  
-   Adressemail = CharField(max_length=50)
-   Naiss       = DateField(auto_now_add=True)
-   class Meta:
-      abstract = True
