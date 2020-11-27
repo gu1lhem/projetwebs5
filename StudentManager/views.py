@@ -10,3 +10,11 @@ def home(request):
    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
+
+def ajouter_etudiants(request):
+   # Tableau d'ajout d'étudiants à la base.
+   return render(request, 'ajouter_etudiants.html', {'title': 'Ajouter des étudiants'})
+
+def ajouter_fonctionnaire(request):
+   # Tableau d'ajout de personnel, professeur ou administratif à la base.
+   return render(request, 'ajouter_etudiants.html', {'title': 'Ajouter des étudiants'})
