@@ -14,7 +14,6 @@ class Individu(models.Model):
       abstract = True
 
 
-
 class Administratif(Individu):
    Statut = models.CharField(max_length=30)
 

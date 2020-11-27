@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'projectwebs5.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projet_jfpp',
+        'NAME': 'projet_web',
         'USER':'root',
         'PASSWORD':'',
         'PORT':'3306'
