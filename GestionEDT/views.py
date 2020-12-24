@@ -40,6 +40,7 @@ class UniteEnseignementDelete(DeleteView):
 class SalleCreate(CreateView):
     model = Salle
     fields = ['Nom','Code','Batiment','Capacite','NbPC','Projecteur','Tableaux']
+    template_name_suffix='_create_form'
 
 class SalleUpdate(UpdateView):
     model = Salle
