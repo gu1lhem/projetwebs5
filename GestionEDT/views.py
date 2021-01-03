@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .models import Individu, UniteEnseignement, Salle, Seance, Semestre, Groupe, Formation
-from .forms import SalleModelForm, SemestreModelForm
+from .forms import SalleModelForm, SemestreModelForm, FormationModelForm
 
 import datetime
 
@@ -111,24 +111,54 @@ class GroupeDelete(DeleteView):
 
 class FormationCreate(CreateView):
     model = Formation
-    fields = ['NomFormation']
-    fields = ['UFRRattachement']
+    template_name = 'formations/formation_create.html'
+    form_class = FormationModelForm
+    queryset = Formation.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/'
 
-class FormationCreate(UpdateView):
-    model = Formation
-    fields = ['NomFormation']
-    fields = ['UFRRattachement']
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
+class FormationList(ListView):
+    template_name = 'formations/formation_list.html'
+    queryset = Formation.objects.all() # <blog>/<modelname>_list.html
+
+class FormationDetail(DetailView):
+    template_name = 'formations/formation_detail.html'
+    queryset = Formation.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Formation, id=id_)
+
+class FormationUpdate(UpdateView):
+    template_name = 'formations/formation_create.html'
+    form_class = FormationModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Formation, id=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 class FormationDelete(DeleteView):
-    model = Formation
-    success_url = reverse_lazy('author-list')
+    template_name = 'formations/formation_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Formation, id=id_)
+
+    def get_success_url(self):
+        return reverse('formation:formation-list')
 
 class SemestreCreate(CreateView):
     model = Semestre
     template_name = 'semestres/semestre_create.html'
     form_class = SemestreModelForm
     queryset = Semestre.objects.all() # <blog>/<modelname>_list.html
-    #success_url = '/'
+    success_url = '/'
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -139,7 +169,7 @@ class SemestreList(ListView):
     queryset = Semestre.objects.all() # <blog>/<modelname>_list.html
 
 class SemestreDetail(DetailView):
-    template_name = 'semestres/semestres_detail.html'
+    template_name = 'semestres/semestre_detail.html'
     queryset = Semestre.objects.all()
 
     def get_object(self):
