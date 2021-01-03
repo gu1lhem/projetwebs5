@@ -11,7 +11,7 @@ class Professeur(models.Model):
    Prenom   = models.CharField(max_length=30)         
    Nom      = models.CharField(max_length=30)  
    Adressemail = models.EmailField(max_length=60)
-   Naiss    = models.DateField(auto_now_add=True)
+   Naiss    = models.DateField()
    Statut = models.CharField(max_length=30)
    Experience = models.IntegerField()
 
@@ -20,7 +20,7 @@ class Etudiant(models.Model):
    Prenom   = models.CharField(max_length=30)         
    Nom      = models.CharField(max_length=30)  
    Adressemail = models.EmailField(max_length=60)
-   Naiss    = models.DateField(auto_now_add=True)
+   Naiss    = models.DateField()
 
 class UniteEnseignement(models.Model):
    NomMatiere  = models.CharField(max_length=30,primary_key=True)
