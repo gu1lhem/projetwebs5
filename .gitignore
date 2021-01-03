@@ -4,7 +4,7 @@ __pycache__/
 
 # Environnement
 env/
-projetweb/*
+projetweb/
 
 # Informations protégées
 .env
