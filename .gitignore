@@ -4,6 +4,7 @@ __pycache__/
 
 # Environnement
 env/
+projetweb/
 
 # Informations protégées
 .env
@@ -13,7 +14,7 @@ migrations/
 
 # VSCode
 .vscode
-.code-workspace
+*.code-workspace
 
 # SQLite
 *.sqlite3
