@@ -21,6 +21,11 @@ from GestionEDT.views import *
 urlpatterns = [
    path('home/', home, name = 'homepage'),
    path('admin/', admin.site.urls),
+   path('UE/', UEList.as_view(), name='ue-list'),
+   path('UE/add/', UECreate.as_view(), name='ue-add'),
+   path('UE/<int:pk>/', UEDetail.as_view(), name='ue-detail'),
+   path('UE/<int:pk>/update/', UEUpdate.as_view(), name='ue-update'),
+   path('UE/<int:pk>/delete/', UEDelete.as_view(), name='ue-delete'),
    path('salle/', SalleList.as_view(), name='salle-list'),
    path('salle/add/', SalleCreate.as_view(), name='salle-add'),
    path('salle/<int:pk>/', SalleDetail.as_view(), name='salle-detail'),

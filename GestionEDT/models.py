@@ -21,12 +21,9 @@ class Etudiant(models.Model):
    Nom      = models.CharField(max_length=30)  
    Adressemail = models.EmailField(max_length=60)
    Naiss    = models.DateField(auto_now_add=True)
-   Statut = models.CharField(max_length=30)
-   Experience = models.IntegerField()
-
 
 class UniteEnseignement(models.Model):
-   NomMatière  = models.CharField(max_length=30)
+   NomMatiere  = models.CharField(max_length=30,primary_key=True)
    ECTS        = models.IntegerField()
    Type        = models.CharField(max_length=15)
 

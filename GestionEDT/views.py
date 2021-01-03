@@ -16,29 +16,89 @@ def home(request):
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
 
-class IndividuCreate(CreateView):
-    model = Individu
-    fields = ['Prenom','Nom','Adressemail','Naiss']
-
-class IndividuUpdate(UpdateView):
-    model = Individu
-    fields = ['Prenom','Nom','Adressemail','Naiss']
-
-class IndividuDelete(DeleteView):
-    model = Individu
-    success_url = reverse_lazy('author-list')
-
-class UniteEnseignementCreate(CreateView):
+class UECreate(CreateView):
     model = UniteEnseignement
-    fields = ['NomMatière','ECTS','Type']
+    template_name = 'UEs/ue_create.html'
+    form_class = UEModelForm
+    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/UE'
 
-class UniteEnseignementUpdate(UpdateView):
-    model = UniteEnseignement
-    fields = ['NomMatière','ECTS','Type']
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
-class UniteEnseignementDelete(DeleteView):
-    model = UniteEnseignement
-    success_url = reverse_lazy('author-list')
+class UEList(ListView):
+    template_name = 'UEs/ue_list.html'
+    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+
+class UEDetail(DetailView):
+    template_name = 'UEs/ue_detail.html'
+    queryset = UniteEnseignement.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("NomMatiere")
+        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+
+class UEUpdate(UpdateView):
+    template_name = 'UEs/ue_create.html'
+    form_class = UEModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("NumEtudiant")
+        return get_object_or_404(Etudiant, NumEtudiant=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+class EtudiantDelete(DeleteView):
+    template_name = 'etudiants/etudiant_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("NumEtudiant")
+        return get_object_or_404(Etudiant, NumEtudiant=id_)
+        return reverse('etudiants:etudiant-list')
+
+class EtudiantCreate(CreateView):
+    model = Etudiant
+    template_name = 'etudiants/etudiant_create.html'
+    form_class = EtudiantModelForm
+    queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/etudiant'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+class UEList(ListView):
+    template_name = 'UEs/ue_list.html'
+    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+
+class UEDetail(DetailView):
+    template_name = 'UEs/ue_detail.html'
+    queryset = UniteEnseignement.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("NomMatiere")
+        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+
+class UEUpdate(UpdateView):
+    template_name = 'UEs/ue_create.html'
+    form_class = UEModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("NomMatiere")
+        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+class UEDelete(DeleteView):
+    template_name = 'UEs/ue_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("NomMatiere")
+        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+        return reverse('ues:ue-list')
 
 class SalleCreate(CreateView):
     model = Salle

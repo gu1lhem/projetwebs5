@@ -28,3 +28,13 @@ class SeanceModelForm(forms.ModelForm):
     class Meta:
         model = Seance
         fields = ['IdSeance','TimecodeDebut','TimecodeFIN','fk_UE','fk_Salle']
+
+class UEModelForm(forms.ModelForm):
+    class Meta:
+        model = UniteEnseignement 
+        fields = ['NomMatiere','ECTS','Type']
+
+class EtudiantModelForm(forms.ModelForm):
+    class Meta:
+        model = Etudiant
+        fields = ['NumEtudiant','Prenom','Nom','Adressemail','Naiss']
