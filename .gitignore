@@ -1,0 +1,19 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environnement
+env/
+
+# Informations protégées
+.env
+
+# Pour l'instant, ne pas inclure les migrations puisqu'on travaille sur des environnements différents.
+migrations/
+
+# VSCode
+.vscode
+.code-workspace
+
+# SQLite
+*.sqlite3
