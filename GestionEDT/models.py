@@ -6,30 +6,24 @@ from django.db.models import Model, BooleanField, CharField, IntegerField, DateF
 
 
 # Create your models here.
-class Individu(models.Model):
+class Professeur(models.Model):
+   NumProfesseur = models.IntegerField(primary_key=True)
    Prenom   = models.CharField(max_length=30)         
    Nom      = models.CharField(max_length=30)  
    Adressemail = models.EmailField(max_length=60)
    Naiss    = models.DateField(auto_now_add=True)
-   class Meta:
-      abstract = True
-
-class Administratif(Individu):
-   Numadministratif = models.IntegerField(primary_key=True)
-   Statut = models.CharField(max_length=30)
-
-class Professeur(Individu):
-   NumProfesseur = models.IntegerField(primary_key=True)
    Statut = models.CharField(max_length=30)
    Experience = models.IntegerField()
 
-class Etudiant(Individu):
+class Etudiant(models.Model):
    NumEtudiant = models.IntegerField(primary_key=True)
-
-class Personnel(Individu):
-   NumPersonnel = models.IntegerField(primary_key=True)
+   Prenom   = models.CharField(max_length=30)         
+   Nom      = models.CharField(max_length=30)  
+   Adressemail = models.EmailField(max_length=60)
+   Naiss    = models.DateField(auto_now_add=True)
    Statut = models.CharField(max_length=30)
-   
+   Experience = models.IntegerField()
+
 
 class UniteEnseignement(models.Model):
    NomMatière  = models.CharField(max_length=30)
@@ -45,7 +39,7 @@ class Salle(models.Model):
    Projecteur  = models.IntegerField()
    Tableaux    = models.IntegerField()
    def get_absolute_url(self):
-      return reverse('salle-details', kwargs={'pk': self.pk})
+      return reverse('salle-detail', kwargs={'pk': self.pk})
 
 class Seance(models.Model):
    IdSeance       = models.IntegerField(primary_key=True)

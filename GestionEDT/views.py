@@ -216,7 +216,7 @@ class FormationDelete(DeleteView):
         return get_object_or_404(Formation, idFormation=id_)
 
     def get_success_url(self):
-        return reverse('formation:formation-list')
+        return reverse('formations:formation-list')
 
 class SemestreCreate(CreateView):
     model = Semestre
@@ -238,16 +238,16 @@ class SemestreDetail(DetailView):
     queryset = Semestre.objects.all()
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Semestre, id=id_)
+        id_ = self.kwargs.get("NumSemestre")
+        return get_object_or_404(Semestre, NumSemestre=id_)
 
 class SemestreUpdate(UpdateView):
     template_name = 'semestres/semestre_create.html'
     form_class = SemestreModelForm
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Semestre, id=id_)
+        id_ = self.kwargs.get("NumSemestre")
+        return get_object_or_404(Semestre, NumSemestre=id_)
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -257,8 +257,8 @@ class SemestreDelete(DeleteView):
     template_name = 'semestres/semestre_delete.html'
     
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Semestre, id=id_)
+        id_ = self.kwargs.get("NumSemestre")
+        return get_object_or_404(Semestre, NumSemestre=id_)
 
     def get_success_url(self):
         return reverse('semestres:semestre-list')
