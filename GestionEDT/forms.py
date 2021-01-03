@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Salle, Semestre, Formation
+from .models import *
 
 
 class SalleModelForm(forms.ModelForm):
@@ -17,3 +17,14 @@ class FormationModelForm(forms.ModelForm):
     class Meta:
         model = Formation
         fields = ['idFormation','NomFormation','UFRRattachement']
+
+
+class GroupeModelForm(forms.ModelForm):
+    class Meta:
+        model = Groupe
+        fields = ['idgroupe','Libelle','idniveau']
+
+class SeanceModelForm(forms.ModelForm):
+    class Meta:
+        model = Seance
+        fields = ['IdSeance','TimecodeDebut','TimecodeFIN','fk_UE','fk_Salle']

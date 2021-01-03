@@ -33,9 +33,19 @@ urlpatterns = [
    path('semestre/<int:pk>/delete/', SemestreDelete.as_view(), name='semestre-delete'),
    path('formation/', FormationList.as_view(), name='formation-list'),
    path('formation/add/', FormationCreate.as_view(), name='formation-add'),
-   path('formation/<int:pk>/', FormationDetail.as_view(), name='formation-detail'),
+   path('formation/<int:idFormation>/', FormationDetail.as_view(), name='formation-detail'),
    path('formation/<int:pk>/update/', FormationUpdate.as_view(), name='formation-update'),
    path('formation/<int:pk>/delete/', FormationDelete.as_view(), name='formation-delete'),
+   path('groupe/', GroupeList.as_view(), name='groupe-list'),
+   path('groupe/add/', GroupeCreate.as_view(), name='groupe-add'),
+   path('groupe/<int:pk>/', GroupeDetail.as_view(), name='groupe-detail'),
+   path('groupe/<int:pk>/update/', GroupeUpdate.as_view(), name='groupe-update'),
+   path('groupe/<int:pk>/delete/', GroupeDelete.as_view(), name='groupe-delete'),
+   path('seance/', SeanceList.as_view(), name='seance-list'),
+   path('seance/add/', SeanceCreate.as_view(), name='seance-add'),
+   path('seance/<int:pk>/', SeanceDetail.as_view(), name='seance-detail'),
+   path('seance/<int:pk>/update/', SeanceUpdate.as_view(), name='seance-update'),
+   path('seance/<int:pk>/delete/', SeanceDelete.as_view(), name='seance-delete'),
 ]
 
 urlpatterns += [

@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from .models import Individu, UniteEnseignement, Salle, Seance, Semestre, Groupe, Formation
-from .forms import SalleModelForm, SemestreModelForm, FormationModelForm
+from .models import *
+from .forms import *
 
 import datetime
 
@@ -85,36 +85,101 @@ class SalleDelete(DeleteView):
     def get_success_url(self):
         return reverse('articles:article-list')
 
-class SeanceCreate(CreateView):
-    model = Seance 
-    fields = ['IdSeance','TimecodeDebut','TimecodeFIN']
 
-class SeanceCreate(UpdateView):
-    model = Seance 
-    fields = ['IdSeance','TimecodeDebut','TimecodeFIN']
-    
-class SeanceDelete(DeleteView):
+class SeanceCreate(CreateView):
     model = Seance
-    success_url = reverse_lazy('author-list')
+    template_name = 'seances/seance_create.html'
+    form_class = SeanceModelForm
+    queryset = Seance.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/seance'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+class SeanceList(ListView):
+    template_name = 'seances/seance_list.html'
+    queryset = Seance.objects.all() # <blog>/<modelname>_list.html
+
+class SeanceDetail(DetailView):
+    template_name = 'seances/seance_detail.html'
+    queryset = Seance.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("IdSeance")
+        return get_object_or_404(Seance, IdSeance=id_)
+
+class SeanceUpdate(UpdateView):
+    template_name = 'seances/seance_create.html'
+    form_class = SeanceModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("IdSeance")
+        return get_object_or_404(Seance, IdSeance=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+class SeanceDelete(DeleteView):
+    template_name = 'seances/seance_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("IdSeance")
+        return get_object_or_404(Seance, IdSeance=id_)
+
+    def get_success_url(self):
+        return reverse('seances:seance-list')
 
 class GroupeCreate(CreateView):
     model = Groupe
-    fields = ['Libelle']
+    template_name = 'groupes/groupe_create.html'
+    form_class = GroupeModelForm
+    queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/groupe'
 
-class GroupeCreate(UpdateView):
-    model = Groupe
-    fields = ['Libelle']
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
+class GroupeList(ListView):
+    template_name = 'groupes/groupe_list.html'
+    queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
+
+class GroupeDetail(DetailView):
+    template_name = 'groupes/groupe_detail.html'
+    queryset = Groupe.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("idgroupe")
+        return get_object_or_404(Formation, id=id_)
+
+class GroupeUpdate(UpdateView):
+    template_name = 'groupes/groupe_create.html'
+    form_class = GroupeModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("idgroupe")
+        return get_object_or_404(Formation, idgroupe=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 class GroupeDelete(DeleteView):
-    model = Groupe
-    success_url = reverse_lazy('author-list')
+    template_name = 'groupes/groupe_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("idgroupe")
+        return get_object_or_404(Groupe, idgroupe=id_)
+
+    def get_success_url(self):
+        return reverse('formation:formation-list')
 
 class FormationCreate(CreateView):
     model = Formation
     template_name = 'formations/formation_create.html'
     form_class = FormationModelForm
     queryset = Formation.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/'
+    success_url = '/formation'
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -129,16 +194,16 @@ class FormationDetail(DetailView):
     queryset = Formation.objects.all()
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Formation, id=id_)
+        id_ = self.kwargs.get("idFormation")
+        return get_object_or_404(Formation, idFormation=id_)
 
 class FormationUpdate(UpdateView):
     template_name = 'formations/formation_create.html'
     form_class = FormationModelForm
 
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Formation, id=id_)
+        id_ = self.kwargs.get("idFormation")
+        return get_object_or_404(Formation, idFormation=id_)
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -147,8 +212,8 @@ class FormationDelete(DeleteView):
     template_name = 'formations/formation_delete.html'
     
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Formation, id=id_)
+        id_ = self.kwargs.get("idFormation")
+        return get_object_or_404(Formation, idFormation=id_)
 
     def get_success_url(self):
         return reverse('formation:formation-list')

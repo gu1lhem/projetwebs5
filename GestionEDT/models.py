@@ -49,8 +49,8 @@ class Salle(models.Model):
 
 class Seance(models.Model):
    IdSeance       = models.IntegerField(primary_key=True)
-   TimecodeDebut  = models.DateTimeField(auto_now_add=True)
-   TimecodeFIN    = models.DateTimeField(auto_now_add=True)
+   TimecodeDebut  = models.DateTimeField()
+   TimecodeFIN    = models.DateTimeField()
    fk_UE          = models.ForeignKey(UniteEnseignement, on_delete=models.CASCADE)
    fk_Salle       = models.ForeignKey(Salle,on_delete=models.CASCADE)
    def get_absolute_url(self):
@@ -69,7 +69,7 @@ class Presence(models.Model):
 class Formation(models.Model):
    idFormation = models.IntegerField(primary_key=True)
    NomFormation = models.CharField(max_length=100)
-   UFRRattachement = models.CharField(max_length=100,default='Segmi')
+   UFRRattachement = models.CharField(max_length=100,default='SEGMI')
 
 class Semestre(models.Model):
    NumSemestre = models.IntegerField(primary_key=True)
