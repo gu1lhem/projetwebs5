@@ -21,10 +21,18 @@ from GestionEDT.views import *
 urlpatterns = [
    path('home/', home, name = 'homepage'),
    path('admin/', admin.site.urls),
+   path('salle/', SalleList.as_view(), name='salle-list'),
    path('salle/add/', SalleCreate.as_view(), name='salle-add'),
-   path('salle/<int:pk>/', SalleUpdate.as_view(), name='salle-update'),
+   path('salle/<int:pk>/', SalleDetail.as_view(), name='salle-detail'),
+   path('salle/<int:pk>/update/', SalleUpdate.as_view(), name='salle-update'),
    path('salle/<int:pk>/delete/', SalleDelete.as_view(), name='salle-delete'),
+   path('semestre/', SemestreList.as_view(), name='semestre-list'),
+   path('semestre/add/', SemestreCreate.as_view(), name='semestre-add'),
+   path('semestre/<int:pk>/', SemestreDetail.as_view(), name='semestre-detail'),
+   path('semestre/<int:pk>/update/', SemestreUpdate.as_view(), name='semestre-update'),
+   path('semestre/<int:pk>/delete/', SemestreDelete.as_view(), name='semestre-delete'),
 ]
+
 urlpatterns += [
    path('accounts/', include('django.contrib.auth.urls')),
 ]

@@ -53,6 +53,8 @@ class Seance(models.Model):
    TimecodeFIN    = models.DateTimeField(auto_now_add=True)
    fk_UE          = models.ForeignKey(UniteEnseignement, on_delete=models.CASCADE)
    fk_Salle       = models.ForeignKey(Salle,on_delete=models.CASCADE)
+   def get_absolute_url(self):
+      return reverse("seance-detail", kwargs={"pk": self.pk})
 
 class Groupe(models.Model):
    idgroupe = models.IntegerField(primary_key=True)
@@ -71,6 +73,6 @@ class Formation(models.Model):
 
 class Semestre(models.Model):
    NumSemestre = models.IntegerField(primary_key=True)
-   DateDebut   = models.DateTimeField(auto_now_add=True)
+   DateDebut   = models.DateTimeField()
    NbSemaines  = models.IntegerField()
    fk_Formation = models.ForeignKey(Formation,on_delete=models.CASCADE) 

@@ -1,10 +1,13 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView,DetailView,ListView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 
-from GestionEDT.models import Individu, UniteEnseignement, Salle, Seance, Semestre, Groupe, Formation
+from .models import Individu, UniteEnseignement, Salle, Seance, Semestre, Groupe, Formation
+from .forms import SalleModelForm, SemestreModelForm
 
 import datetime
 
@@ -39,16 +42,48 @@ class UniteEnseignementDelete(DeleteView):
 
 class SalleCreate(CreateView):
     model = Salle
-    fields = ['Nom','Code','Batiment','Capacite','NbPC','Projecteur','Tableaux']
-    template_name_suffix='_create_form'
+    template_name = 'salles/salle_create.html'
+    form_class = SalleModelForm
+    queryset = Salle.objects.all() # <blog>/<modelname>_list.html
+    success_url = 'salle/'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+class SalleList(ListView):
+    template_name = 'salles/salle_list.html'
+    queryset = Salle.objects.all() # <blog>/<modelname>_list.html
+
+class SalleDetail(DetailView):
+    template_name = 'salles/salle_detail.html'
+    queryset = Salle.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("Code")
+        return get_object_or_404(Salle, id=id_)
 
 class SalleUpdate(UpdateView):
-    model = Salle
-    fields = ['Nom','Code','Batiment','Capacite','NbPC','Projecteur','Tableaux']
+    template_name = 'salles/salle_create.html'
+    form_class = SalleModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("Code")
+        return get_object_or_404(Salle, id=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
 class SalleDelete(DeleteView):
-    model = Salle
-    success_url = reverse_lazy('author-list')
+    template_name = 'salles/salle_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Salle, id=id_)
+
+    def get_success_url(self):
+        return reverse('articles:article-list')
 
 class SeanceCreate(CreateView):
     model = Seance 
@@ -90,22 +125,48 @@ class FormationDelete(DeleteView):
 
 class SemestreCreate(CreateView):
     model = Semestre
-    fields = ['NumSemestre']
-    fields = ['DateDebut']
-    fields = ['NbSemaines']
+    template_name = 'semestres/semestre_create.html'
+    form_class = SemestreModelForm
+    queryset = Semestre.objects.all() # <blog>/<modelname>_list.html
+    #success_url = '/'
 
-class SemestreCreate(UpdateView):
-    model = Semestre
-    fields = ['NumSemestre']
-    fields = ['DateDebut']
-    fields = ['NbSemaines']
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+class SemestreList(ListView):
+    template_name = 'semestres/semestre_list.html'
+    queryset = Semestre.objects.all() # <blog>/<modelname>_list.html
+
+class SemestreDetail(DetailView):
+    template_name = 'semestres/semestres_detail.html'
+    queryset = Semestre.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Semestre, id=id_)
+
+class SemestreUpdate(UpdateView):
+    template_name = 'semestres/semestre_create.html'
+    form_class = SemestreModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Semestre, id=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
 class SemestreDelete(DeleteView):
-    model = Semestre
-    success_url = reverse_lazy('author-list')
+    template_name = 'semestres/semestre_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Semestre, id=id_)
 
-
-
+    def get_success_url(self):
+        return reverse('semestres:semestre-list')
 
 
 
