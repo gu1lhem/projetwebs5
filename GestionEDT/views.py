@@ -53,7 +53,7 @@ class ProfesseurDelete(DeleteView):
     def get_object(self):
         id_ = self.kwargs.get("NumProfesseur")
         return get_object_or_404(Professeur, NumProfesseur=id_)
-        return reverse('professeurs:professeur-list')
+        return reverse('professeur-list')
 
 class EtudiantCreate(CreateView):
     model = Etudiant
@@ -96,7 +96,7 @@ class EtudiantDelete(DeleteView):
     def get_object(self):
         id_ = self.kwargs.get("NumEtudiant")
         return get_object_or_404(Etudiant, NumEtudiant=id_)
-        return reverse('etudiants:etudiant-list')
+        return reverse('etudiant-list')
 
 class UECreate(CreateView):
     model = UniteEnseignement
@@ -139,7 +139,7 @@ class UEDelete(DeleteView):
     def get_object(self):
         id_ = self.kwargs.get("NomMatiere")
         return get_object_or_404(UniteEnseignement, NomMatiere=id_)
-        return reverse('ues:ue-list')
+        return reverse('ue-list')
 
 class SalleCreate(CreateView):
     model = Salle
@@ -161,16 +161,16 @@ class SalleDetail(DetailView):
     queryset = Salle.objects.all()
 
     def get_object(self):
-        id_ = self.kwargs.get("Code")
-        return get_object_or_404(Salle, id=id_)
+        id_ = self.kwargs.get("Nom")
+        return get_object_or_404(Salle, Nom=id_)
 
 class SalleUpdate(UpdateView):
     template_name = 'salles/salle_create.html'
     form_class = SalleModelForm
 
     def get_object(self):
-        id_ = self.kwargs.get("Code")
-        return get_object_or_404(Salle, id=id_)
+        id_ = self.kwargs.get("Nom")
+        return get_object_or_404(Salle, Nom=id_)
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -180,11 +180,11 @@ class SalleDelete(DeleteView):
     template_name = 'salles/salle_delete.html'
     
     def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Salle, id=id_)
+        id_ = self.kwargs.get("Nom")
+        return get_object_or_404(Salle, Nom=id_)
 
     def get_success_url(self):
-        return reverse('articles:article-list')
+        return reverse('salle-list')
 
 class SeanceCreate(CreateView):
     model = Seance
@@ -228,7 +228,7 @@ class SeanceDelete(DeleteView):
         return get_object_or_404(Seance, IdSeance=id_)
 
     def get_success_url(self):
-        return reverse('seances:seance-list')
+        return reverse('seance-list')
 
 class GroupeCreate(CreateView):
     model = Groupe
@@ -272,7 +272,7 @@ class GroupeDelete(DeleteView):
         return get_object_or_404(Groupe, idgroupe=id_)
 
     def get_success_url(self):
-        return reverse('formation:formation-list')
+        return reverse('formation-list')
 class FormationCreate(CreateView):
     model = Formation
     template_name = 'formations/formation_create.html'
@@ -315,14 +315,14 @@ class FormationDelete(DeleteView):
         return get_object_or_404(Formation, idFormation=id_)
 
     def get_success_url(self):
-        return reverse('formations:formation-list')
+        return reverse('formation-list')
 
 class SemestreCreate(CreateView):
     model = Semestre
     template_name = 'semestres/semestre_create.html'
     form_class = SemestreModelForm
     queryset = Semestre.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/'
+    success_url = '/semestre'
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -360,7 +360,7 @@ class SemestreDelete(DeleteView):
         return get_object_or_404(Semestre, NumSemestre=id_)
 
     def get_success_url(self):
-        return reverse('semestres:semestre-list')
+        return reverse('semestre-list')
 
 
 

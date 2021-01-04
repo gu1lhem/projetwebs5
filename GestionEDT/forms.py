@@ -16,7 +16,7 @@ class EtudiantModelForm(forms.ModelForm):
 class UEModelForm(forms.ModelForm):
     class Meta:
         model = UniteEnseignement 
-        fields = ['NomMatiere','ECTS','Type']
+        fields = ['CodeMatiere','ECTS','Type']
 
 class SalleModelForm(forms.ModelForm):
     class Meta:
