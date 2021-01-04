@@ -16,47 +16,44 @@ def home(request):
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
 
-class UECreate(CreateView):
-    model = UniteEnseignement
-    template_name = 'UEs/ue_create.html'
-    form_class = UEModelForm
-    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/UE'
+class ProfesseurCreate(CreateView):
+    model = Professeur
+    template_name = 'professeurs/professeur_create.html'
+    form_class = ProfesseurModelForm
+    queryset = Professeur.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/professeur'
 
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
 
-class UEList(ListView):
-    template_name = 'UEs/ue_list.html'
-    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+class ProfesseurList(ListView):
+    template_name = 'professeurs/professeur_list.html'
+    queryset = Professeur.objects.all()
 
-class UEDetail(DetailView):
-    template_name = 'UEs/ue_detail.html'
-    queryset = UniteEnseignement.objects.all()
-
-    def get_object(self):
-        id_ = self.kwargs.get("NomMatiere")
-        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
-
-class UEUpdate(UpdateView):
-    template_name = 'UEs/ue_create.html'
-    form_class = UEModelForm
+class ProfesseurDetail(DetailView):
+    template_name = 'professeurs/professeur_detail.html'
+    queryset = Professeur.objects.all()
 
     def get_object(self):
-        id_ = self.kwargs.get("NumEtudiant")
-        return get_object_or_404(Etudiant, NumEtudiant=id_)
+        id_ = self.kwargs.get("NumProfesseur")
+        return get_object_or_404(Professeur, NumProfesseur=id_)
+class ProfesseurUpdate(UpdateView):
+    template_name = 'professeurs/professeur_update.html'
+    def get_object(self):
+        id_=self.kwargs.get("NumProfesseur")    
+        return get_object_or_404(Professeur, NumProfesseur=id_)
 
     def form_valid(self, form):
         print(form.cleaned_data)
-        return super().form_valid(form)
-class EtudiantDelete(DeleteView):
-    template_name = 'etudiants/etudiant_delete.html'
-    
+        return super().form_valid(form) 
+
+class ProfesseurDelete(DeleteView):
+    template_name = 'professeurs/professeur_delete.html'
     def get_object(self):
-        id_ = self.kwargs.get("NumEtudiant")
-        return get_object_or_404(Etudiant, NumEtudiant=id_)
-        return reverse('etudiants:etudiant-list')
+        id_ = self.kwargs.get("NumProfesseur")
+        return get_object_or_404(Professeur, NumProfesseur=id_)
+        return reverse('professeurs:professeur-list')
 
 class EtudiantCreate(CreateView):
     model = Etudiant
@@ -69,6 +66,49 @@ class EtudiantCreate(CreateView):
         print(form.cleaned_data)
         return super().form_valid(form)
 
+class EtudiantList(ListView):
+    template_name = 'etudiants/etudiant_list.html'
+    queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
+
+class EtudiantDetail(DetailView):
+    template_name = 'etudiants/etudiant_detail.html'
+    queryset = Etudiant.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("NumEtudiant")
+        return get_object_or_404(Etudiant, NumEtudiant=id_)
+
+class EtudiantUpdate(UpdateView):
+    template_name = 'etudiants/etudiant_create.html'
+    form_class = UEModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("NumEtudiant")
+        return get_object_or_404(Etudiant, NumEtudiant=id_)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+class EtudiantDelete(DeleteView):
+    template_name = 'etudiants/etudiant_delete.html'
+    
+    def get_object(self):
+        id_ = self.kwargs.get("NumEtudiant")
+        return get_object_or_404(Etudiant, NumEtudiant=id_)
+        return reverse('etudiants:etudiant-list')
+
+class UECreate(CreateView):
+    model = UniteEnseignement
+    template_name = 'UEs/ue_create.html'
+    form_class = UEModelForm
+    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+    success_url = '/ue'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
 class UEList(ListView):
     template_name = 'UEs/ue_list.html'
     queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
@@ -92,6 +132,7 @@ class UEUpdate(UpdateView):
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
+
 class UEDelete(DeleteView):
     template_name = 'UEs/ue_delete.html'
     
@@ -144,7 +185,6 @@ class SalleDelete(DeleteView):
 
     def get_success_url(self):
         return reverse('articles:article-list')
-
 
 class SeanceCreate(CreateView):
     model = Seance
@@ -233,7 +273,6 @@ class GroupeDelete(DeleteView):
 
     def get_success_url(self):
         return reverse('formation:formation-list')
-
 class FormationCreate(CreateView):
     model = Formation
     template_name = 'formations/formation_create.html'

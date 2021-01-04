@@ -39,7 +39,7 @@ class Salle(models.Model):
       return reverse('salle-detail', kwargs={'pk': self.pk})
 
 class Seance(models.Model):
-   IdSeance       = models.IntegerField(primary_key=True)
+   idSeance       = models.IntegerField(primary_key=True)
    TimecodeDebut  = models.DateTimeField()
    TimecodeFIN    = models.DateTimeField()
    fk_UE          = models.ForeignKey(UniteEnseignement, on_delete=models.CASCADE)
@@ -48,15 +48,10 @@ class Seance(models.Model):
       return reverse("seance-detail", kwargs={"pk": self.pk})
 
 class Groupe(models.Model):
-   idgroupe = models.IntegerField(primary_key=True)
+   idGroupe = models.IntegerField(primary_key=True)
    Libelle  = models.CharField(max_length=100)     
    idniveau = models.CharField(max_length=6)
     
-class Presence(models.Model):
-   boolPresence   = models.BooleanField(default=False)
-   fk_Etudiant    = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-   fk_Seance      = models.ForeignKey(Seance, on_delete=models.CASCADE)
-
 class Formation(models.Model):
    idFormation = models.IntegerField(primary_key=True)
    NomFormation = models.CharField(max_length=100)
