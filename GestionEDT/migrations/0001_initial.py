@@ -14,20 +14,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Administratif',
-            fields=[
-                ('Prenom', models.CharField(max_length=30)),
-                ('Nom', models.CharField(max_length=30)),
-                ('Adressemail', models.EmailField(max_length=60)),
-                ('Naiss', models.DateField(auto_now_add=True)),
-                ('Numadministratif', models.IntegerField(primary_key=True, serialize=False)),
-                ('Statut', models.CharField(max_length=30)),
-            ],
-            options={
-                'abstract': False,
-            },
-        ), 
-        migrations.CreateModel(
             name='Etudiant',
             fields=[
                 ('Prenom', models.CharField(max_length=30)),
@@ -55,20 +41,6 @@ class Migration(migrations.Migration):
                 ('Libelle', models.CharField(max_length=100)),
                 ('idniveau', models.CharField(max_length=6)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Personnel',
-            fields=[
-                ('Prenom', models.CharField(max_length=30)),
-                ('Nom', models.CharField(max_length=30)),
-                ('Adressemail', models.EmailField(max_length=60)),
-                ('Naiss', models.DateField(auto_now_add=True)),
-                ('NumPersonnel', models.IntegerField(primary_key=True, serialize=False)),
-                ('Statut', models.CharField(max_length=30)),
-            ],
-            options={
-                'abstract': False,
-            },
         ),
         migrations.CreateModel(
             name='Professeur',
@@ -123,15 +95,6 @@ class Migration(migrations.Migration):
                 ('TimecodeFIN', models.DateTimeField(auto_now_add=True)),
                 ('fk_Salle', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GestionEDT.salle')),
                 ('fk_UE', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GestionEDT.uniteenseignement')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Presence',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('boolPresence', models.BooleanField(default=False)),
-                ('fk_Etudiant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GestionEDT.etudiant')),
-                ('fk_Seance', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GestionEDT.seance')),
             ],
         ),
     ]

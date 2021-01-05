@@ -27,7 +27,7 @@ class Etudiant(models.Model):
    def get_absolute_url(self):
       return reverse("etudiant-detail", kwargs={"NumEtudiant": self.NumEtudiant})
 
-class UniteEnseignement(models.Model):
+class UniteEnseignement(models.Model): #fk key vers Formation et Semestre
    CodeMatiere   = models.CharField(primary_key=True,max_length=30,default=' ')
    ECTS          = models.IntegerField()
    Type          = models.CharField(max_length=15)
@@ -45,7 +45,7 @@ class Salle(models.Model):
    def get_absolute_url(self):
       return reverse('salle-detail', kwargs={"Nom": self.Nom})
 
-class Seance(models.Model):
+class Seance(models.Model): # date du cours puis heure début et heure fin?
    idSeance       = models.IntegerField(primary_key=True)
    TimecodeDebut  = models.DateTimeField()
    TimecodeFIN    = models.DateTimeField()
@@ -59,11 +59,11 @@ class Seance(models.Model):
 class Groupe(models.Model):
    idGroupe = models.IntegerField(primary_key=True)
    Libelle  = models.CharField(max_length=100)     
-   idniveau = models.CharField(max_length=6)
+   idniveau = models.CharField(max_length=6) #enumerate L1,L2,L3,M1,M2
    def get_absolute_url(self):
       return reverse("groupe-detail", kwargs={"idGroupe": self.idGroupe})
     
-class Formation(models.Model):
+class Formation(models.Model): # pourquoi Semestre comme clés étrangères déjà?
    idFormation = models.IntegerField(primary_key=True)
    NomFormation = models.CharField(max_length=100)
    UFRRattachement = models.CharField(max_length=100,default='SEGMI')
