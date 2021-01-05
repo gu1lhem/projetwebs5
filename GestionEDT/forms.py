@@ -34,9 +34,10 @@ class SalleModelForm(forms.ModelForm):
     class Meta:
         model = Salle
         fields = ['Nom','Code','Batiment','Capacite','NbPC','Projecteur','Tableaux']
-        labels = {'DateDebut': ('Date du début du semestre: '),
-                'NumSemestre': ('Numéro du semestre'),
-                'NbSemaines': ('Nombre de semaines de ce semestre')
+        labels = {'Nom': ('Nom de la salle: '),
+                'Code': ('Code de la salle'),
+                'Batiment': ('Batiment: '), 'Capacite':('Capacite:'),
+                'NbPC': ('Nombre de PC dans la salle'), 'Projecteur':('Présence dun projecteur?'),
                 }
 
 class SeanceModelForm(forms.ModelForm):
@@ -51,10 +52,10 @@ class SeanceModelForm(forms.ModelForm):
 class GroupeModelForm(forms.ModelForm):
     class Meta:
         model = Groupe
-        fields = ['idGroupe','Libelle','idniveau']
+        fields = ['idGroupe','Libelle','Niveau']
         labels = {'idGroupe': ('Numéro du groupe: '),
                 'Libelle': ('Intitulé de ce groupe: '),
-                'idniveau': ('Niveau de ce groupe: ')
+                'Niveau': ('Niveau universitaire de ce groupe: ')
                 }
 
 class FormationModelForm(forms.ModelForm):

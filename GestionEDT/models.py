@@ -57,9 +57,10 @@ class Seance(models.Model): # date du cours puis heure début et heure fin?
       return reverse("seance-detail", kwargs={"idSeance": self.idSeance})
 
 class Groupe(models.Model):
+   Level_uni = (('L1'),('L2'),('L3'),('M1'),('M2'),)
    idGroupe = models.IntegerField(primary_key=True)
    Libelle  = models.CharField(max_length=100)     
-   idniveau = models.CharField(max_length=6) #enumerate L1,L2,L3,M1,M2
+   Niveau = models.CharField(max_length=2,choices=Level_uni) 
    def get_absolute_url(self):
       return reverse("groupe-detail", kwargs={"idGroupe": self.idGroupe})
     
