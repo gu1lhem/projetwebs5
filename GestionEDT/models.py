@@ -18,7 +18,6 @@ class Professeur(models.Model):
      return reverse("professeur-detail", kwargs={"NumProfesseur": self.NumProfesseur})
 
 class Etudiant(models.Model):
-
    NumEtudiant = models.IntegerField(primary_key=True)
    Prenom     = models.CharField(max_length=30)       
    Nom       = models.CharField(max_length=30)  
@@ -28,7 +27,7 @@ class Etudiant(models.Model):
    def get_absolute_url(self):
      return reverse("etudiant-detail", kwargs={"NumEtudiant": self.NumEtudiant})
 
-class UniteEnseignement(models.Model): #fk key vers Formation et Semestre
+class UC(models.Model): #fk key vers Formation et Semestre
    #Level_semestre = ('S1','S2','S3','S4','S5','S6')
    CodeMatiere   = models.CharField(primary_key=True,max_length=30,default=' ')
    ECTS        = models.IntegerField()
@@ -36,7 +35,7 @@ class UniteEnseignement(models.Model): #fk key vers Formation et Semestre
    Semestre = models.CharField(max_length=2)
    fk_Formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    def get_absolute_url(self):
-     return reverse("ue-detail", kwargs={"CodeMatiere": self.CodeMatiere})
+     return reverse("uc-detail", kwargs={"CodeMatiere": self.CodeMatiere})
 
 class Salle(models.Model):
    Nom       = models.IntegerField(primary_key=True)
@@ -55,7 +54,7 @@ class Seance(models.Model):
    TimecodeFIN   = models.DateTimeField()
    fk_Professeur  = models.ForeignKey(Professeur,on_delete=models.CASCADE)
    fk_Etudiant   = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
-   fk_UE        = models.ForeignKey(UniteEnseignement, on_delete=models.CASCADE)
+   fk_UC        = models.ForeignKey(UC, on_delete=models.CASCADE)
    fk_Salle      = models.ForeignKey(Salle,on_delete=models.CASCADE)
    def get_absolute_url(self):
      return reverse("seance-detail", kwargs={"idSeance": self.idSeance})
