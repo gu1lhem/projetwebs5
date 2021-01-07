@@ -29,7 +29,8 @@ class Etudiant(models.Model):
 
 class UC(models.Model): #fk key vers Formation et Semestre
    #Level_semestre = ('S1','S2','S3','S4','S5','S6')
-   CodeMatiere   = models.CharField(primary_key=True,max_length=30,default=' ')
+   idUC       = models.IntegerField(primary_key=True)
+   NomMatiere   = models.CharField(max_length=30,default=' ')
    ECTS        = models.IntegerField()
    Type        = models.CharField(max_length=15)
    Semestre = models.CharField(max_length=2)
@@ -38,7 +39,7 @@ class UC(models.Model): #fk key vers Formation et Semestre
      return reverse("uc-detail", kwargs={"CodeMatiere": self.CodeMatiere})
 
 class Salle(models.Model):
-   Nom       = models.IntegerField(primary_key=True)
+   idSalle       = models.IntegerField(primary_key=True)
    Code      = models.CharField(max_length=100)
    Batiment   = models.CharField(max_length=100)
    Capacite   = models.IntegerField()
@@ -51,7 +52,7 @@ class Salle(models.Model):
 class Seance(models.Model): 
    idSeance      = models.IntegerField(primary_key=True)
    TimecodeDebut  = models.DateTimeField()
-   TimecodeFIN   = models.DateTimeField()
+   TimecodeFin  = models.DateTimeField()
    fk_Professeur  = models.ForeignKey(Professeur,on_delete=models.CASCADE)
    fk_Etudiant   = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
    fk_UC        = models.ForeignKey(UC, on_delete=models.CASCADE)
