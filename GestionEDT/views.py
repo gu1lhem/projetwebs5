@@ -81,7 +81,7 @@ class EtudiantDetail(DetailView):
 
 class EtudiantUpdate(UpdateView):
    template_name = 'etudiants/etudiant_create.html'
-   form_class = UEModelForm
+   form_class = EtudiantModelForm
 
    def get_object(self):
       id_ = self.kwargs.get("NumEtudiant")
@@ -119,16 +119,16 @@ class UCDetail(DetailView):
    queryset = UC.objects.all()
 
    def get_object(self):
-      id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UC, NomMatiere=id_)
+      id_ = self.kwargs.get("idUC")
+      return get_object_or_404(UC, idUC=id_)
 
 class UCUpdate(UpdateView):
    template_name = 'UCs/ue_create.html'
    form_class = UCModelForm
 
    def get_object(self):
-      id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UC, NomMatiere=id_)
+      id_ = self.kwargs.get("idUC")
+      return get_object_or_404(UC, idUC=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -138,8 +138,8 @@ class UCDelete(DeleteView):
    template_name = 'UCs/ue_delete.html'
    
    def get_object(self):
-      id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UC, NomMatiere=id_)
+      id_ = self.kwargs.get("idUC")
+      return get_object_or_404(UC, idUC=id_)
       return reverse('uc-list')
 
 class SalleCreate(CreateView):
@@ -162,16 +162,16 @@ class SalleDetail(DetailView):
    queryset = Salle.objects.all()
 
    def get_object(self):
-      id_ = self.kwargs.get("Nom")
-      return get_object_or_404(Salle, Nom=id_)
+      id_ = self.kwargs.get("idSalle")
+      return get_object_or_404(Salle, idSalle=id_)
 
 class SalleUpdate(UpdateView):
    template_name = 'salles/salle_create.html'
    form_class = SalleModelForm
 
    def get_object(self):
-      id_ = self.kwargs.get("Nom")
-      return get_object_or_404(Salle, Nom=id_)
+      id_ = self.kwargs.get("idSalle")
+      return get_object_or_404(Salle, idSalle=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -181,8 +181,8 @@ class SalleDelete(DeleteView):
    template_name = 'salles/salle_delete.html'
    
    def get_object(self):
-      id_ = self.kwargs.get("Nom")
-      return get_object_or_404(Salle, Nom=id_)
+      id_ = self.kwargs.get("idSalle")
+      return get_object_or_404(Salle, idSalle=id_)
 
    def get_success_url(self):
       return reverse('salle-list')
