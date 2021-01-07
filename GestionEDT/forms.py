@@ -61,20 +61,10 @@ class GroupeModelForm(forms.ModelForm):
 class FormationModelForm(forms.ModelForm):
     class Meta:
         model = Formation
-        fields = ['idFormation','NomFormation','UFRRattachement','fk_Semestre']
+        fields = ['idFormation','NomFormation','UFRRattachement']
         labels = {'idFormation': ('Numéro de la formation: '),
                 'NomFormation': ('Nom de la formation: '),
                 'UFRRattachement': ('UFR de la formation: '),
-                'fk_Semestre': ('Semestre de la formation: ')
-                }
-
-class SemestreModelForm(forms.ModelForm):
-    class Meta:
-        model = Semestre
-        fields = ['NumSemestre','DateDebut','NbSemaines']
-        labels = {'DateDebut': ('Date du début du semestre: '),
-                'NumSemestre': ('Numéro du semestre: '),
-                'NbSemaines': ('Nombre de semaines de ce semestre: ')
                 }
 
 

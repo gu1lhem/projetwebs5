@@ -1,7 +1,9 @@
 Ce qu'il reste à faire: 
 - toute la partie front-end
 - déployer les labels du formulaire
-- revoir les fk_key du formulaire (pour un cours je sélectionne le nom et 
- prénom du prof plutôt qu'un numéro)
-- pbs migrations -> recréer un projet?
-- revoir les commentaires de models.py
+- créer les conditions: 
+    - je ne peux pas mettre un étudiant de L2 dans un groupe de L3
+    - je ne peux pas créer un cours si la salle/prof/groupe n'est pas
+    dispo sur cette plage horaire
+- défilement de l'edt selon la semaine, le groupe, etc..
+- aperçu de l'edt pdt la création d'une seance de cours
