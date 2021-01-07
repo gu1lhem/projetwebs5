@@ -16,306 +16,307 @@ def home(request):
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
 
-class ProfesseurCreate(CreateView):
-    model = Professeur
-    template_name = 'professeurs/professeur_create.html'
-    form_class = ProfesseurModelForm
-    queryset = Professeur.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/professeur'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+class ProfesseurCreate(CreateView):
+   model = Professeur
+   template_name = 'professeurs/professeur_create.html'
+   form_class = ProfesseurModelForm
+   queryset = Professeur.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/professeur'
+
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class ProfesseurList(ListView):
-    template_name = 'professeurs/professeur_list.html'
-    queryset = Professeur.objects.all()
+   template_name = 'professeurs/professeur_list.html'
+   queryset = Professeur.objects.all()
 
 class ProfesseurDetail(DetailView):
-    template_name = 'professeurs/professeur_detail.html'
-    queryset = Professeur.objects.all()
+   template_name = 'professeurs/professeur_detail.html'
+   queryset = Professeur.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("NumProfesseur")
-        return get_object_or_404(Professeur, NumProfesseur=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("NumProfesseur")
+      return get_object_or_404(Professeur, NumProfesseur=id_)
 class ProfesseurUpdate(UpdateView):
-    template_name = 'professeurs/professeur_update.html'
-    def get_object(self):
-        id_=self.kwargs.get("NumProfesseur")    
-        return get_object_or_404(Professeur, NumProfesseur=id_)
+   template_name = 'professeurs/professeur_update.html'
+   def get_object(self):
+      id_=self.kwargs.get("NumProfesseur")   
+      return get_object_or_404(Professeur, NumProfesseur=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form) 
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form) 
 
 class ProfesseurDelete(DeleteView):
-    template_name = 'professeurs/professeur_delete.html'
-    def get_object(self):
-        id_ = self.kwargs.get("NumProfesseur")
-        return get_object_or_404(Professeur, NumProfesseur=id_)
-        return reverse('professeur-list')
+   template_name = 'professeurs/professeur_delete.html'
+   def get_object(self):
+      id_ = self.kwargs.get("NumProfesseur")
+      return get_object_or_404(Professeur, NumProfesseur=id_)
+      return reverse('professeur-list')
 
 class EtudiantCreate(CreateView):
-    model = Etudiant
-    template_name = 'etudiants/etudiant_create.html'
-    form_class = EtudiantModelForm
-    queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/etudiant'
+   model = Etudiant
+   template_name = 'etudiants/etudiant_create.html'
+   form_class = EtudiantModelForm
+   queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/etudiant'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class EtudiantList(ListView):
-    template_name = 'etudiants/etudiant_list.html'
-    queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'etudiants/etudiant_list.html'
+   queryset = Etudiant.objects.all() # <blog>/<modelname>_list.html
 
 class EtudiantDetail(DetailView):
-    template_name = 'etudiants/etudiant_detail.html'
-    queryset = Etudiant.objects.all()
+   template_name = 'etudiants/etudiant_detail.html'
+   queryset = Etudiant.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("NumEtudiant")
-        return get_object_or_404(Etudiant, NumEtudiant=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("NumEtudiant")
+      return get_object_or_404(Etudiant, NumEtudiant=id_)
 
 class EtudiantUpdate(UpdateView):
-    template_name = 'etudiants/etudiant_create.html'
-    form_class = UEModelForm
+   template_name = 'etudiants/etudiant_create.html'
+   form_class = UEModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("NumEtudiant")
-        return get_object_or_404(Etudiant, NumEtudiant=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("NumEtudiant")
+      return get_object_or_404(Etudiant, NumEtudiant=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class EtudiantDelete(DeleteView):
-    template_name = 'etudiants/etudiant_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("NumEtudiant")
-        return get_object_or_404(Etudiant, NumEtudiant=id_)
-        return reverse('etudiant-list')
+   template_name = 'etudiants/etudiant_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("NumEtudiant")
+      return get_object_or_404(Etudiant, NumEtudiant=id_)
+      return reverse('etudiant-list')
 
 class UECreate(CreateView):
-    model = UniteEnseignement
-    template_name = 'UEs/ue_create.html'
-    form_class = UEModelForm
-    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/ue'
+   model = UniteEnseignement
+   template_name = 'UEs/ue_create.html'
+   form_class = UEModelForm
+   queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/ue'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class UEList(ListView):
-    template_name = 'UEs/ue_list.html'
-    queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'UEs/ue_list.html'
+   queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
 
 class UEDetail(DetailView):
-    template_name = 'UEs/ue_detail.html'
-    queryset = UniteEnseignement.objects.all()
+   template_name = 'UEs/ue_detail.html'
+   queryset = UniteEnseignement.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("NomMatiere")
-        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("NomMatiere")
+      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
 
 class UEUpdate(UpdateView):
-    template_name = 'UEs/ue_create.html'
-    form_class = UEModelForm
+   template_name = 'UEs/ue_create.html'
+   form_class = UEModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("NomMatiere")
-        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("NomMatiere")
+      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class UEDelete(DeleteView):
-    template_name = 'UEs/ue_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("NomMatiere")
-        return get_object_or_404(UniteEnseignement, NomMatiere=id_)
-        return reverse('ue-list')
+   template_name = 'UEs/ue_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("NomMatiere")
+      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+      return reverse('ue-list')
 
 class SalleCreate(CreateView):
-    model = Salle
-    template_name = 'salles/salle_create.html'
-    form_class = SalleModelForm
-    queryset = Salle.objects.all() # <blog>/<modelname>_list.html
-    success_url = 'salle/'
+   model = Salle
+   template_name = 'salles/salle_create.html'
+   form_class = SalleModelForm
+   queryset = Salle.objects.all() # <blog>/<modelname>_list.html
+   success_url = 'salle/'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class SalleList(ListView):
-    template_name = 'salles/salle_list.html'
-    queryset = Salle.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'salles/salle_list.html'
+   queryset = Salle.objects.all() # <blog>/<modelname>_list.html
 
 class SalleDetail(DetailView):
-    template_name = 'salles/salle_detail.html'
-    queryset = Salle.objects.all()
+   template_name = 'salles/salle_detail.html'
+   queryset = Salle.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("Nom")
-        return get_object_or_404(Salle, Nom=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("Nom")
+      return get_object_or_404(Salle, Nom=id_)
 
 class SalleUpdate(UpdateView):
-    template_name = 'salles/salle_create.html'
-    form_class = SalleModelForm
+   template_name = 'salles/salle_create.html'
+   form_class = SalleModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("Nom")
-        return get_object_or_404(Salle, Nom=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("Nom")
+      return get_object_or_404(Salle, Nom=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class SalleDelete(DeleteView):
-    template_name = 'salles/salle_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("Nom")
-        return get_object_or_404(Salle, Nom=id_)
+   template_name = 'salles/salle_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("Nom")
+      return get_object_or_404(Salle, Nom=id_)
 
-    def get_success_url(self):
-        return reverse('salle-list')
+   def get_success_url(self):
+      return reverse('salle-list')
 
 class SeanceCreate(CreateView):
-    model = Seance
-    template_name = 'seances/seance_create.html'
-    form_class = SeanceModelForm
-    queryset = Seance.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/seance'
+   model = Seance
+   template_name = 'seances/seance_create.html'
+   form_class = SeanceModelForm
+   queryset = Seance.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/seance'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class SeanceList(ListView):
-    template_name = 'seances/seance_list.html'
-    queryset = Seance.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'seances/seance_list.html'
+   queryset = Seance.objects.all() # <blog>/<modelname>_list.html
 
 class SeanceDetail(DetailView):
-    template_name = 'seances/seance_detail.html'
-    queryset = Seance.objects.all()
+   template_name = 'seances/seance_detail.html'
+   queryset = Seance.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("IdSeance")
-        return get_object_or_404(Seance, IdSeance=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("IdSeance")
+      return get_object_or_404(Seance, IdSeance=id_)
 
 class SeanceUpdate(UpdateView):
-    template_name = 'seances/seance_create.html'
-    form_class = SeanceModelForm
+   template_name = 'seances/seance_create.html'
+   form_class = SeanceModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("IdSeance")
-        return get_object_or_404(Seance, IdSeance=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("IdSeance")
+      return get_object_or_404(Seance, IdSeance=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 class SeanceDelete(DeleteView):
-    template_name = 'seances/seance_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("IdSeance")
-        return get_object_or_404(Seance, IdSeance=id_)
+   template_name = 'seances/seance_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("IdSeance")
+      return get_object_or_404(Seance, IdSeance=id_)
 
-    def get_success_url(self):
-        return reverse('seance-list')
+   def get_success_url(self):
+      return reverse('seance-list')
 
 class GroupeCreate(CreateView):
-    model = Groupe
-    template_name = 'groupes/groupe_create.html'
-    form_class = GroupeModelForm
-    queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/groupe'
+   model = Groupe
+   template_name = 'groupes/groupe_create.html'
+   form_class = GroupeModelForm
+   queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/groupe'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class GroupeList(ListView):
-    template_name = 'groupes/groupe_list.html'
-    queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'groupes/groupe_list.html'
+   queryset = Groupe.objects.all() # <blog>/<modelname>_list.html
 
 class GroupeDetail(DetailView):
-    template_name = 'groupes/groupe_detail.html'
-    queryset = Groupe.objects.all()
+   template_name = 'groupes/groupe_detail.html'
+   queryset = Groupe.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("idgroupe")
-        return get_object_or_404(Formation, id=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("idgroupe")
+      return get_object_or_404(Formation, id=id_)
 
 class GroupeUpdate(UpdateView):
-    template_name = 'groupes/groupe_create.html'
-    form_class = GroupeModelForm
+   template_name = 'groupes/groupe_create.html'
+   form_class = GroupeModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("idgroupe")
-        return get_object_or_404(Formation, idgroupe=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("idgroupe")
+      return get_object_or_404(Formation, idgroupe=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 class GroupeDelete(DeleteView):
-    template_name = 'groupes/groupe_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("idgroupe")
-        return get_object_or_404(Groupe, idgroupe=id_)
+   template_name = 'groupes/groupe_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("idgroupe")
+      return get_object_or_404(Groupe, idgroupe=id_)
 
-    def get_success_url(self):
-        return reverse('formation-list')
+   def get_success_url(self):
+      return reverse('formation-list')
 class FormationCreate(CreateView):
-    model = Formation
-    template_name = 'formations/formation_create.html'
-    form_class = FormationModelForm
-    queryset = Formation.objects.all() # <blog>/<modelname>_list.html
-    success_url = '/formation'
+   model = Formation
+   template_name = 'formations/formation_create.html'
+   form_class = FormationModelForm
+   queryset = Formation.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/formation'
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 
 class FormationList(ListView):
-    template_name = 'formations/formation_list.html'
-    queryset = Formation.objects.all() # <blog>/<modelname>_list.html
+   template_name = 'formations/formation_list.html'
+   queryset = Formation.objects.all() # <blog>/<modelname>_list.html
 
 class FormationDetail(DetailView):
-    template_name = 'formations/formation_detail.html'
-    queryset = Formation.objects.all()
+   template_name = 'formations/formation_detail.html'
+   queryset = Formation.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("idFormation")
-        return get_object_or_404(Formation, idFormation=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("idFormation")
+      return get_object_or_404(Formation, idFormation=id_)
 
 class FormationUpdate(UpdateView):
-    template_name = 'formations/formation_create.html'
-    form_class = FormationModelForm
+   template_name = 'formations/formation_create.html'
+   form_class = FormationModelForm
 
-    def get_object(self):
-        id_ = self.kwargs.get("idFormation")
-        return get_object_or_404(Formation, idFormation=id_)
+   def get_object(self):
+      id_ = self.kwargs.get("idFormation")
+      return get_object_or_404(Formation, idFormation=id_)
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+   def form_valid(self, form):
+      print(form.cleaned_data)
+      return super().form_valid(form)
 class FormationDelete(DeleteView):
-    template_name = 'formations/formation_delete.html'
-    
-    def get_object(self):
-        id_ = self.kwargs.get("idFormation")
-        return get_object_or_404(Formation, idFormation=id_)
+   template_name = 'formations/formation_delete.html'
+   
+   def get_object(self):
+      id_ = self.kwargs.get("idFormation")
+      return get_object_or_404(Formation, idFormation=id_)
 
-    def get_success_url(self):
-        return reverse('formation-list')
+   def get_success_url(self):
+      return reverse('formation-list')
 
 
 
