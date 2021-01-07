@@ -21,9 +21,9 @@ class EtudiantModelForm(forms.ModelForm):
             'NbSemaines': ('Nombre de semaines de ce semestre')
             }
 
-class UEModelForm(forms.ModelForm):
+class UCModelForm(forms.ModelForm):
    class Meta:
-      model = UniteEnseignement 
+      model = UC 
       fields = ['CodeMatiere','ECTS','Type']
       labels = {'DateDebut': ('Date du début du semestre: '),
             'NumSemestre': ('Numéro du semestre'),

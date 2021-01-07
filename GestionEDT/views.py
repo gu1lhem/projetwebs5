@@ -99,48 +99,48 @@ class EtudiantDelete(DeleteView):
       return get_object_or_404(Etudiant, NumEtudiant=id_)
       return reverse('etudiant-list')
 
-class UECreate(CreateView):
-   model = UniteEnseignement
-   template_name = 'UEs/ue_create.html'
-   form_class = UEModelForm
-   queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
-   success_url = '/ue'
+class UCCreate(CreateView):
+   model = UC
+   template_name = 'UCs/ue_create.html'
+   form_class = UCModelForm
+   queryset = UC.objects.all() # <blog>/<modelname>_list.html
+   success_url = '/uc'
 
    def form_valid(self, form):
       print(form.cleaned_data)
       return super().form_valid(form)
 
-class UEList(ListView):
-   template_name = 'UEs/ue_list.html'
-   queryset = UniteEnseignement.objects.all() # <blog>/<modelname>_list.html
+class UCList(ListView):
+   template_name = 'UCs/ue_list.html'
+   queryset = UC.objects.all() # <blog>/<modelname>_list.html
 
-class UEDetail(DetailView):
-   template_name = 'UEs/ue_detail.html'
-   queryset = UniteEnseignement.objects.all()
-
-   def get_object(self):
-      id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
-
-class UEUpdate(UpdateView):
-   template_name = 'UEs/ue_create.html'
-   form_class = UEModelForm
+class UCDetail(DetailView):
+   template_name = 'UCs/ue_detail.html'
+   queryset = UC.objects.all()
 
    def get_object(self):
       id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
+      return get_object_or_404(UC, NomMatiere=id_)
+
+class UCUpdate(UpdateView):
+   template_name = 'UCs/ue_create.html'
+   form_class = UCModelForm
+
+   def get_object(self):
+      id_ = self.kwargs.get("NomMatiere")
+      return get_object_or_404(UC, NomMatiere=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
       return super().form_valid(form)
 
-class UEDelete(DeleteView):
-   template_name = 'UEs/ue_delete.html'
+class UCDelete(DeleteView):
+   template_name = 'UCs/ue_delete.html'
    
    def get_object(self):
       id_ = self.kwargs.get("NomMatiere")
-      return get_object_or_404(UniteEnseignement, NomMatiere=id_)
-      return reverse('ue-list')
+      return get_object_or_404(UC, NomMatiere=id_)
+      return reverse('uc-list')
 
 class SalleCreate(CreateView):
    model = Salle
