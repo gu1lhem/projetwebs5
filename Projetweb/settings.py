@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*dmqrvaxc^3+7n!c7q62uk2goq8=s%&0qo=vzsic27$4an1z&8'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,13 +77,13 @@ WSGI_APPLICATION = 'Projetweb.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projet_web',
-        'USER':'root',
-        'PASSWORD':'Malinva5d',
-        'PORT':'3306'
-    },
+   'default': {
+      'ENGINE': 'django.db.backends.mysql',
+      'NAME': config('MYSQL_BASE'),
+      'USER': config('MYSQL_USER'),
+      'PASSWORD': config('MYSQL_PWD'),
+      'PORT':'3306'
+   },
     'sqlite':{
         'ENGINE':'django.db.backends.sqlite3',
         'NAME':BASE_DIR/ 'db.sqlite3',
@@ -111,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'fr'
+LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
