@@ -18,6 +18,7 @@ class Professeur(models.Model):
       return reverse("professeur-detail", kwargs={"NumProfesseur": self.NumProfesseur})
 
 class Etudiant(models.Model):
+
    NumEtudiant = models.IntegerField(primary_key=True)
    Prenom      = models.CharField(max_length=30)         
    Nom         = models.CharField(max_length=30)  
@@ -28,9 +29,12 @@ class Etudiant(models.Model):
       return reverse("etudiant-detail", kwargs={"NumEtudiant": self.NumEtudiant})
 
 class UniteEnseignement(models.Model): #fk key vers Formation et Semestre
+   #Level_semestre = ('S1','S2','S3','S4','S5','S6')
    CodeMatiere   = models.CharField(primary_key=True,max_length=30,default=' ')
    ECTS          = models.IntegerField()
    Type          = models.CharField(max_length=15)
+   Semestre = models.CharField(max_length=2)
+   fk_Formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    def get_absolute_url(self):
       return reverse("ue-detail", kwargs={"CodeMatiere": self.CodeMatiere})
 
@@ -45,7 +49,7 @@ class Salle(models.Model):
    def get_absolute_url(self):
       return reverse('salle-detail', kwargs={"Nom": self.Nom})
 
-class Seance(models.Model): # date du cours puis heure début et heure fin?
+class Seance(models.Model): 
    idSeance       = models.IntegerField(primary_key=True)
    TimecodeDebut  = models.DateTimeField()
    TimecodeFIN    = models.DateTimeField()
@@ -57,25 +61,17 @@ class Seance(models.Model): # date du cours puis heure début et heure fin?
       return reverse("seance-detail", kwargs={"idSeance": self.idSeance})
 
 class Groupe(models.Model):
-   Level_uni = (('L1'),('L2'),('L3'),('M1'),('M2'),)
+   #Level_uni = ('L1','L2','L3','M1','M2')
    idGroupe = models.IntegerField(primary_key=True)
    Libelle  = models.CharField(max_length=100)     
-   Niveau = models.CharField(max_length=2,choices=Level_uni) 
+   Niveau = models.CharField(max_length=2) 
    def get_absolute_url(self):
       return reverse("groupe-detail", kwargs={"idGroupe": self.idGroupe})
     
-class Formation(models.Model): # pourquoi Semestre comme clés étrangères déjà?
+class Formation(models.Model): 
    idFormation = models.IntegerField(primary_key=True)
    NomFormation = models.CharField(max_length=100)
-   UFRRattachement = models.CharField(max_length=100,default='SEGMI')
-   fk_Semestre = models.ForeignKey("Semestre",on_delete=models.CASCADE) 
+   UFRRattachement = models.CharField(max_length=100,default='SEGMI') 
    def get_absolute_url(self):
       return reverse("formation-detail", kwargs={"idFormation": self.idFormation})
-
-class Semestre(models.Model):
-   NumSemestre = models.IntegerField(primary_key=True)
-   DateDebut   = models.DateTimeField()
-   NbSemaines  = models.IntegerField()
-   def get_absolute_url(self):
-      return reverse("semestre-detail", kwargs={"NumSemestre": self.NumSemestre})
 

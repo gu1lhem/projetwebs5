@@ -56,11 +56,6 @@ urlpatterns = [
    path('formation/<int:idFormation>/', FormationDetail.as_view(), name='formation-detail'),
    path('formation/<int:idFormation>/update/', FormationUpdate.as_view(), name='formation-update'),
    path('formation/<int:idFormation>/delete/', FormationDelete.as_view(), name='formation-delete'),
-   path('semestre/', SemestreList.as_view(), name='semestre-list'),
-   path('semestre/add/', SemestreCreate.as_view(), name='semestre-add'),
-   path('semestre/<int:NumSemestre>/', SemestreDetail.as_view(), name='semestre-detail'),
-   path('semestre/<int:NumSemestre>/update/', SemestreUpdate.as_view(), name='semestre-update'),
-   path('semestre/<int:NumSemestre>/delete/', SemestreDelete.as_view(), name='semestre-delete'),
 ]
 
 urlpatterns += [
