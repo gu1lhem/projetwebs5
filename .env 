@@ -1,4 +1,0 @@
-SECRET_KEY = '*dmqrvaxc^3+7n!c7q62uk2goq8=s%&0qo=vzsic27$4an1z&8'
-MYSQL_BASE  = 'projet_web'
-MYSQL_USER  = 'root'
-MYSQL_PWD   = 'Malinva5d'
