@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+{% for instance in object_list %}
+     <p>{{ instance.NumProfesseur }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.NomFormation }} {{ instance.UFRRattachement }}</a></p>
+{% endfor %}
+
+
+{% endblock %}
