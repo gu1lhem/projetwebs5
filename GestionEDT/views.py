@@ -101,7 +101,7 @@ class EtudiantDelete(DeleteView):
 
 class UCCreate(CreateView):
    model = UC
-   template_name = 'UCs/ue_create.html'
+   template_name = 'UCs/uc_create.html'
    form_class = UCModelForm
    queryset = UC.objects.all() # <blog>/<modelname>_list.html
    success_url = '/uc'
@@ -111,11 +111,11 @@ class UCCreate(CreateView):
       return super().form_valid(form)
 
 class UCList(ListView):
-   template_name = 'UCs/ue_list.html'
+   template_name = 'UCs/uc_list.html'
    queryset = UC.objects.all() # <blog>/<modelname>_list.html
 
 class UCDetail(DetailView):
-   template_name = 'UCs/ue_detail.html'
+   template_name = 'UCs/uc_detail.html'
    queryset = UC.objects.all()
 
    def get_object(self):
@@ -123,7 +123,7 @@ class UCDetail(DetailView):
       return get_object_or_404(UC, idUC=id_)
 
 class UCUpdate(UpdateView):
-   template_name = 'UCs/ue_create.html'
+   template_name = 'UCs/uc_create.html'
    form_class = UCModelForm
 
    def get_object(self):
@@ -135,7 +135,7 @@ class UCUpdate(UpdateView):
       return super().form_valid(form)
 
 class UCDelete(DeleteView):
-   template_name = 'UCs/ue_delete.html'
+   template_name = 'UCs/uc_delete.html'
    
    def get_object(self):
       id_ = self.kwargs.get("idUC")
