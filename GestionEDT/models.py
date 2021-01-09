@@ -55,7 +55,7 @@ class Seance(models.Model):
    TimecodeFin   = models.DateTimeField()
    fk_Professeur = models.ForeignKey(Professeur,on_delete=models.CASCADE)
    fk_Groupe     = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
-   fk_UC         = models.ForeignKey(UC, on_delete=models.CASCADE)
+   fk_UC         = models.ForeignKey(UC, on_delete=models.CASCADE,default=None)
    fk_Salle      = models.ForeignKey(Salle,on_delete=models.CASCADE)
    def get_absolute_url(self):
      return reverse("seance-detail", kwargs={"idSeance": self.idSeance})
