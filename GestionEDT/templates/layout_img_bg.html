@@ -1,3 +1,5 @@
+<!-- Layout workaround pour proposer le background image de la fac pour certaines pages seulement. -->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,6 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   {% load static %}
   <script src="{% static 'GestionEDT/script.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'GestionEDT/img_bg.css' %}">
    
   <!-- Ce if/else permet d'utiliser le titre spécifié en contexte 'title' s'il y en a un, ou 'StudentManager' sinon. -->
   <title> {% if title %} {{title}} {% else %} Gestion EDT {% endif %} </title>
