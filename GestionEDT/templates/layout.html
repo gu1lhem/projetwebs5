@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   {% load static %}
   <script src="{% static 'GestionEDT/script.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'GestionEDT/layout.css' %}">
   {% block extra_head %} {% endblock %}
    
   <!-- Ce if/else permet d'utiliser le titre spécifié en contexte 'title' s'il y en a un, ou 'StudentManager' sinon. -->
@@ -23,7 +24,10 @@
 
   <body>
     {% include 'navbar.html' %}
-    <div class="container-fluid"> <!-- container basic pour tout usage -->
+    <div class="container-fluid p-0"> 
+      <!-- Container basic pour tous usage.
+        Par défaut le container fluid a des marges de 15px. 
+        Solution recommandée ici : https://stackoverflow.com/questions/37978307/bootstrap-container-fluid-padding/50005919 -->
 
       {% for message in messages %}
       <div class="alert alert-{{ message.tags }}" role="alert">
