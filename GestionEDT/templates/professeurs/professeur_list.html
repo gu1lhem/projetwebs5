@@ -5,7 +5,7 @@
 
 
 {% for instance in object_list %}
-    <p>{{ instance.NumProfesseur }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.NomFormation }} {{ instance.UFRRattachement }}</a></p>
+    <p>{{ instance.NumProfesseur }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.Nom }} {{ instance.Prenom }}</a></p>
 {% endfor %}
 
 

@@ -27,7 +27,7 @@ urlpatterns = [
    path('admin/', admin.site.urls),
 
    path('professeur/', ProfesseurList.as_view(), name='professeur-list'),
-   path('professeur/add',ProfesseurCreate.as_view(),name='professeur-add'),
+   path('professeur/add/',ProfesseurCreate.as_view(),name='professeur-add'),
    path('professeur/<int:NumProfesseur>/',ProfesseurDetail.as_view(),name='professeur-detail'),
    path('professeur/<int:NumProfesseur>/delete/',ProfesseurDelete.as_view(),name='professeur-delete'),
    path('professeur/<int:NumProfesseur>/update/',ProfesseurUpdate.as_view(),name='professeur-update'),
