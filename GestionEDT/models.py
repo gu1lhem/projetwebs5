@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 #import psycopg2.extension
 
+Level_uni = ((1, ('L1')),(2, ('L2')),(3, ('L3')),(4, ('M1')),(5, ('M2')),)
+Semestre_uni = ((1, ('S1')),(2, ('S2')),(3, ('S3')),(4, ('S4')),(5, ('S5')),(6, ('S6')))
 
 # Create your models here.
 class Professeur(models.Model):
@@ -23,17 +25,17 @@ class Etudiant(models.Model):
    Nom         = models.CharField(max_length=30)  
    Adressemail = models.EmailField(max_length=60)
    Naiss       = models.DateField()
+   Niveau   = models.CharField(max_length=2, choices=Level_uni,default=None) 
    fk_Groupe   = models.ForeignKey("Groupe",on_delete=models.CASCADE)
    def get_absolute_url(self):
      return reverse("etudiant-detail", kwargs={"NumEtudiant": self.NumEtudiant})
 
-class UC(models.Model): #fk key vers Formation et Semestre
-   #Level_semestre = ('S1','S2','S3','S4','S5','S6')
+class UC(models.Model): 
    idUC         = models.IntegerField(primary_key=True)
    NomMatiere   = models.CharField(max_length=30,default=' ')
    ECTS         = models.IntegerField()
    Type         = models.CharField(max_length=15)
-   Semestre     = models.CharField(max_length=2)
+   Semestre     = models.CharField(max_length=2, choices=Semestre_uni)
    fk_Formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    def get_absolute_url(self):
      return reverse("uc-detail", kwargs={"idUC": self.idUC})
@@ -61,10 +63,9 @@ class Seance(models.Model):
      return reverse("seance-detail", kwargs={"idSeance": self.idSeance})
 
 class Groupe(models.Model):
-   #Level_uni = ('L1','L2','L3','M1','M2')
    idGroupe = models.IntegerField(primary_key=True)
    Libelle  = models.CharField(max_length=100)    
-   Niveau   = models.CharField(max_length=2) 
+   Niveau   = models.CharField(max_length=2, choices=Level_uni) 
    def get_absolute_url(self):
      return reverse("groupe-detail", kwargs={"idGroupe": self.idGroupe})
    
