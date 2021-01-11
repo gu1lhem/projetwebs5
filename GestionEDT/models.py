@@ -36,7 +36,7 @@ class UC(models.Model): #fk key vers Formation et Semestre
    Semestre     = models.CharField(max_length=2)
    fk_Formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    def get_absolute_url(self):
-     return reverse("uc-detail", kwargs={"idUC": self.CodeMatiere})
+     return reverse("uc-detail", kwargs={"idUC": self.idUC})
 
 class Salle(models.Model):
    idSalle   = models.IntegerField(primary_key=True)
@@ -47,7 +47,7 @@ class Salle(models.Model):
    Projecteur= models.IntegerField()
    Tableaux  = models.IntegerField()
    def get_absolute_url(self):
-     return reverse('salle-detail', kwargs={"idSalle": self.Nom})
+     return reverse('salle-detail', kwargs={"idSalle": self.idSalle})
 
 class Seance(models.Model): 
    idSeance      = models.IntegerField(primary_key=True)

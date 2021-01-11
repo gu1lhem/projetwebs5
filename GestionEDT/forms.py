@@ -50,9 +50,9 @@ class SeanceModelForm(forms.ModelForm):
       labels = {'idSeance': ('Numéro de séance '),
             'TimecodeDebut': ('Date et heure du début du cours'),
             'TimecodeFin': ('Date et heure de fin du cours'),
-            'fk_UC': ('Cours'),
             'fk_Profeseur': ('Professeur responsable du cours'),
             'fk_Groupe': ("Groupe d'étudiants assistant au cours"),
+            'fk_UC': ('Cours'),
             'fk_Salle': ('Salle du cours')
             }
 

@@ -104,7 +104,7 @@ class UCCreate(CreateView):
    template_name = 'UCs/uc_create.html'
    form_class = UCModelForm
    queryset = UC.objects.all() # <blog>/<modelname>_list.html
-   success_url = '/uc'
+   success_url = '/UC'
 
    def form_valid(self, form):
       print(form.cleaned_data)
