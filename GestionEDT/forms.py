@@ -16,11 +16,11 @@ class ProfesseurModelForm(forms.ModelForm):
 class EtudiantModelForm(forms.ModelForm):
    class Meta:
       model = Etudiant
-      fields = ['NumEtudiant','Prenom','Nom','Adressemail','Naiss','fk_Groupe']
+      fields = ['NumEtudiant','Prenom','Nom','Adressemail','Naiss','Niveau','fk_Groupe']
       labels = {'NumEtudiant': ("Numéro d'étudiant "),
             'Prenom': ("Prenom de l'étudiant"), 'Nom': ("Nom de l'étudiant"),
             'Adressemail': ("Adresse mail de l'étudiant "), 'Naiss': ("Date de naissance"),
-            'fk_Groupe': ("Groupe d'étudiants") 
+            'Niveau' : ("Niveau de l'étudiant"), 'fk_Groupe': ("Groupe d'étudiants") 
             }
 
 class UCModelForm(forms.ModelForm):
@@ -50,7 +50,7 @@ class SeanceModelForm(forms.ModelForm):
       labels = {'idSeance': ('Numéro de séance '),
             'TimecodeDebut': ('Date et heure du début du cours'),
             'TimecodeFin': ('Date et heure de fin du cours'),
-            'fk_Profeseur': ('Professeur responsable du cours'),
+            'fk_Profeseur': ("Professeur réalisant le cours"),
             'fk_Groupe': ("Groupe d'étudiants assistant au cours"),
             'fk_UC': ('Cours'),
             'fk_Salle': ('Salle du cours')

@@ -147,7 +147,7 @@ class SalleCreate(CreateView):
    template_name = 'salles/salle_create.html'
    form_class = SalleModelForm
    queryset = Salle.objects.all() # <blog>/<modelname>_list.html
-   success_url = 'salle/'
+   success_url = '/salle'
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -251,16 +251,16 @@ class GroupeDetail(DetailView):
    queryset = Groupe.objects.all()
 
    def get_object(self):
-      id_ = self.kwargs.get("idgroupe")
-      return get_object_or_404(Formation, id=id_)
+      id_ = self.kwargs.get("idGroupe")
+      return get_object_or_404(Formation, idGroupe=id_)
 
 class GroupeUpdate(UpdateView):
    template_name = 'groupes/groupe_create.html'
    form_class = GroupeModelForm
 
    def get_object(self):
-      id_ = self.kwargs.get("idgroupe")
-      return get_object_or_404(Formation, idgroupe=id_)
+      id_ = self.kwargs.get("idGroupe")
+      return get_object_or_404(Formation, idGroupe=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -269,11 +269,11 @@ class GroupeDelete(DeleteView):
    template_name = 'groupes/groupe_delete.html'
    
    def get_object(self):
-      id_ = self.kwargs.get("idgroupe")
-      return get_object_or_404(Groupe, idgroupe=id_)
+      id_ = self.kwargs.get("idGroupe")
+      return get_object_or_404(Groupe, idGroupe=id_)
 
    def get_success_url(self):
-      return reverse('formation-list')
+      return reverse('groupe-list')
 class FormationCreate(CreateView):
    model = Formation
    template_name = 'formations/formation_create.html'
