@@ -21,6 +21,7 @@ class Professeur(models.Model):
    date_naissance = models.DateField()
    statut         = models.CharField(max_length=30, choices=statut_prof_uni)
    experience     = models.IntegerField()
+   
    def __str__(self):
       return self.prenom + ' ' + self.nom
    def get_absolute_url(self):
@@ -33,9 +34,15 @@ class Professeur(models.Model):
       return reverse("professeur-list", kwargs={"num_professeur": self.num_professeur})
    def get_create_url(self):
       return reverse("professeur-add", kwargs={"num_professeur": self.num_professeur})
+
+
    @classmethod
    def get_allowed_fields(cls):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'statut', 'experience']
+
+   class Meta:
+      verbose_name = 'Professeur'
+      verbose_name_plural = 'Professeurs'
 
 class Etudiant(models.Model):
    num_etudiant = models.IntegerField(primary_key=True)
