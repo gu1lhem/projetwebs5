@@ -35,6 +35,11 @@ bsct_patterns = URLGenerator( Professeur ).get_urlpatterns(crud_types = 'crudl')
 """
 
 urlpatterns = [
+   # Index
+   path('', home, name = 'homepage'),
+   path('index/', home, name = 'homepage'),
+   path('home/', home, name = 'homepage'),
+
    url( '', include( bsct_patterns ) )
 ]
 
