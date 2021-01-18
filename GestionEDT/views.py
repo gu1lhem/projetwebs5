@@ -43,13 +43,13 @@ class ProfesseurDetail(DetailView):
    queryset = Professeur.objects.all()
 
    def get_object(self):
-      num_professeur = self.kwargs.get("num_professeur")
-      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
+      id_ = self.kwargs.get("num_professeur")
+      return get_object_or_404(Professeur, NumProfesseur=id_)
 class ProfesseurUpdate(UpdateView):
    template_name = 'professeurs/professeur_update.html'
    def get_object(self):
-      num_professeur=self.kwargs.get("num_professeur")   
-      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
+      id_ = self.kwargs.get("num_professeur")   
+      return get_object_or_404(Professeur, NumProfesseur=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -58,8 +58,8 @@ class ProfesseurUpdate(UpdateView):
 class ProfesseurDelete(DeleteView):
    template_name = 'professeurs/professeur_delete.html'
    def get_object(self):
-      num_professeur = self.kwargs.get("num_professeur")
-      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
+      id_ = self.kwargs.get("num_professeur")
+      return get_object_or_404(Professeur, numProfesseur=id_)
       return reverse('professeur-list')
 
 class EtudiantCreate(CreateView):
@@ -82,16 +82,16 @@ class EtudiantDetail(DetailView):
    queryset = Etudiant.objects.all()
 
    def get_object(self):
-      id_ = self.kwargs.get("NumEtudiant")
-      return get_object_or_404(Etudiant, NumEtudiant=id_)
+      id_ = self.kwargs.get("numEtudiant")
+      return get_object_or_404(Etudiant, numEtudiant=id_)
 
 class EtudiantUpdate(UpdateView):
    template_name = 'etudiants/etudiant_create.html'
    form_class = EtudiantModelForm
 
    def get_object(self):
-      id_ = self.kwargs.get("NumEtudiant")
-      return get_object_or_404(Etudiant, NumEtudiant=id_)
+      id_ = self.kwargs.get("numEtudiant")
+      return get_object_or_404(Etudiant, numEtudiant=id_)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -101,8 +101,8 @@ class EtudiantDelete(DeleteView):
    template_name = 'etudiants/etudiant_delete.html'
    
    def get_object(self):
-      id_ = self.kwargs.get("NumEtudiant")
-      return get_object_or_404(Etudiant, NumEtudiant=id_)
+      id_ = self.kwargs.get("numEtudiant")
+      return get_object_or_404(Etudiant, numEtudiant=id_)
       return reverse('etudiant-list')
 
 class UCCreate(CreateView):

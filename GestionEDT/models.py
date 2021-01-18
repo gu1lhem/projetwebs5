@@ -4,10 +4,10 @@ from django.urls import reverse
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 #import psycopg2.extension
 
-Level_uni = (('L1', ('L1')),('L2', ('L2')),('L3', ('L3')),('M1', ('M1')),('M2', ('M2')))
-Semestre_uni = (('S1', ('S1')),('S2', ('S2')),('S3', ('S3')),('S4', ('S4')),
+level_uni = (('L1', ('L1')),('L2', ('L2')),('L3', ('L3')),('M1', ('M1')),('M2', ('M2')))
+semestre_uni = (('S1', ('S1')),('S2', ('S2')),('S3', ('S3')),('S4', ('S4')),
 ('S5', ('S5')),('S6', ('S6')),('S7', ('S7')),('S8', ('S8')),('S9', ('S9')),('S10', ('S10')))
-Statut_prof_uni = (('Professeur des universités', ('Professeur des universités')),
+statut_prof_uni = (('Professeur des universités', ('Professeur des universités')),
 ('Maître de conférences', ('Maître de conférences')))
 
 
