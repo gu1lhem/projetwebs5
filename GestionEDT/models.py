@@ -4,8 +4,13 @@ from django.urls import reverse
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 #import psycopg2.extension
 
-level_uni = ((1, ('L1')),(2, ('L2')),(3, ('L3')),(4, ('M1')),(5, ('M2')),)
-semestre_uni = ((1, ('S1')),(2, ('S2')),(3, ('S3')),(4, ('S4')),(5, ('S5')),(6, ('S6')))
+Level_uni = (('L1', ('L1')),('L2', ('L2')),('L3', ('L3')),('M1', ('M1')),('M2', ('M2')))
+Semestre_uni = (('S1', ('S1')),('S2', ('S2')),('S3', ('S3')),('S4', ('S4')),
+('S5', ('S5')),('S6', ('S6')),('S7', ('S7')),('S8', ('S8')),('S9', ('S9')),('S10', ('S10')))
+Statut_prof_uni = (('Professeur des universités', ('Professeur des universités')),
+('Maître de conférences', ('Maître de conférences')))
+
+
 
 # Create your models here.
 class Professeur(models.Model):
@@ -14,7 +19,7 @@ class Professeur(models.Model):
    nom            = models.CharField(max_length=30)  
    adresse_courriel = models.EmailField(max_length=60)
    date_naissance = models.DateField()
-   statut         = models.CharField(max_length=30)
+   statut         = models.CharField(max_length=30, choices=statut_prof_uni)
    experience     = models.IntegerField()
    def __str__(self):
       return self.prenom + ' ' + self.nom
@@ -31,7 +36,6 @@ class Professeur(models.Model):
    @classmethod
    def get_allowed_fields(cls):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'statut', 'experience']
-
 
 class Etudiant(models.Model):
    num_etudiant = models.IntegerField(primary_key=True)
@@ -51,7 +55,7 @@ class UC(models.Model):
    nom_matiere   = models.CharField(max_length=30,default=' ')
    ects         = models.IntegerField()
    type_uc         = models.CharField(max_length=15)
-   semestre     = models.CharField(max_length=2, choices=semestre_uni)
+   semestre     = models.CharField(max_length=3, choices=semestre_uni)
    fk_formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    def __str__(self):
     return self.nom_matiere

@@ -16,11 +16,11 @@ class ProfesseurModelForm(forms.ModelForm):
 class EtudiantModelForm(forms.ModelForm):
    class Meta:
       model = Etudiant
-      fields = ['num_etudiant','prenom','nom','adresse_courriel','date_naissance','fk_groupe']
+      fields = ['num_etudiant','prenom','nom','adresse_courriel','date_naissance', 'niveau', 'fk_groupe']
       labels = {'num_etudiant': ("Numéro d'étudiant "),
             'prenom': ("prenom de l'étudiant"), 'nom': ("nom de l'étudiant"),
             'adresse_courriel': ("Adresse mail de l'étudiant "), 'date_naissance': ("Date de naissance"),
-            'fk_groupe': ("Groupe d'étudiants") 
+            'niveau' : ("niveau de l'étudiant"), 'fk_groupe': ("Groupe d'étudiants") 
             }
 
 class UCModelForm(forms.ModelForm):

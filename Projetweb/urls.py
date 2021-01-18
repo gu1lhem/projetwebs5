@@ -33,7 +33,7 @@ urlpatterns = [
    path('professeur/<int:NumProfesseur>/update/',ProfesseurUpdate.as_view(),name='professeur-update'),
 
    path('etudiant/', EtudiantList.as_view(), name='etudiant-list'),
-   path('etudiant/add',EtudiantCreate.as_view(),name='etudiant-update'),
+   path('etudiant/add/',EtudiantCreate.as_view(),name='etudiant-add'),
    path('etudiant/<int:NumEtudiant>/', EtudiantDetail.as_view(), name='etudiant-detail'),
    path('etudiant/<int:NumEtudiant>/delete/',EtudiantDelete.as_view(),name='etudiant-delete'),
    path('etudiant/<int:NumEtudiant>/update/',EtudiantUpdate.as_view(),name='etudiant-update'),
