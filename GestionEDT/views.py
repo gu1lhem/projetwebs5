@@ -5,11 +5,14 @@ from django.views.generic import CreateView,DetailView,ListView,UpdateView,Delet
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.contrib import messages
+
 
 from .models import *
 from .forms import *
 
 import datetime
+import csv, io
 
 def home(request):
    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
@@ -317,6 +320,53 @@ class FormationDelete(DeleteView):
 
    def get_success_url(self):
       return reverse('formation-list')
+
+def export_etudiant_csv(request):
+   response = HttpResponse(content_type='text/csv')
+   response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
+
+   writer = csv.writer(response)
+   writer.writerow(['NumEtudiant','Prenom','Nom','Adressemail','Naiss'])
+
+   etudiant = Etudiant.objects.all().values_list('NumEtudiant','Prenom','Nom','Adressemail','Naiss')
+   for etudiants in etudiant:
+      writer.writerow(etudiants)  
+
+   return response
+
+def import_etudiant(request):
+    # declaring template
+    template = "etudiant_import.html"
+    data = Etudiant.objects.all()
+# prompt is a context variable that can have different values      depending on their context
+    prompt = {
+        'order': 'Order of the CSV should be numEtu, prenom, Nom, addressemail, Date de Naissance, Niveau et Groupe',
+        'profiles': data    
+              }
+    # GET request returns the value of the data with the specified key.
+    if request.method == "GET":
+        return render(request, template, prompt)
+    csv_file = request.FILES['file']
+    # let's check if it is a csv file
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'THIS IS NOT A CSV FILE')
+    data_set = csv_file.read().decode('UTF-8')
+    # setup a stream which is when we loop through each line we are able to handle a data in a stream
+io_string = io.StringIO(data_set)
+next(io_string)
+for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+    _, created = Etudiant.objects.update_or_create(
+        NumEtudiant=column[0],
+        Prenom=column[1],
+        addressemail=column[2],
+        Naiss=column[3],
+        Niveau=column[4],
+        fk_Groupe=column[5]
+    )
+context = {}
+return render(request, template, context)
+
+
 
 
 
