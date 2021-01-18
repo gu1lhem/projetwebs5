@@ -14,7 +14,7 @@
   <script src="{% static 'GestionEDT/script.js' %}"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'GestionEDT/layout.css' %}">
   {% block extra_head %} {% endblock %}
-   
+  {% block BSCT_CSS %} {% endblock %}
   <!-- Ce if/else permet d'utiliser le titre spécifié en contexte 'title' s'il y en a un, ou 'StudentManager' sinon. -->
   <title> {% if title %} {{title}} {% else %} Gestion EDT {% endif %} </title>
   <!-- On peut aussi utiliser block title endblock et spécifier les balises block titre endblock dans le template spécifique à la page.  -->
@@ -36,6 +36,7 @@
       {% endfor %}
   
       {% block content %} {% endblock %}
+      {% block BSCT_MAIN %} {% endblock %}
     </div>
   </body>
 

@@ -6,72 +6,72 @@ from .models import *
 class ProfesseurModelForm(forms.ModelForm):
    class Meta:
       model = Professeur
-      fields = ['NumProfesseur','Prenom','Nom','Adressemail','Naiss','Statut','Experience']
-      labels = {'NumProfesseur': ("Numéro de professeur "),
-            'Prenom': ("Prenom du professeur"), 'Nom': ("Nom du professeur"),
-            'Adressemail': ("Adresse mail du professeur "), 'Naiss': ("Date de naissance"),
-            'Statut': ("Statut de l'enseignant "), 'Experience': ("Niveau d'expérience du professeur")
+      fields = ['num_professeur','prenom','nom','adresse_courriel','date_naissance','statut','experience']
+      labels = {'num_professeur': ("Numéro de professeur "),
+            'prenom': ("prenom du professeur"), 'nom': ("nom du professeur"),
+            'adresse_courriel': ("Adresse mail du professeur "), 'date_naissance': ("Date de naissance"),
+            'statut': ("statut de l'enseignant "), 'experience': ("Niveau d'expérience du professeur")
             }
 
 class EtudiantModelForm(forms.ModelForm):
    class Meta:
       model = Etudiant
-      fields = ['NumEtudiant','Prenom','Nom','Adressemail','Naiss','fk_Groupe']
-      labels = {'NumEtudiant': ("Numéro d'étudiant "),
-            'Prenom': ("Prenom de l'étudiant"), 'Nom': ("Nom de l'étudiant"),
-            'Adressemail': ("Adresse mail de l'étudiant "), 'Naiss': ("Date de naissance"),
-            'fk_Groupe': ("Groupe d'étudiants") 
+      fields = ['num_etudiant','prenom','nom','adresse_courriel','date_naissance','fk_groupe']
+      labels = {'num_etudiant': ("Numéro d'étudiant "),
+            'prenom': ("prenom de l'étudiant"), 'nom': ("nom de l'étudiant"),
+            'adresse_courriel': ("Adresse mail de l'étudiant "), 'date_naissance': ("Date de naissance"),
+            'fk_groupe': ("Groupe d'étudiants") 
             }
 
 class UCModelForm(forms.ModelForm):
    class Meta:
       model = UC 
-      fields = ['idUC','NomMatiere','ECTS','Type','Semestre','fk_Formation']
-      labels = {'idUC': ('Numéro de la matière '),'NomMatiere': ('Nom de la matière'),
-            'ECTS': ('Coefficient de la matière '),'Type': ('Domaine de la matière'),
-            'Semestre': ('A quel semestre se déroule cette matière?'),
-            'fk_Formation': ('Dans quel formation?')
+      fields = ['id_uc','nom_matiere','ects','type_uc','semestre','fk_formation']
+      labels = {'id_uc': ('Numéro de la matière '),'nom_matiere': ('nom de la matière'),
+            'ects': ('Coefficient de la matière '),'type_uc': ('Domaine de la matière'),
+            'semestre': ('A quel semestre se déroule cette matière?'),
+            'fk_formation': ('Dans quel formation?')
             }
 
 class SalleModelForm(forms.ModelForm):
    class Meta:
       model = Salle
-      fields = ['idSalle','Code','Batiment','Capacite','NbPC','Projecteur','Tableaux']
-      labels = {'idSalle': ('Numéro de la salle'),
-            'Code': ('Code de la salle'),
-            'Batiment': ('Batiment '), 'Capacite':('Capacite '),
-            'NbPC': ('Nombre de PC dans la salle'), 'Projecteur':("Présence d'un projecteur?"),
+      fields = ['id_salle','code','batiment','capacite','nb_pc','projecteur','tableaux'] #! Tableaux a été oublié
+      labels = {'id_salle': ('Numéro de la salle'),
+            'code': ('Code de la salle'),
+            'batiment': ('Batiment '), 'capacite':('Capacite '),
+            'nb_pc': ('nombre de PC dans la salle'), 'projecteur':("Présence d'un projecteur?"),
             }
 
 class SeanceModelForm(forms.ModelForm):
    class Meta:
       model = Seance
-      fields = ['idSeance','TimecodeDebut','TimecodeFin','fk_Professeur','fk_Groupe','fk_UC','fk_Salle']
-      labels = {'idSeance': ('Numéro de séance '),
-            'TimecodeDebut': ('Date et heure du début du cours'),
-            'TimecodeFin': ('Date et heure de fin du cours'),
-            'fk_Profeseur': ('Professeur responsable du cours'),
-            'fk_Groupe': ("Groupe d'étudiants assistant au cours"),
-            'fk_UC': ('Cours'),
-            'fk_Salle': ('Salle du cours')
+      fields = ['id_seance','timecode_debut','timecode_fin','fk_professeur','fk_groupe','fk_uc','fk_salle']
+      labels = {'id_seance': ('Numéro de séance '),
+            'timecode_debut': ('Date et heure du début du cours'),
+            'timecode_fin': ('Date et heure de fin du cours'),
+            'fk_profeseur': ('Professeur responsable du cours'),
+            'fk_groupe': ("Groupe d'étudiants assistant au cours"),
+            'fk_uc': ('Cours'),
+            'fk_salle': ('Salle du cours')
             }
 
 class GroupeModelForm(forms.ModelForm):
    class Meta:
       model = Groupe
-      fields = ['idGroupe','Libelle','Niveau']
-      labels = {'idGroupe': ('Numéro du groupe '),
-            'Libelle': ('Intitulé de ce groupe '),
-            'Niveau': ('Niveau universitaire de ce groupe ')
+      fields = ['id_groupe','libelle','niveau']
+      labels = {'id_groupe': ('Numéro du groupe '),
+            'libelle': ('Intitulé de ce groupe '),
+            'niveau': ('Niveau universitaire de ce groupe ')
             }
 
 class FormationModelForm(forms.ModelForm):
    class Meta:
       model = Formation
-      fields = ['idFormation','NomFormation','UFRRattachement']
-      labels = {'idFormation': ('Numéro de la formation '),
-            'NomFormation': ('Nom de la formation'),
-            'UFRRattachement': ('UFR de la formation '),
+      fields = ['id_formation','nom_formation','ufr_rattachement']
+      labels = {'id_formation': ('Numéro de la formation '),
+            'nom_formation': ('nom de la formation'),
+            'ufr_rattachement': ('UFR de la formation '),
             }
 
 

@@ -29,21 +29,27 @@ class ProfesseurCreate(CreateView):
       return super().form_valid(form)
 
 class ProfesseurList(ListView):
-   template_name = 'professeurs/professeur_list.html'
-   queryset = Professeur.objects.all()
+   template_name = 'bsct/plain/form.html'
+   #queryset = Professeur.objects.all()
+   model = Professeur
+   def get_context_data(self, **kwargs):
+      """ redéfinir la méthode get_context_data pour préciser un layout autre que 'base.html'. """
+      context = super(ProfesseurList, self).get_context_data(**kwargs)
+      context['bsct_base'] = 'layout.html'
+      return context
 
 class ProfesseurDetail(DetailView):
    template_name = 'professeurs/professeur_detail.html'
    queryset = Professeur.objects.all()
 
    def get_object(self):
-      id_ = self.kwargs.get("NumProfesseur")
-      return get_object_or_404(Professeur, NumProfesseur=id_)
+      num_professeur = self.kwargs.get("num_professeur")
+      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
 class ProfesseurUpdate(UpdateView):
    template_name = 'professeurs/professeur_update.html'
    def get_object(self):
-      id_=self.kwargs.get("NumProfesseur")   
-      return get_object_or_404(Professeur, NumProfesseur=id_)
+      num_professeur=self.kwargs.get("num_professeur")   
+      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
 
    def form_valid(self, form):
       print(form.cleaned_data)
@@ -52,8 +58,8 @@ class ProfesseurUpdate(UpdateView):
 class ProfesseurDelete(DeleteView):
    template_name = 'professeurs/professeur_delete.html'
    def get_object(self):
-      id_ = self.kwargs.get("NumProfesseur")
-      return get_object_or_404(Professeur, NumProfesseur=id_)
+      num_professeur = self.kwargs.get("num_professeur")
+      return get_object_or_404(Professeur, NumProfesseur=num_professeur)
       return reverse('professeur-list')
 
 class EtudiantCreate(CreateView):
