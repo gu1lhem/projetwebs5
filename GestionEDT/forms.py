@@ -3,15 +3,6 @@ from django import forms
 from .models import *
 
 
-class ProfesseurModelForm(forms.ModelForm):
-   class Meta:
-      model = Professeur
-      fields = ['num_professeur','prenom','nom','adresse_courriel','date_naissance','statut','experience']
-      labels = {'num_professeur': ("Numéro de professeur "),
-            'prenom': ("Prénom du professeur"), 'nom': ("Nom du professeur"),
-            'adresse_courriel': ("Adresse mail du professeur "), 'date_naissance': ("Date de naissance"),
-            'statut': ("Statut de l'enseignant "), 'experience': ("Niveau d'expérience du professeur")
-            }
 
 class EtudiantModelForm(forms.ModelForm):
    class Meta:
