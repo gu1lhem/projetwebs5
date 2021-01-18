@@ -1,5 +1,4 @@
 Ce qu'il reste à faire: 
-- revoir les options DateField du model
 - faire des listes jolies en html - c'est sur elles qu'on va naviguer dans l'appli
 - créer les conditions: 
    - je ne peux pas mettre un étudiant de L2 dans un groupe de L3
