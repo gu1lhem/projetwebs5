@@ -45,7 +45,7 @@ class Professeur(models.Model):
       verbose_name_plural = 'Professeurs'
 
 class Etudiant(models.Model):
-   num_etudiant = models.IntegerField(primary_key=True)
+   num_etudiant = models.AutoField(primary_key=True)
    prenom      = models.CharField(max_length=30)       
    nom         = models.CharField(max_length=30)  
    adresse_courriel = models.EmailField(max_length=60)
@@ -58,7 +58,7 @@ class Etudiant(models.Model):
      return reverse("etudiant-detail", kwargs={"num_etudiant": self.num_etudiant})
 
 class UC(models.Model): 
-   id_uc         = models.IntegerField(primary_key=True)
+   id_uc         = models.AutoField(primary_key=True)
    nom_matiere   = models.CharField(max_length=30,default=' ')
    ects         = models.IntegerField()
    type_uc         = models.CharField(max_length=15)
@@ -70,7 +70,7 @@ class UC(models.Model):
      return reverse("uc-detail", kwargs={"id_uc": self.id_uc})
 
 class Salle(models.Model):
-   id_salle   = models.IntegerField(primary_key=True)
+   id_salle   = models.AutoField(primary_key=True)
    code      = models.CharField(max_length=100)
    batiment  = models.CharField(max_length=100)
    capacite  = models.IntegerField()
@@ -83,7 +83,7 @@ class Salle(models.Model):
       return reverse('salle-detail', kwargs={"id_salle": self.id_salle})
 
 class Seance(models.Model): 
-   id_seance      = models.IntegerField(primary_key=True)
+   id_seance      = models.AutoField(primary_key=True)
    timecode_debut = models.DateTimeField()
    timecode_fin   = models.DateTimeField()
    fk_professeur = models.ForeignKey(Professeur,on_delete=models.CASCADE)
@@ -94,7 +94,7 @@ class Seance(models.Model):
       return reverse("seance-detail", kwargs={"id_seance": self.id_seance})
 
 class Groupe(models.Model):
-   id_groupe = models.IntegerField(primary_key=True)
+   id_groupe = models.AutoField(primary_key=True)
    libelle  = models.CharField(max_length=100)    
    niveau   = models.CharField(max_length=2, choices=level_uni) 
    def __str__(self):
@@ -103,7 +103,7 @@ class Groupe(models.Model):
       return reverse("groupe-detail", kwargs={"id_groupe": self.id_groupe})
    
 class Formation(models.Model): 
-   id_formation     = models.IntegerField(primary_key=True)
+   id_formation     = models.AutoField(primary_key=True)
    nom_formation    = models.CharField(max_length=100)
    ufr_rattachement = models.CharField(max_length=100,default='SEGMI') 
    def __str__(self):
