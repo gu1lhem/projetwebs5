@@ -340,22 +340,20 @@ def import_etudiant(request):
     data = Etudiant.objects.all()
 # prompt is a context variable that can have different values      depending on their context
     prompt = {
-        'order': 'Order of the CSV should be numEtu, prenom, Nom, addressemail, Date de Naissance, Niveau et Groupe',
+        'order': 'Ordre dans le csv devrait etre numEtudiant, prenom, Nom, addressemail, Date de Naissance, Niveau et Groupe',
         'profiles': data    
               }
     # GET request returns the value of the data with the specified key.
     if request.method == "GET":
         return render(request, template, prompt)
     csv_file = request.FILES['file']
-    # let's check if it is a csv file
     if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'THIS IS NOT A CSV FILE')
+        messages.error(request, "Ce n'est pas un fichier csv")
     data_set = csv_file.read().decode('UTF-8')
-    # setup a stream which is when we loop through each line we are able to handle a data in a stream
 io_string = io.StringIO(data_set)
 next(io_string)
 for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-    _, created = Etudiant.objects.update_or_create(
+      , created = Etudiant.objects.update_or_create(
         NumEtudiant=column[0],
         Prenom=column[1],
         addressemail=column[2],
