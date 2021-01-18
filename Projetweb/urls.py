@@ -13,11 +13,32 @@ Including another URLconf
    1. Import the include() function: from django.urls import include, path
    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+# Django
 from django.contrib import admin
 from django.urls import path, include
-from GestionEDT import views
+from django.conf.urls import url
+
+# Views dont on créé les urlpatterns.
 from GestionEDT.views import *
 
+# Bootstrap Crud Template
+from bsct.urls import URLGenerator
+
+bsct_patterns = URLGenerator( Professeur ).get_urlpatterns(crud_types = 'crudl')
+""" Génération automatique de toutes les URLs de création, détails, etc.
+   #'c' - Refers to the Create CRUD type
+   #'r' - Refers to the Read/Detail CRUD type
+   #'u' - Refers to the Update/Edit CRUD type
+   #'d' - Refers to the Delete CRUD type
+   #'l' - Refers to the List CRUD type
+"""
+
+urlpatterns = [
+   url( '', include( bsct_patterns ) )
+]
+
+"""
 urlpatterns = [
    # Index
    path('', home, name = 'homepage'),
@@ -25,12 +46,6 @@ urlpatterns = [
    path('home/', home, name = 'homepage'),
 
    path('admin/', admin.site.urls),
-
-   path('professeur/', ProfesseurList.as_view(), name='professeur-list'),
-   path('professeur/add/',ProfesseurCreate.as_view(),name='professeur-add'),
-   path('professeur/<int:NumProfesseur>/',ProfesseurDetail.as_view(),name='professeur-detail'),
-   path('professeur/<int:NumProfesseur>/delete/',ProfesseurDelete.as_view(),name='professeur-delete'),
-   path('professeur/<int:NumProfesseur>/update/',ProfesseurUpdate.as_view(),name='professeur-update'),
 
    path('etudiant/', EtudiantList.as_view(), name='etudiant-list'),
    path('etudiant/add/',EtudiantCreate.as_view(),name='etudiant-add'),
@@ -72,3 +87,4 @@ urlpatterns = [
 urlpatterns += [
    path('accounts/', include('django.contrib.auth.urls')),
 ]
+"""

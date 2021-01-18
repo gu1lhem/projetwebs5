@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 #import psycopg2.extension
+from bsct.models import BSCTModelMixin
 
 level_uni = (('L1', ('L1')),('L2', ('L2')),('L3', ('L3')),('M1', ('M1')),('M2', ('M2')))
 semestre_uni = (('S1', ('S1')),('S2', ('S2')),('S3', ('S3')),('S4', ('S4')),
@@ -13,7 +14,14 @@ statut_prof_uni = (('Professeur des universités', ('Professeur des universités
 
 
 # Create your models here.
-class Professeur(models.Model):
+class Professeur(BSCTModelMixin, models.Model):
+   # Classe de Professeur.
+   # BSCTModelMixin permet de ne pas écrire les méthodes get_absolute_url, get_delete_url...
+   # Doc :
+   #* https://pypi.org/project/django-bootstrap-crud-templates/
+   # Exemple :
+   #* https://github.com/Alem/django-bootstrap-crud-templates/blob/master/demo/crud/models.py
+
    num_professeur  = models.AutoField(primary_key=True)
    prenom         = models.CharField(max_length=30)       
    nom            = models.CharField(max_length=30)  
@@ -21,18 +29,12 @@ class Professeur(models.Model):
    date_naissance = models.DateField()
    statut         = models.CharField(max_length=30, choices=statut_prof_uni)
    experience     = models.IntegerField()
+
+   # La redéfinition de __str__ permet de changer le titre de la page détail
    def __str__(self):
       return self.prenom + ' ' + self.nom
-   def get_absolute_url(self):
-      return reverse("professeur-detail", kwargs={"num_professeur": self.num_professeur})
-   def get_delete_url(self):
-      return reverse("professeur-delete", kwargs={"num_professeur": self.num_professeur})
-   def get_update_url(self):
-      return reverse("professeur-update", kwargs={"num_professeur": self.num_professeur})
-   def get_list_url(self):
-      return reverse("professeur-list", kwargs={"num_professeur": self.num_professeur})
-   def get_create_url(self):
-      return reverse("professeur-add", kwargs={"num_professeur": self.num_professeur})
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
    def get_allowed_fields(cls):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'statut', 'experience']
