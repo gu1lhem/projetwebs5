@@ -8,9 +8,9 @@ class ProfesseurModelForm(forms.ModelForm):
       model = Professeur
       fields = ['num_professeur','prenom','nom','adresse_courriel','date_naissance','statut','experience']
       labels = {'num_professeur': ("Numéro de professeur "),
-            'prenom': ("prenom du professeur"), 'nom': ("nom du professeur"),
+            'prenom': ("Prénom du professeur"), 'nom': ("Nom du professeur"),
             'adresse_courriel': ("Adresse mail du professeur "), 'date_naissance': ("Date de naissance"),
-            'statut': ("statut de l'enseignant "), 'experience': ("Niveau d'expérience du professeur")
+            'statut': ("Statut de l'enseignant "), 'experience': ("Niveau d'expérience du professeur")
             }
 
 class EtudiantModelForm(forms.ModelForm):
@@ -18,16 +18,16 @@ class EtudiantModelForm(forms.ModelForm):
       model = Etudiant
       fields = ['num_etudiant','prenom','nom','adresse_courriel','date_naissance', 'niveau', 'fk_groupe']
       labels = {'num_etudiant': ("Numéro d'étudiant "),
-            'prenom': ("prenom de l'étudiant"), 'nom': ("nom de l'étudiant"),
+            'prenom': ("Prénom de l'étudiant"), 'nom': ("Nom de l'étudiant"),
             'adresse_courriel': ("Adresse mail de l'étudiant "), 'date_naissance': ("Date de naissance"),
-            'niveau' : ("niveau de l'étudiant"), 'fk_groupe': ("Groupe d'étudiants") 
+            'niveau' : ("Niveau de l'étudiant"), 'fk_groupe': ("Groupe d'étudiants") 
             }
 
 class UCModelForm(forms.ModelForm):
    class Meta:
       model = UC 
       fields = ['id_uc','nom_matiere','ects','type_uc','semestre','fk_formation']
-      labels = {'id_uc': ('Numéro de la matière '),'nom_matiere': ('nom de la matière'),
+      labels = {'id_uc': ('Numéro de la matière '),'nom_matiere': ('Nom de la matière'),
             'ects': ('Coefficient de la matière '),'type_uc': ('Domaine de la matière'),
             'semestre': ('A quel semestre se déroule cette matière?'),
             'fk_formation': ('Dans quel formation?')
@@ -40,7 +40,7 @@ class SalleModelForm(forms.ModelForm):
       labels = {'id_salle': ('Numéro de la salle'),
             'code': ('Code de la salle'),
             'batiment': ('Batiment '), 'capacite':('Capacite '),
-            'nb_pc': ('nombre de PC dans la salle'), 'projecteur':("Présence d'un projecteur?"),
+            'nb_pc': ('Nombre de PC dans la salle'), 'projecteur':("Présence d'un projecteur?"),
             }
 
 class SeanceModelForm(forms.ModelForm):
@@ -70,7 +70,7 @@ class FormationModelForm(forms.ModelForm):
       model = Formation
       fields = ['id_formation','nom_formation','ufr_rattachement']
       labels = {'id_formation': ('Numéro de la formation '),
-            'nom_formation': ('nom de la formation'),
+            'nom_formation': ('Nom de la formation'),
             'ufr_rattachement': ('UFR de la formation '),
             }
 
