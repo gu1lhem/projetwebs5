@@ -40,7 +40,7 @@ class Professeur(BSCTModelMixin, models.Model):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'statut', 'experience']
 
 
-class Etudiant(models.Model):
+class Etudiant(BSCTModelMixin, models.Model):
    num_etudiant = models.AutoField(primary_key=True)
    prenom      = models.CharField(max_length=30)       
    nom         = models.CharField(max_length=30)  
@@ -48,24 +48,33 @@ class Etudiant(models.Model):
    date_naissance       = models.DateField()
    niveau   = models.CharField(max_length=2, choices=level_uni,default=None) 
    fk_groupe   = models.ForeignKey("Groupe",on_delete=models.CASCADE)
+   
    def __str__(self):
-    return self.prenom + ' ' + self.nom
-   def get_absolute_url(self):
-     return reverse("etudiant-detail", kwargs={"num_etudiant": self.num_etudiant})
+      return self.prenom + ' ' + self.nom
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe']
 
-class UC(models.Model): 
+class UC(BSCTModelMixin, models.Model): 
    id_uc         = models.AutoField(primary_key=True)
    nom_matiere   = models.CharField(max_length=30,default=' ')
    ects         = models.IntegerField()
    type_uc         = models.CharField(max_length=15)
    semestre     = models.CharField(max_length=3, choices=semestre_uni)
    fk_formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
+   
    def __str__(self):
-    return self.nom_matiere
-   def get_absolute_url(self):
-     return reverse("uc-detail", kwargs={"id_uc": self.id_uc})
+      return self.nom_matiere
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['nom_matiere', 'ects', 'type_uc', 'semestre', 'fk_formation']
 
-class Salle(models.Model):
+
+class Salle(BSCTModelMixin, models.Model):
    id_salle   = models.AutoField(primary_key=True)
    code      = models.CharField(max_length=100)
    batiment  = models.CharField(max_length=100)
@@ -73,12 +82,16 @@ class Salle(models.Model):
    nb_pc      = models.IntegerField()
    projecteur= models.IntegerField()
    tableaux  = models.IntegerField()
+   
    def __str__(self):
-      return self.code + self.batiment
-   def get_absolute_url(self):
-      return reverse('salle-detail', kwargs={"id_salle": self.id_salle})
+      return self.code
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['code', 'batiment', 'capacite', 'nb_pc', 'projecteur', 'tableaux']
 
-class Seance(models.Model): 
+class Seance(BSCTModelMixin,models.Model): 
    id_seance      = models.AutoField(primary_key=True)
    timecode_debut = models.DateTimeField()
    timecode_fin   = models.DateTimeField()
@@ -86,24 +99,37 @@ class Seance(models.Model):
    fk_groupe     = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
    fk_uc         = models.ForeignKey(UC, on_delete=models.CASCADE,default=None)
    fk_salle      = models.ForeignKey(Salle,on_delete=models.CASCADE)
-   def get_absolute_url(self):
-      return reverse("seance-detail", kwargs={"id_seance": self.id_seance})
+   
+   def __str__(self):
+      return self.id_seance
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle']
 
-class Groupe(models.Model):
+class Groupe(BSCTModelMixin, models.Model):
    id_groupe = models.AutoField(primary_key=True)
    libelle  = models.CharField(max_length=100)    
    niveau   = models.CharField(max_length=2, choices=level_uni) 
+   
    def __str__(self):
       return self.libelle
-   def get_absolute_url(self):
-      return reverse("groupe-detail", kwargs={"id_groupe": self.id_groupe})
    
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['libelle', 'niveau']
+  
 class Formation(models.Model): 
    id_formation     = models.AutoField(primary_key=True)
    nom_formation    = models.CharField(max_length=100)
    ufr_rattachement = models.CharField(max_length=100,default='SEGMI') 
+   
    def __str__(self):
       return self.nom_formation
-   def get_absolute_url(self):
-      return reverse("formation-detail", kwargs={"id_formation": self.id_formation})
-
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['nom_formation', 'ufr_rattachement']
