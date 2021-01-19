@@ -21,18 +21,24 @@ class Professeur(BSCTModelMixin, models.Model):
    # Exemple :
    #* https://github.com/Alem/django-bootstrap-crud-templates/blob/master/demo/crud/models.py
 
-   num_professeur  = models.AutoField(primary_key=True)
-   prenom = models.CharField(max_length=30)       
-   nom = models.CharField(max_length=30)  
-   adresse_courriel = models.EmailField(max_length=60)
-   date_naissance = models.DateField()
-   statut = models.CharField(max_length=30, choices=statut_prof_uni)
-   experience = models.IntegerField()
+   # attribut entre "" est le verbose name qui nous servira au moment des affichages 
+
+   num_professeur  = models.AutoField("Numéro du professeur",primary_key=True)
+   prenom = models.CharField("Prénom du professeur",max_length=30)       
+   nom = models.CharField("Nom du professeur",max_length=30)  
+   adresse_courriel = models.EmailField("Son adresse courriel",max_length=60)
+   date_naissance = models.DateField("Sa date de naissance")
+   statut = models.CharField("Son statut au sein de la fac",max_length=30, choices=statut_prof_uni)
+   experience = models.IntegerField("Ses années d'expériences")
 
    # La redéfinition de __str__ permet de changer le titre de la page détail
    def __str__(self):
-      return self.prenom + ' ' + self.nom
+      return self.prenom + ' ' + self.nom    
    
+   #Précise le nom à donner à la table - permet les majuscules donc plus jojo
+   class Meta:
+      verbose_name = "Professeur"
+
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
    def get_allowed_fields(cls):
@@ -40,16 +46,19 @@ class Professeur(BSCTModelMixin, models.Model):
 
 
 class Etudiant(BSCTModelMixin, models.Model):
-   num_etudiant = models.AutoField(primary_key=True)
-   prenom = models.CharField(max_length=30)       
-   nom = models.CharField(max_length=30)  
-   adresse_courriel = models.EmailField(max_length=60)
-   date_naissance = models.DateField()
-   niveau = models.CharField(max_length=2, choices=level_uni,default=None) 
-   fk_groupe = models.ForeignKey("Groupe",on_delete=models.CASCADE)
+   num_etudiant = models.AutoField("Numéro de l'étudiant",primary_key=True)
+   prenom = models.CharField("Prénom de l'étudiant",max_length=30)       
+   nom = models.CharField("Nom de l'étudiant",max_length=30)  
+   adresse_courriel = models.EmailField("Son adresse courriel",max_length=60)
+   date_naissance = models.DateField("Sa date naissance")
+   niveau = models.CharField("Son niveau universitaire",max_length=2, choices=level_uni,default=None) 
+   fk_groupe = models.ForeignKey("Groupe",verbose_name="Groupe",on_delete=models.CASCADE)
    
    def __str__(self):
       return self.prenom + ' ' + self.nom
+
+   class Meta:
+      verbose_name = "Etudiant"
    
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
@@ -57,15 +66,18 @@ class Etudiant(BSCTModelMixin, models.Model):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe']
 
 class UC(BSCTModelMixin, models.Model): 
-   id_uc = models.AutoField(primary_key=True)
-   nom_matiere = models.CharField(max_length=30,default=' ')
-   ects = models.IntegerField()
-   type_uc = models.CharField(max_length=15)
-   semestre = models.CharField(max_length=3, choices=semestre_uni)
-   fk_formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
+   id_uc = models.AutoField("Identifiant de l'UC",primary_key=True)
+   nom_matiere = models.CharField("Nom de la matière",max_length=30,default=' ')
+   ects = models.IntegerField("Son coefficient")
+   type_uc = models.CharField("Domaine de l'UC",max_length=15)
+   semestre = models.CharField("A quelle semestre appartient-il?",max_length=3, choices=semestre_uni)
+   fk_formation = models.ForeignKey("Formation",verbose_name="Formation",on_delete=models.CASCADE) # clés multiples
    
    def __str__(self):
       return self.nom_matiere
+
+   class Meta:
+      verbose_name = "UC"
    
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
@@ -74,59 +86,70 @@ class UC(BSCTModelMixin, models.Model):
 
 
 class Salle(BSCTModelMixin, models.Model):
-   id_salle = models.AutoField(primary_key=True)
-   code = models.CharField(max_length=100)
-   batiment = models.CharField(max_length=100)
-   capacite = models.IntegerField()
-   nb_pc = models.IntegerField()
-   projecteur = models.IntegerField()
-   tableaux = models.IntegerField()
+   id_salle = models.AutoField("Identifiant de la salle",primary_key=True)
+   code = models.CharField("Nom de la salle",max_length=100)
+   batiment = models.CharField("Dans quel bâtiment?",max_length=100)
+   capacite = models.IntegerField("Sa capacité")
+   nb_pc = models.IntegerField("Le nombre de PCs dans la salle")
+   projecteur = models.IntegerField("Le nombre de projecteurs")
+   tableaux = models.IntegerField("Le nombre de tableaux?")
    
    def __str__(self):
       return self.code
+
+   class Meta:
+      verbose_name = "Salle"
    
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
    def get_allowed_fields(cls):
       return ['code', 'batiment', 'capacite', 'nb_pc', 'projecteur', 'tableaux']
 
-class Seance(BSCTModelMixin,models.Model): 
-   id_seance = models.AutoField(primary_key=True)
-   timecode_debut = models.DateTimeField()
-   timecode_fin = models.DateTimeField()
-   fk_professeur = models.ForeignKey(Professeur,on_delete=models.CASCADE)
-   fk_groupe = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
-   fk_uc = models.ForeignKey(UC, on_delete=models.CASCADE,default=None)
-   fk_salle = models.ForeignKey(Salle,on_delete=models.CASCADE)
-   
-   def __str__(self):
-      return self.id_seance
-   
-   # Fields qui seront récupérés par BSCT pour générer les fields.
-   @classmethod
-   def get_allowed_fields(cls):
-      return ['timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle']
-
 class Groupe(BSCTModelMixin, models.Model):
-   id_groupe = models.AutoField(primary_key=True)
-   libelle = models.CharField(max_length=100)    
-   niveau = models.CharField(max_length=2, choices=level_uni) 
+   id_groupe = models.AutoField("Identifiant du groupe",primary_key=True)
+   libelle = models.CharField("Nom du groupe",max_length=100)    
+   niveau = models.CharField("Niveau du groupe",max_length=2, choices=level_uni) 
    
    def __str__(self):
       return self.libelle
+
+   class Meta:
+      verbose_name = "Groupe"
    
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
    def get_allowed_fields(cls):
       return ['libelle', 'niveau']
+
+class Seance(BSCTModelMixin,models.Model): 
+   id_seance = models.AutoField("Identifiant de la séance",primary_key=True)
+   timecode_debut = models.DateTimeField("Date et heure de début de la séance")
+   timecode_fin = models.DateTimeField("Date et heure de fin de la séance")
+   fk_professeur = models.ForeignKey(Professeur,verbose_name="Professeur en charge de la séance",on_delete=models.CASCADE)
+   fk_groupe = models.ForeignKey(Groupe,verbose_name="Groupe assistant à la séance",on_delete=models.CASCADE)
+   fk_uc = models.ForeignKey(UC,verbose_name="Matière de la séance",on_delete=models.CASCADE,default=None)
+   fk_salle = models.ForeignKey(Salle,verbose_name="Dans quelle salle se déroule-t-elle?",on_delete=models.CASCADE)
+   
+   def __str__(self):
+      return str(self.id_seance)
+   class Meta:
+      verbose_name = "Séance"
+   
+   # Fields qui seront récupérés par BSCT pour générer les fields.
+   @classmethod
+   def get_allowed_fields(cls):
+      return ['timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle']
   
 class Formation(BSCTModelMixin, models.Model): 
-   id_formation = models.AutoField(primary_key=True)
-   nom_formation = models.CharField(max_length=100)
-   ufr_rattachement = models.CharField(max_length=100,default='SEGMI') 
+   id_formation = models.AutoField("Identifiant de la formation",primary_key=True)
+   nom_formation = models.CharField("Nom de la formation",max_length=100)
+   ufr_rattachement = models.CharField("UFR de rattachement",max_length=100,default='SEGMI') 
    
    def __str__(self):
       return self.nom_formation
+
+   class Meta:
+      verbose_name = "Formation"
    
    # Fields qui seront récupérés par BSCT pour générer les fields.
    @classmethod
