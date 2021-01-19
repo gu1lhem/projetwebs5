@@ -12,7 +12,6 @@ statut_prof_uni = (('Professeur des universités', ('Professeur des universités
 ('Maître de conférences', ('Maître de conférences')))
 
 
-
 # Create your models here.
 class Professeur(BSCTModelMixin, models.Model):
    # Classe de Professeur.
@@ -121,7 +120,7 @@ class Groupe(BSCTModelMixin, models.Model):
    def get_allowed_fields(cls):
       return ['libelle', 'niveau']
   
-class Formation(models.Model): 
+class Formation(BSCTModelMixin, models.Model): 
    id_formation     = models.AutoField(primary_key=True)
    nom_formation    = models.CharField(max_length=100)
    ufr_rattachement = models.CharField(max_length=100,default='SEGMI') 
