@@ -8,9 +8,3 @@ def home(request):
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
 
-
-
-
-
-
-
