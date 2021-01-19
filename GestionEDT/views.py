@@ -3,6 +3,8 @@ from django.shortcuts import render
 
 from .models import *
 
+
+
 def home(request):
    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
