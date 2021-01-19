@@ -22,12 +22,12 @@ class Professeur(BSCTModelMixin, models.Model):
    #* https://github.com/Alem/django-bootstrap-crud-templates/blob/master/demo/crud/models.py
 
    num_professeur  = models.AutoField(primary_key=True)
-   prenom         = models.CharField(max_length=30)       
-   nom            = models.CharField(max_length=30)  
+   prenom = models.CharField(max_length=30)       
+   nom = models.CharField(max_length=30)  
    adresse_courriel = models.EmailField(max_length=60)
    date_naissance = models.DateField()
-   statut         = models.CharField(max_length=30, choices=statut_prof_uni)
-   experience     = models.IntegerField()
+   statut = models.CharField(max_length=30, choices=statut_prof_uni)
+   experience = models.IntegerField()
 
    # La redéfinition de __str__ permet de changer le titre de la page détail
    def __str__(self):
@@ -41,12 +41,12 @@ class Professeur(BSCTModelMixin, models.Model):
 
 class Etudiant(BSCTModelMixin, models.Model):
    num_etudiant = models.AutoField(primary_key=True)
-   prenom      = models.CharField(max_length=30)       
-   nom         = models.CharField(max_length=30)  
+   prenom = models.CharField(max_length=30)       
+   nom = models.CharField(max_length=30)  
    adresse_courriel = models.EmailField(max_length=60)
-   date_naissance       = models.DateField()
-   niveau   = models.CharField(max_length=2, choices=level_uni,default=None) 
-   fk_groupe   = models.ForeignKey("Groupe",on_delete=models.CASCADE)
+   date_naissance = models.DateField()
+   niveau = models.CharField(max_length=2, choices=level_uni,default=None) 
+   fk_groupe = models.ForeignKey("Groupe",on_delete=models.CASCADE)
    
    def __str__(self):
       return self.prenom + ' ' + self.nom
@@ -57,11 +57,11 @@ class Etudiant(BSCTModelMixin, models.Model):
       return ['prenom', 'nom', 'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe']
 
 class UC(BSCTModelMixin, models.Model): 
-   id_uc         = models.AutoField(primary_key=True)
-   nom_matiere   = models.CharField(max_length=30,default=' ')
-   ects         = models.IntegerField()
-   type_uc         = models.CharField(max_length=15)
-   semestre     = models.CharField(max_length=3, choices=semestre_uni)
+   id_uc = models.AutoField(primary_key=True)
+   nom_matiere = models.CharField(max_length=30,default=' ')
+   ects = models.IntegerField()
+   type_uc = models.CharField(max_length=15)
+   semestre = models.CharField(max_length=3, choices=semestre_uni)
    fk_formation = models.ForeignKey("Formation",on_delete=models.CASCADE) # clés multiples
    
    def __str__(self):
@@ -74,13 +74,13 @@ class UC(BSCTModelMixin, models.Model):
 
 
 class Salle(BSCTModelMixin, models.Model):
-   id_salle   = models.AutoField(primary_key=True)
-   code      = models.CharField(max_length=100)
-   batiment  = models.CharField(max_length=100)
-   capacite  = models.IntegerField()
-   nb_pc      = models.IntegerField()
-   projecteur= models.IntegerField()
-   tableaux  = models.IntegerField()
+   id_salle = models.AutoField(primary_key=True)
+   code = models.CharField(max_length=100)
+   batiment = models.CharField(max_length=100)
+   capacite = models.IntegerField()
+   nb_pc = models.IntegerField()
+   projecteur = models.IntegerField()
+   tableaux = models.IntegerField()
    
    def __str__(self):
       return self.code
@@ -91,13 +91,13 @@ class Salle(BSCTModelMixin, models.Model):
       return ['code', 'batiment', 'capacite', 'nb_pc', 'projecteur', 'tableaux']
 
 class Seance(BSCTModelMixin,models.Model): 
-   id_seance      = models.AutoField(primary_key=True)
+   id_seance = models.AutoField(primary_key=True)
    timecode_debut = models.DateTimeField()
-   timecode_fin   = models.DateTimeField()
+   timecode_fin = models.DateTimeField()
    fk_professeur = models.ForeignKey(Professeur,on_delete=models.CASCADE)
-   fk_groupe     = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
-   fk_uc         = models.ForeignKey(UC, on_delete=models.CASCADE,default=None)
-   fk_salle      = models.ForeignKey(Salle,on_delete=models.CASCADE)
+   fk_groupe = models.ForeignKey(Etudiant,on_delete=models.CASCADE)
+   fk_uc = models.ForeignKey(UC, on_delete=models.CASCADE,default=None)
+   fk_salle = models.ForeignKey(Salle,on_delete=models.CASCADE)
    
    def __str__(self):
       return self.id_seance
@@ -109,8 +109,8 @@ class Seance(BSCTModelMixin,models.Model):
 
 class Groupe(BSCTModelMixin, models.Model):
    id_groupe = models.AutoField(primary_key=True)
-   libelle  = models.CharField(max_length=100)    
-   niveau   = models.CharField(max_length=2, choices=level_uni) 
+   libelle = models.CharField(max_length=100)    
+   niveau = models.CharField(max_length=2, choices=level_uni) 
    
    def __str__(self):
       return self.libelle
@@ -121,8 +121,8 @@ class Groupe(BSCTModelMixin, models.Model):
       return ['libelle', 'niveau']
   
 class Formation(BSCTModelMixin, models.Model): 
-   id_formation     = models.AutoField(primary_key=True)
-   nom_formation    = models.CharField(max_length=100)
+   id_formation = models.AutoField(primary_key=True)
+   nom_formation = models.CharField(max_length=100)
    ufr_rattachement = models.CharField(max_length=100,default='SEGMI') 
    
    def __str__(self):
