@@ -40,10 +40,10 @@ def import_etudiant(request):
     if not csv_file.name.endswith('.csv'):
         messages.error(request, "Ce n'est pas un fichier csv")
     data_set = csv_file.read().decode('UTF-8')
-io_string = io.StringIO(data_set)
-next(io_string)
-for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-      , created = Etudiant.objects.update_or_create(
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        created = Etudiant.objects.update_or_create(
         NumEtudiant=column[0],
         Prenom=column[1],
         addressemail=column[2],
@@ -51,5 +51,6 @@ for column in csv.reader(io_string, delimiter=',', quotechar="|"):
         Niveau=column[4],
         fk_Groupe=column[5]
     )
-context = {}
-return render(request, template, context)
+    context = {}
+    return render(request, template, context)
+
