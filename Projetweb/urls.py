@@ -53,6 +53,7 @@ urlpatterns = [
    path('', home, name = 'homepage'),
    path('index/', home, name = 'homepage'),
    path('home/', home, name = 'homepage'),
+   path('admin/', admin.site.urls),
 
    url( '', include( bsct_patterns_p ) ),
    url( '', include( bsct_patterns_e ) ), 
