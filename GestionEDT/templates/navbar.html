@@ -7,19 +7,26 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'professeur-list' %}">Professeurs <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'professeur_list' %}">Professeurs <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'etudiant-list' %}">Etudiants <span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'etudiant_list' %}">Etudiants <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'formation-list' %}">Formations <span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'uc_list' %}">UCs <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'groupe-list' %}">Groupes <span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'salle_list' %}">Salles <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'uc-list' %}">UCs <span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'seance_list' %}">Séances <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'groupe_list' %}">Groupes <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'formation_list' %}">Formations <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
   </div>
 </nav>

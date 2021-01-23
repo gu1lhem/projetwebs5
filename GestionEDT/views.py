@@ -9,7 +9,7 @@ from .import utilitaire
 
 from .models import *
 
-import datetime
+
 
 def home(request):
    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
