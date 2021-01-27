@@ -21,6 +21,7 @@ from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 # Views dont on créé les urlpatterns.
 from GestionEDT.views import *
 
@@ -53,6 +54,7 @@ urlpatterns = [
    path('', home, name = 'homepage'),
    path('index/', home, name = 'homepage'),
    path('home/', home, name = 'homepage'),
+   path('etudiant_import/',import_fichier,name='etudiant_import'),
 
    url( '', include( bsct_patterns_p ) ),
    url( '', include( bsct_patterns_e ) ), 

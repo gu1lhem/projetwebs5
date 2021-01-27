@@ -5,7 +5,8 @@ from django.views.generic import CreateView,DetailView,ListView,UpdateView,Delet
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from .import utilitaire
+import csv, io
+from django.contrib import messages
 
 from .models import *
 
@@ -20,7 +21,7 @@ def home(request):
 
 def export_etudiant_csv(request):
    response = HttpResponse(content_type='text/csv')
-   response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
+   
 
    writer = csv.writer(response)
    writer.writerow(['num_etudiant','prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe'])
@@ -28,35 +29,37 @@ def export_etudiant_csv(request):
    etudiant = Etudiant.objects.all().values_list('num_etudiant','prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe')
    for etudiants in etudiant:
       writer.writerow(etudiants)  
-   return response
+   response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
+   return response   
+   
 
-def import_fichier(requete):
-    contexte = {
-        'titre': 'Import fichier',
-        'formulaire': Form_import_fichier()
-    }
+def import_fichier(request):
+    template = "import_etudiant.html"
+    data = Etudiant.objects.all()
+    prompt ={'order': 'l\'odre dans le csv devrait etre numero étudiant, prenom, nom, adresse mail, date de naissance, niveau et sa promotion',
+        'etudiants': data }
 
-    if requete.method == 'POST':
-        formulaire = Form_import_fichier(requete.POST, requete.FILES)
-        if formulaire.is_valid():
-            fichier = requete.FILES['fichier']
-            if not fichier.name.endswith('.csv'):
-                messages.warning(requete, 'le fichier n\'est pas un csv !')
+    if request.method == "GET":
+        return render(request, template, prompt)
 
-            else:
-                donnees = fichier.read().decode('UTF-8')
-                erreurs, total = utilitaire.traitement_fichier(donnees)
-                if total == erreurs:
-                    messages.warning(requete, 'Echec de l\'import !\n')
-
-                else:
-                    messages.success(requete, f'Import effectue ! {erreurs} erreur(s)\n')
-                    return redirect('home')
-                
-        else:
-            messages.warning(requete, 'Erreur lors de l\'import !\n')
+    csv_file = request.FILES['file']
     
-    return render(requete, 'etudiants/etudiant_import.html', contexte)
+    if not csv_file.name.endswith('.csv'):
+         messages.error(request, 'Ce n\'est pas un fichier csv')
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=';'):
+       _, created = Etudiant.objects.update_or_create(
+        prenom=column[0],
+        nom=column[1],
+        adresse_courriel=column[2],
+        date_naissance=column[3],
+        niveau=column[4],
+        fk_groupe_id=column[5]
+    )
+    context = {}
+    return render(request, template, context)
 
 
 
