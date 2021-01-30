@@ -1,9 +1,0 @@
-.vertical-center {
-   /* Solution de centrage vertical pour Bootstrap 5 : https://stackoverflow.com/questions/26460441/element-width100-not-working-with-container-container-fluid */
-   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-   min-height: 100vh; /* These two lines are counted as one :-)       */
-
-   display: flex;
-   align-items: center;
-   /* Devrait fonctionner pour tous les navigateurs. */
-}

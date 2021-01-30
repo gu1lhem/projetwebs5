@@ -42,25 +42,6 @@ INSTALLED_APPS = [
    'crispy_forms', # Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
    'GestionEDT',
    'bsct',
-
-   # Wagtail
-   'wagtail.contrib.forms',
-   'wagtail.contrib.redirects',
-   'wagtail.embeds',
-   'wagtail.sites',
-   'wagtail.users',
-   'wagtail.snippets',
-   'wagtail.documents',
-   'wagtail.images',
-   'wagtail.search',
-   'wagtail.admin',
-   'wagtail.core',
-   'modelcluster',
-   'taggit',
-
-   # Joyous
-   'ls.joyous',
-   'wagtail.contrib.modeladmin',
 ]
 
 MIDDLEWARE = [
@@ -71,9 +52,6 @@ MIDDLEWARE = [
    'django.contrib.auth.middleware.AuthenticationMiddleware',
    'django.contrib.messages.middleware.MessageMiddleware',
    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-   # Wagtail
-   'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'Projetweb.urls'
@@ -157,13 +135,6 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'root') #! probablement inutile
 #-----------------------------------------------------
 STATICFILES_DIRS = [
-   #os.path.join(BASE_DIR, 'static'),
+   os.path.join(BASE_DIR, 'static'),
    #os.path.join(BASE_DIR, 'boot'),  #! probablement inutile
 ]
-
-
-# Wagtail
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-WAGTAIL_SITE_NAME = "GestionEDT"
