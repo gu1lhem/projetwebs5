@@ -47,6 +47,7 @@ urlpatterns = [
    path('index/', home, name = 'homepage'),
    path('home/', home, name = 'homepage'),
    path('etudiant_import/',import_fichier,name='etudiant_import'),
+   path('etudiant_export/',import_fichier,name='etudiant_export'),
 
    url( '', include( bsct_patterns_p ) ),
    url( '', include( bsct_patterns_e ) ), 
