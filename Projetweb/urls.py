@@ -17,7 +17,7 @@ Including another URLconf
 # Django
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url
+from django.conf.urls import url, include 
 
 # Views dont on créé les urlpatterns.
 from GestionEDT.views import *
@@ -25,8 +25,7 @@ from GestionEDT.views import *
 # Bootstrap Crud Template
 from bsct.urls import URLGenerator
 
-# Django-scheduler
-from schedule.urls import *
+from django.views.generic import TemplateView
 
 """ Génération automatique de toutes les URLs de création, détails, etc.
    #'c' - Refers to the Create CRUD type
@@ -57,5 +56,8 @@ urlpatterns = [
    url( '', include(bsct_patterns_sa)), 
    url( '', include(bsct_patterns_se)), 
    url( '', include(bsct_patterns_g)), 
-   url( '', include(bsct_patterns_f))
+   url( '', include(bsct_patterns_f)),
+
+   url(r'^schedule/', include('schedule.urls')),
+   url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
 ]

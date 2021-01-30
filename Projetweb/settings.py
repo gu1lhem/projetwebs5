@@ -141,5 +141,5 @@ STATICFILES_DIRS = [
 ]
 
 SCHEDULER_BASE_CLASSES = {
-   'Event': ['GestionEDT.models.Seance']
+   'Event': ['GestionEDT.models.Seance'],
 }

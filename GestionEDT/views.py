@@ -7,9 +7,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 import csv, io
 from django.contrib import messages
+from schedule.views import * 
 
 from .models import *
-
 
 
 def home(request):

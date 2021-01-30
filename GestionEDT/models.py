@@ -1,5 +1,6 @@
 from django.db import models 
 from django.urls import reverse
+from schedule.models import *
 
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 #import psycopg2.extension
@@ -155,3 +156,4 @@ class Formation(BSCTModelMixin, models.Model):
    @classmethod
    def get_allowed_fields(cls):
       return ['nom_formation', 'ufr_rattachement']
+
