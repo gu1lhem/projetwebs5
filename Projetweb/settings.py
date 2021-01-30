@@ -140,6 +140,8 @@ STATICFILES_DIRS = [
    #os.path.join(BASE_DIR, 'boot'),  #! probablement inutile
 ]
 
+
 SCHEDULER_BASE_CLASSES = {
    'Event': ['GestionEDT.models.Seance'],
 }
+

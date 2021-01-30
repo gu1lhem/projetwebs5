@@ -27,6 +27,8 @@ from bsct.urls import URLGenerator
 
 from django.views.generic import TemplateView
 
+from schedule.urls import *
+
 """ Génération automatique de toutes les URLs de création, détails, etc.
    #'c' - Refers to the Create CRUD type
    #'r' - Refers to the Read/Detail CRUD type
@@ -45,6 +47,7 @@ bsct_patterns_f = URLGenerator(Formation).get_urlpatterns(crud_types = 'crudl')
 urlpatterns = [
    # Index
    path('', home, name = 'homepage'),
+   path('admin/', admin.site.urls),
    path('index/', home, name = 'homepage'),
    path('home/', home, name = 'homepage'),
    path('etudiant_import/',import_fichier,name='etudiant_import'),
