@@ -42,6 +42,7 @@ INSTALLED_APPS = [
    'crispy_forms', # Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
    'GestionEDT',
    'bsct',
+   'schedule', # django-scheduler
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,7 @@ STATICFILES_DIRS = [
    os.path.join(BASE_DIR, 'static'),
    #os.path.join(BASE_DIR, 'boot'),  #! probablement inutile
 ]
+
+SCHEDULER_BASE_CLASSES = {
+   'Event': ['GestionEDT.models.Seance']
+}
