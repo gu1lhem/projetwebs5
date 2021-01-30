@@ -2,131 +2,37 @@
 <html lang="fr">
 <!--mettre {% extends "base.html" %} pour les autres pages -->
 
-<head>
-    {% load crispy_forms_tags %}
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/Gestion/styles/styles.css">
-    {% if titre %}
-    <title> {{ titre }}</title>
-    {% else %}
-    <title> Titre</title>
-    {% endif %}
-</head>
-
-<body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'accueil_gestion' %}">Accueil</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        Etudiant
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'etudiant-list' %}">Recherche</a>
-                        <a class="dropdown-item" href="{% url 'etudiant-add' %}">Ajout</a>
-                        <a class="dropdown-item" href="{% url 'etudiant-update' %}">Mis a jour</a>  
-                        <a class='dropdown-item' href="{% url 'etudiant-delete' %}">Supprimer</a>
-                        <a class='dropdown-item' href="{% url 'etudiant-export' %}">Export</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      Professeur
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="{% url 'professeur-list' %}">Recherche</a>
-                      <a class="dropdown-item" href="{% url 'professeur-add' %}">Ajout</a>
-                      <a class="dropdown-item" href="{% url 'professeur-update' %}">Mis a jour</a>
-                      <a class='dropdown-item' href="{% url 'professeur-delete' %}">Supprimer</a>
-                  </div>
-              </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        UC
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'uc-list' %}">Recherche</a>
-                        <a class="dropdown-item" href="{% url 'uc-add' %}">Ajout</a>
-                        <a class="dropdown-item" href="{% url 'uc-update' %}">Mis a jour</a>
-                        <a class="dropdown-item" href="{% url 'uc-delete' %}">Supprimer</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      Séance
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="{% url 'seance-list' %}">Recherche</a>
-                      <a class="dropdown-item" href="{% url 'seance-add' %}">Ajout</a>  
-                      <a class="dropdown-item" href="{% url 'seance-update' %}">Mis a jour</a>
-                      <a class="dropdown-item" href="{% url 'seance-delete' %}">Supprimer</a>
-                  </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Salle
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'salle-list' %}">Recherche</a>
-                    <a class="dropdown-item" href="{% url 'salle-add' %}">Ajout</a>  
-                    <a class="dropdown-item" href="{% url 'salle-update' %}">Mis a jour</a>
-                    <a class="dropdown-item" href="{% url 'salle-delete' %}">Supprimer</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  Groupe
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{% url 'groupe-list' %}">Recherche</a>
-                  <a class="dropdown-item" href="{% url 'groupe-add' %}">Ajout</a>  
-                  <a class="dropdown-item" href="{% url 'groupe-update' %}">Mis a jour</a>
-                  <a class="dropdown-item" href="{% url 'groupe-delete' %}">Supprimer</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  Formation
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{% url 'formation-list' %}">Recherche</a>
-                  <a class="dropdown-item" href="{% url 'formation-add' %}">Ajout</a>  
-                  <a class="dropdown-item" href="{% url 'formation-update' %}">Mis a jour</a>
-                  <a class="dropdown-item" href="{% url 'formation-delete' %}">Supprimer</a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-    </header>
-    
-    {% for message in messages%}
-    <div class="alert alert-{{ message.tags }}" role="alert">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% block contenu %}
-    {% endblock contenu %}
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'professeur_list' %}">Professeurs <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Etudiants <span class="sr-only">(current)</span></a>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'etudiant_list' %}">Liste étudiants</a>
+          <a class="dropdown-item" href="{% url 'etudiant_import' %}">Import</a>
+          <a class="dropdown-item" href="{% url 'etudiant_export' %}">Export</a>
+      </div>
+    </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'uc_list' %}">UCs <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'salle_list' %}">Salles <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'seance_list' %}">Séances <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'groupe_list' %}">Groupes <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'formation_list' %}">Formations <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
