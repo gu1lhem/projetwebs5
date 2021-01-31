@@ -17,7 +17,7 @@ Including another URLconf
 # Django
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url, include 
+from django.conf.urls import url, include
 
 # Views dont on créé les urlpatterns.
 from GestionEDT.views import *
@@ -36,31 +36,35 @@ from schedule.urls import *
    #'d' - Refers to the Delete CRUD type
    #'l' - Refers to the List CRUD type
 """
-bsct_patterns_p = URLGenerator(Professeur).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_e = URLGenerator(Etudiant).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_u = URLGenerator(UC).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_sa = URLGenerator(Salle).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_se = URLGenerator(Seance).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_g = URLGenerator(Groupe).get_urlpatterns(crud_types = 'crudl')
-bsct_patterns_f = URLGenerator(Formation).get_urlpatterns(crud_types = 'crudl')
+bsct_patterns_p = URLGenerator(Professeur).get_urlpatterns(crud_types='crudl')
+bsct_patterns_e = URLGenerator(Etudiant).get_urlpatterns(crud_types='crudl')
+bsct_patterns_u = URLGenerator(UC).get_urlpatterns(crud_types='crudl')
+bsct_patterns_sa = URLGenerator(Salle).get_urlpatterns(crud_types='crudl')
+bsct_patterns_se = URLGenerator(Seance).get_urlpatterns(crud_types='crudl')
+bsct_patterns_g = URLGenerator(Groupe).get_urlpatterns(crud_types='crudl')
+bsct_patterns_f = URLGenerator(Formation).get_urlpatterns(crud_types='crudl')
+#bsct_patterns_ue = URLGenerator(UE).get_urlpatterns(crud_types='crudl')
 
 urlpatterns = [
-   # Index
-   path('', home, name = 'homepage'),
-   path('admin/', admin.site.urls),
-   path('index/', home, name = 'homepage'),
-   path('home/', home, name = 'homepage'),
-   path('etudiant_import/',import_fichier,name='etudiant_import'),
-   path('etudiant_export/',export_etudiant_csv,name='etudiant_export'),
+    # Index
+    path('', home, name='homepage'),
+    path('admin/', admin.site.urls),
+    path('index/', home, name='homepage'),
+    path('home/', home, name='homepage'),
+    path('etudiant_import/', import_fichier, name='etudiant_import'),
+    path('etudiant_export/', export_etudiant_csv, name='etudiant_export'),
 
-   url( '', include(bsct_patterns_p)),
-   url( '', include(bsct_patterns_e)), 
-   url( '', include(bsct_patterns_u)), 
-   url( '', include(bsct_patterns_sa)), 
-   url( '', include(bsct_patterns_se)), 
-   url( '', include(bsct_patterns_g)), 
-   url( '', include(bsct_patterns_f)),
+    url('', include(bsct_patterns_p)),
+    url('', include(bsct_patterns_e)),
+    url('', include(bsct_patterns_u)),
+    url('', include(bsct_patterns_sa)),
+    url('', include(bsct_patterns_se)),
+    url('', include(bsct_patterns_g)),
+    url('', include(bsct_patterns_f)),
+    #url('', include(bsct_patterns_ue)),
 
-   url(r'^schedule/', include('schedule.urls')),
-   url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
+
+    url(r'^schedule/', include('schedule.urls')),
+    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"),
+        name='fullcalendar'),
 ]

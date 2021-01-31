@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'homepage' %}">Gestion EDT</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -11,15 +12,15 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Etudiants <span class="sr-only">(current)</span></a>
+          aria-haspopup="true" aria-expanded="false">
+          Etudiants <span class="sr-only">(current)</span></a>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{% url 'etudiant_list' %}">Liste étudiants</a>
           <a class="dropdown-item" href="{% url 'etudiant_import' %}">Import</a>
           <a class="dropdown-item" href="{% url 'etudiant_export' %}">Export</a>
-      </div>
-    </li>
+        </div>
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'uc_list' %}">UCs <span class="sr-only">(current)</span></a>
       </li>
