@@ -25,3 +25,8 @@ export DJANGO_SETTINGS_MODULE=Projetweb.settings
 python manage.py bower install
 python manage.py migrate
 ```
+
+# Informations :
+
+Attention : nous utilisons un fork non publié de *django-scheduler*. Le terme " django-scheduler " **ne doit pas** se retrouver dans *requirements.txt*. Pour mettre à jour ce librairie :
+pip install --upgrade git+https://github.com/f14ke/django-scheduler.git
