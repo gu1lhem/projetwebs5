@@ -14,9 +14,13 @@ from pathlib import Path
 import os
 from decouple import config
 
+
+# Django Scheduler Sample
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -33,44 +37,57 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-   'django.contrib.admin',
-   'django.contrib.auth',
-   'django.contrib.contenttypes',
-   'django.contrib.sessions',
-   'django.contrib.messages',
-   'django.contrib.staticfiles',
-   'crispy_forms', # Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
-   'GestionEDT',
-   'bsct',
-   'schedule', # django-scheduler
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'crispy_forms', # Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
+    'GestionEDT',
+    'bsct',
+    'schedule', # django-scheduler  
+
+    # Django Scheduler Sample
+    'debug_toolbar',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
-   'django.middleware.security.SecurityMiddleware',
-   'django.contrib.sessions.middleware.SessionMiddleware',
-   'django.middleware.common.CommonMiddleware',
-   'django.middleware.csrf.CsrfViewMiddleware',
-   'django.contrib.auth.middleware.AuthenticationMiddleware',
-   'django.contrib.messages.middleware.MessageMiddleware',
-   'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Django Scheduler Sample
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # Uncomment the next line for simple clickjacking protection:
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'Projetweb.urls'
 
 TEMPLATES = [
-   {
-      'BACKEND': 'django.template.backends.django.DjangoTemplates',
-      'DIRS': [TEMPLATE_DIR],
-      'APP_DIRS': True,
-      'OPTIONS': {
-         'context_processors': [
-            'django.template.context_processors.debug',
-            'django.template.context_processors.request',
-            'django.contrib.auth.context_processors.auth',
-            'django.contrib.messages.context_processors.messages',
-         ],
-      },
-   },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+
+                # Django Scheduler Sample
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+            ],
+        },
+    },
 ]
 
 WSGI_APPLICATION = 'Projetweb.wsgi.application'
@@ -80,17 +97,17 @@ WSGI_APPLICATION = 'Projetweb.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-     'ENGINE': 'django.db.backends.mysql',
-     'NAME': config('MYSQL_BASE'),
-     'USER': config('MYSQL_USER'),
-     'PASSWORD': config('MYSQL_PWD'),
-     'PORT':'3306'
-   },
-   'sqlite':{
-      'ENGINE':'django.db.backends.sqlite3',
-      'NAME':BASE_DIR/ 'db.sqlite3',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('MYSQL_BASE'),
+        'USER': config('MYSQL_USER'),
+        'PASSWORD': config('MYSQL_PWD'),
+        'PORT':'3306'
+    },
+    'sqlite':{
+        'ENGINE':'django.db.backends.sqlite3',
+        'NAME':BASE_DIR/ 'db.sqlite3',
+    }
 }
 
 
@@ -98,18 +115,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-   {
-      'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-   },
-   {
-      'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-   },
-   {
-      'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-   },
-   {
-      'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-   },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 
@@ -120,10 +137,17 @@ LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'Europe/Paris'
 
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
 USE_I18N = True
 
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale.
 USE_L10N = True
 
+# If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
 
@@ -133,11 +157,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #--------------------------------------------------
-STATIC_ROOT = os.path.join(BASE_DIR, 'root') #! probablement inutile
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'assets')
 #-----------------------------------------------------
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, 'GestionEDT/static'),
-   #os.path.join(BASE_DIR, 'boot'),  #! probablement inutile
 ]
 
 
@@ -149,3 +172,36 @@ SCHEDULER_BASE_CLASSES = {
 SCHEDULER_ADMIN_FIELDS = {
    'Event': [('id_seance','fk_professeur')]
 }
+
+
+# Django Scheduler Sample
+
+
+ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+)
+
+MANAGERS = ADMINS
+
+DEBUG = True
+
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/var/www/example.com/media/"
+MEDIA_ROOT = PROJECT_PATH + '/media/'
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'jquery-ui',
+    'bootstrap',
+    'fullcalendar#3.8.2'
+)

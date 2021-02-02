@@ -17,6 +17,7 @@ Including another URLconf
 # Django
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 from django.conf.urls import url, include
 
 # Views dont on créé les urlpatterns.
@@ -28,6 +29,9 @@ from bsct.urls import URLGenerator
 from django.views.generic import TemplateView
 
 from schedule.urls import *
+
+# Django Scheduler Sample
+admin.autodiscover()
 
 """ Génération automatique de toutes les URLs de création, détails, etc.
    #'c' - Refers to the Create CRUD type
@@ -63,8 +67,15 @@ urlpatterns = [
     url('', include(bsct_patterns_f)),
     #url('', include(bsct_patterns_ue)),
 
-
+    # Django Scheduler Sample
+    #url(r'^$', TemplateView.as_view(template_name="homepage.html"),),
     url(r'^schedule/', include('schedule.urls')),
-    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"),
-        name='fullcalendar'),
+    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
 ]
+
+# Django Scheduler Sample
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

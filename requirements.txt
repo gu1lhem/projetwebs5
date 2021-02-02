@@ -1,7 +1,9 @@
 asgiref==3.2.10
 Django==3.1.2
 django-bootstrap-crud-templates==1.1.1
+django-bower==5.2.0
 django-crispy-forms==1.8.1
+django-debug-toolbar==3.2
 django-scheduler==0.9.3
 icalendar==4.0.7
 mysqlclient==2.0.1

@@ -1,0 +1,18 @@
+<!-- Layout dédié aux formulaires (avec centrage). -->
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<!--
+  Solution de centrage vertical pour Bootstrap 5 : https://stackoverflow.com/questions/26460441/element-width100-not-working-with-container-container-fluid
+  Jumbotron : boite flexible https://getbootstrap.com/docs/4.0/components/jumbotron/ -->
+<div class="jumbotron vertical-center"> 
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <div class="col-md-4">
+        {% block BSCT_MAIN %} {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

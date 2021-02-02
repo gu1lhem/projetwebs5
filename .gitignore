@@ -19,5 +19,7 @@ migrations/
 # SQLite
 *.sqlite3
 
-#Static 
+# Static 
 root/
+assets/
+bower_components/
