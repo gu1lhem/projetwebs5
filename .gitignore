@@ -23,3 +23,6 @@ migrations/
 root/
 assets/
 bower_components/
+
+# NPM
+package-lock.json
