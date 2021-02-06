@@ -3,7 +3,7 @@ from django.urls import reverse
 from schedule.models import *
 
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
-#import psycopg2.extension
+# import psycopg2.extension
 from bsct.models import BSCTModelMixin
 
 level_uni = (('L1', ('L1')), ('L2', ('L2')),
@@ -155,7 +155,26 @@ class Groupe(BSCTModelMixin, models.Model):
         return ['libelle', 'niveau']
 
 
-class Seance(BSCTModelMixin, models.Model):
+class Formation(BSCTModelMixin, models.Model):
+    id_formation = models.AutoField(
+        "Identifiant de la formation", primary_key=True)
+    nom_formation = models.CharField("Nom de la formation", max_length=100)
+    ufr_rattachement = models.CharField(
+        "UFR de rattachement", max_length=100, default='SEGMI')
+
+    def __str__(self):
+        return self.nom_formation
+
+    class Meta:
+        verbose_name = "Formation"
+
+    # Fields qui seront récupérés par BSCT pour générer les fields.
+    @classmethod
+    def get_allowed_fields(cls):
+        return ['nom_formation', 'ufr_rattachement']
+
+
+class Seance(BSCTModelMixin, Event):
     id_seance = models.AutoField("Identifiant de la séance", primary_key=True)
     timecode_debut = models.DateTimeField(
         "Date et heure de début de la séance")
@@ -181,20 +200,58 @@ class Seance(BSCTModelMixin, models.Model):
         return ['timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle']
 
 
-class Formation(BSCTModelMixin, models.Model):
-    id_formation = models.AutoField(
-        "Identifiant de la formation", primary_key=True)
-    nom_formation = models.CharField("Nom de la formation", max_length=100)
-    ufr_rattachement = models.CharField(
-        "UFR de rattachement", max_length=100, default='SEGMI')
+class SeanceManager(EventManager):
+    def get_for_object(self, content_object, distinction="", inherit=True):
+        return SeanceRelation.objects.get_events_for_object(
+            content_object, distinction, inherit
+        )
 
-    def __str__(self):
-        return self.nom_formation
+
+class SeanceRelationManager(EventRelationManager):
+    def get_events_for_object(self, content_object, distinction="", inherit=True):
+        ct = ContentType.objects.get_for_model(type(content_object))
+        if distinction:
+            dist_q = Q(eventrelation__distinction=distinction)
+            cal_dist_q = Q(calendar__calendarrelation__distinction=distinction)
+        else:
+            dist_q = Q()
+            cal_dist_q = Q()
+        if inherit:
+            inherit_q = Q(
+                cal_dist_q,
+                calendar__calendarrelation__content_type=ct,
+                calendar__calendarrelation__object_id=content_object.id,
+                calendar__calendarrelation__inheritable=True,
+            )
+        else:
+            inherit_q = Q()
+        event_q = Q(
+            dist_q,
+            eventrelation__content_type=ct,
+            eventrelation__object_id=content_object.id,
+        )
+        return Seance.objects.filter(inherit_q | event_q)
+
+    def create_relation(self, event, content_object, distinction=""):
+        """
+        Creates a relation between event and content_object.
+        See EventRelation for help on distinction.
+        """
+        return SeanceRelation.objects.create(
+            event=event, distinction=distinction, content_object=content_object
+        )
+
+
+class SeanceRelation(EventRelation):
+    seance = models.ForeignKey(
+        Seance, on_delete=models.CASCADE, verbose_name=("Séance"))
+
+    objects = SeanceRelationManager()
 
     class Meta:
-        verbose_name = "Formation"
+        verbose_name = ("Séance relation")
 
-    # Fields qui seront récupérés par BSCT pour générer les fields.
-    @classmethod
-    def get_allowed_fields(cls):
-        return ['nom_formation', 'ufr_rattachement']
+    def __str__(self):
+        return "{}({})-{}".format(
+            self.seance.title, self.distinction, self.content_object
+        )

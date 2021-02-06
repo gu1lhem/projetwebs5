@@ -67,10 +67,12 @@ urlpatterns = [
     url('', include(bsct_patterns_f)),
     #url('', include(bsct_patterns_ue)),
 
+
     # Django Scheduler Sample
     #url(r'^$', TemplateView.as_view(template_name="homepage.html"),),
     url(r'^schedule/', include('schedule.urls')),
-    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
+    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"),
+        name='fullcalendar'),
 ]
 
 # Django Scheduler Sample

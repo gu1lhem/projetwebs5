@@ -9,5 +9,12 @@ from .models import (
     Formation
 )
 
+
 class Form_import_fichier(forms.Form):
     fichier = forms.FileField()
+
+
+class SeanceAdminForm(forms.ModelForm):
+    class Meta:
+        exclude = []
+        model = Seance

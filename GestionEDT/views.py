@@ -13,24 +13,24 @@ from .models import *
 
 
 def home(request):
-   # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
-   # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
-   return render(request, 'home.html', {'title': 'Bienvenue'})
+    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
+    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
+    return render(request, 'home.html', {'title': 'Bienvenue'})
 
 
 def export_etudiant_csv(request):
-   response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv')
 
-   writer = csv.writer(response)
-   writer.writerow(['num_etudiant', 'prenom', 'nom',
-                    'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe'])
+    writer = csv.writer(response)
+    writer.writerow(['num_etudiant', 'prenom', 'nom',
+                     'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe'])
 
-   etudiant = Etudiant.objects.all().values_list('num_etudiant', 'prenom', 'nom',
-                                                 'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe')
-   for etudiants in etudiant:
-      writer.writerow(etudiants)
-   response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
-   return response
+    etudiant = Etudiant.objects.all().values_list('num_etudiant', 'prenom', 'nom',
+                                                  'adresse_courriel', 'date_naissance', 'niveau', 'fk_groupe')
+    for etudiants in etudiant:
+        writer.writerow(etudiants)
+    response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
+    return response
 
 
 def import_fichier(request):
@@ -50,13 +50,13 @@ def import_fichier(request):
     io_string = io.StringIO(data_set)
     next(io_string)
     for column in csv.reader(io_string, delimiter=';'):
-       _, created = Etudiant.objects.update_or_create(
-           prenom=column[0],
-           nom=column[1],
-           adresse_courriel=column[2],
-           date_naissance=column[3],
-           niveau=column[4],
-           fk_groupe_id=column[5]
-       )
+        _, created = Etudiant.objects.update_or_create(
+            prenom=column[0],
+            nom=column[1],
+            adresse_courriel=column[2],
+            date_naissance=column[3],
+            niveau=column[4],
+            fk_groupe_id=column[5]
+        )
     context = {}
     return render(request, template, context)

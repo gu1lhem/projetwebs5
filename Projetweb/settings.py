@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms', # Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
+    'crispy_forms',  #  Pour Bootstrap + ModelForm https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
     'GestionEDT',
     'bsct',
-    'schedule', # django-scheduler  
+    'schedule',  # django-scheduler
 
     # Django Scheduler Sample
     'debug_toolbar',
@@ -102,11 +102,11 @@ DATABASES = {
         'NAME': config('MYSQL_BASE'),
         'USER': config('MYSQL_USER'),
         'PASSWORD': config('MYSQL_PWD'),
-        'PORT':'3306'
+        'PORT': '3306'
     },
-    'sqlite':{
-        'ENGINE':'django.db.backends.sqlite3',
-        'NAME':BASE_DIR/ 'db.sqlite3',
+    'sqlite': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -148,7 +148,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -156,21 +156,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#--------------------------------------------------
+# --------------------------------------------------
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'assets')
-#-----------------------------------------------------
+# -----------------------------------------------------
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'GestionEDT/static'),
+    os.path.join(BASE_DIR, 'GestionEDT/static'),
 ]
 
 
 SCHEDULER_BASE_CLASSES = {
-   'Event': ['GestionEDT.models.Seance']
+    'Event': ['GestionEDT.models.Seance']
 }
 
 
 SCHEDULER_ADMIN_FIELDS = {
-   'Event': [('id_seance','fk_professeur')]
+    'Event': [('id_seance', 'fk_professeur')]
 }
 
 
