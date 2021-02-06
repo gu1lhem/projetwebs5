@@ -5,6 +5,7 @@ from schedule.models import *
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 # import psycopg2.extension
 from bsct.models import BSCTModelMixin
+from Projetweb.utils import *
 
 level_uni = (('L1', ('L1')), ('L2', ('L2')),
              ('L3', ('L3')), ('M1', ('M1')), ('M2', ('M2')))
@@ -255,3 +256,19 @@ class SeanceRelation(EventRelation):
         return "{}({})-{}".format(
             self.seance.title, self.distinction, self.content_object
         )
+
+# à customiser selon mais nécessaires pour l'obtention du calendrier
+
+
+class SeanceOccurence(Occurrence):
+    seance = models.ForeignKey(
+        Seance, on_delete=models.CASCADE, verbose_name=("Séance"))
+
+    class Meta:
+        verbose_name = ("Séance Occurence")
+
+
+# seule classe de Calendar à redef utils.EventListManager -> SeanceListManager
+class SeanceCalendrier(Calendar):
+    def occurrences_after(self, date=None):
+        return SeanceListManager(self.events.all()).occurrences_after(date)

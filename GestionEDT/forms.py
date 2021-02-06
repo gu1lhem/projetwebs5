@@ -6,8 +6,10 @@ from .models import (
     Salle,
     Groupe,
     Seance,
-    Formation
+    Formation,
+    SeanceOccurence
 )
+from schedule.forms import SpanForm
 
 
 class Form_import_fichier(forms.Form):
@@ -18,3 +20,9 @@ class SeanceAdminForm(forms.ModelForm):
     class Meta:
         exclude = []
         model = Seance
+
+
+class SeanceOccurrenceForm(SpanForm):
+    class Meta:
+        model = SeanceOccurence
+        exclude = ("original_start", "original_end", "event", "cancelled")
