@@ -1,3 +1,5 @@
+{% load admin_urls %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'homepage' %}">Gestion EDT</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -8,9 +10,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'professeur_list' %}">Professeurs <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'professeur_list' %}">Professeurs<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           Etudiants <span class="sr-only">(current)</span></a>
@@ -22,19 +24,22 @@
         </div>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'uc_list' %}">UCs <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'uc_list' %}">UCs<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'salle_list' %}">Salles <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'salle_list' %}">Salles<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'seance_list' %}">Séances <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'seance_list' %}">Séances<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'groupe_list' %}">Groupes <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'groupe_list' %}">Groupes<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'formation_list' %}">Formations <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'formation_list' %}">Formations<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'admin:index' %}">Administration<span class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>
