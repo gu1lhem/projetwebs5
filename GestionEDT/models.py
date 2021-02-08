@@ -1,10 +1,12 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 from schedule.models import *
 
 from django.db.models import Model, BooleanField, CharField, IntegerField, DateField, DateTimeField, DecimalField, ForeignKey, EmailField
 # import psycopg2.extension
 from bsct.models import BSCTModelMixin
+from schedule.models.calendars import CalendarManager
 from Projetweb.utils import *
 
 level_uni = (('L1', ('L1')), ('L2', ('L2')),
@@ -265,10 +267,27 @@ class SeanceOccurence(Occurrence):
         Seance, on_delete=models.CASCADE, verbose_name=("Séance"))
 
     class Meta:
-        verbose_name = ("Séance Occurence")
+        verbose_name = ("Occurence")
 
 
-# seule classe de Calendar à redef utils.EventListManager -> SeanceListManager
+class SeanceCalendrierManager(CalendarManager):
+    def get_or_create_calendar_for_object(self, obj, distinction="", name=None):
+        try:
+            return self.get_calendar_for_object(obj, distinction)
+        except SeanceCalendrier.DoesNotExist:
+            if name is None:
+                calendar = self.model(name=str(obj))
+            else:
+                calendar = self.model(name=name)
+            calendar.slug = slugify(calendar.name)
+            calendar.save()
+            calendar.create_relation(obj, distinction)
+            return calendar
+
+
 class SeanceCalendrier(Calendar):
     def occurrences_after(self, date=None):
         return SeanceListManager(self.events.all()).occurrences_after(date)
+
+    class Meta:
+        verbose_name = 'Calendrier'

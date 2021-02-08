@@ -22,7 +22,7 @@ class SeanceAdminForm(forms.ModelForm):
         model = Seance
 
 
-class SeanceOccurrenceForm(SpanForm):
+class OccurrenceSeanceForm(SpanForm):
     class Meta:
         model = SeanceOccurence
-        exclude = ("original_start", "original_end", "event", "cancelled")
+        exclude = ('event', 'cancelled')

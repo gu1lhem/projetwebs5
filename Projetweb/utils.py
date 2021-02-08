@@ -17,25 +17,19 @@ from schedule.utils import EventListManager, OccurrenceReplacer
 
 
 class SeanceListManager(EventListManager):
-    def __init__(self, events):
-        self.events = events
+    def __init__(self, seances):
+        self.seances = seances
 
     def occurrences_after(self, after=None):
-        """
-        It is often useful to know what the next occurrence is given a list of
-        events.  This function produces a generator that yields the
-        the most recent occurrence after the date ``after`` from any of the
-        events in ``self.events``
-        """
-        from schedule.models import Occurrence
+        from GestionEDT.models import SeanceOccurence
 
         if after is None:
             after = timezone.now()
         occ_replacer = OccurrenceReplacer(
-            Occurrence.objects.filter(event__in=self.events)
+            SeanceOccurence.objects.filter(seance__in=self.seances)
         )
         generators = [
-            event._occurrences_after_generator(after) for event in self.events
+            seance._occurrences_after_generator(after) for seance in self.seances
         ]
         occurrences = []
 
@@ -67,7 +61,7 @@ class SeanceOccurrenceReplacer(OccurrenceReplacer):
 
     def __init__(self, persisted_occurrences):
         lookup = [
-            ((occ.event.id, occ.original_start, occ.original_end), occ)
+            ((occ.seance.id, occ.original_start, occ.original_end), occ)
             for occ in persisted_occurrences
         ]
         self.lookup = dict(lookup)
@@ -78,12 +72,12 @@ class SeanceOccurrenceReplacer(OccurrenceReplacer):
         has already been matched
         """
         return self.lookup.pop(
-            (occ.event.id, occ.original_start, occ.original_end), occ
+            (occ.seance.id, occ.original_start, occ.original_end), occ
         )
 
     def has_occurrence(self, occ):
         try:
-            return (occ.event.id, occ.original_start, occ.original_end) in self.lookup
+            return (occ.seance.id, occ.original_start, occ.original_end) in self.lookup
         except TypeError:
             if not self.lookup:
                 return False
@@ -125,27 +119,28 @@ def get_occurrence(request, **kwargs):
     )
 
 
-def get_event(occurrence, request, **kwargs):
-    from schedule.models import Event
+def get_seance(occurrence, request, **kwargs):
+    from schedule.models import Seance
 
     if occurrence:
-        event = occurrence.event
+        seance = occurrence.seance
     else:
-        event_id = get_kwarg_or_param(request, kwargs, "event_id")
-        event = Event.objects.filter(pk=event_id).first() if event_id else None
-    return event
+        id_seance = get_kwarg_or_param(request, kwargs, "id_seance")
+        seance = Seance.objects.filter(
+            pk=id_seance).first() if id_seance else None
+    return seance
 
 
-def get_calendar(event, request, **kwargs):
-    from schedule.models import Calendar
+def get_calendar(seance, request, **kwargs):
+    from GestionEDT.models import SeanceCalendrier
 
     calendar = None
-    if event:
-        calendar = event.calendar
+    if seance:
+        calendar = seance.calendar
     else:
         calendar_slug = get_kwarg_or_param(request, kwargs, "calendar_slug")
         calendar = (
-            Calendar.objects.filter(slug=calendar_slug).first()
+            SeanceCalendrier.objects.filter(slug=calendar_slug).first()
             if calendar_slug
             else None
         )
@@ -154,9 +149,9 @@ def get_calendar(event, request, **kwargs):
 
 def get_objects(request, **kwargs):
     occurrence = get_occurrence(request, **kwargs)
-    event = get_event(occurrence, request, **kwargs)
-    calendar = get_calendar(event, request, **kwargs)
-    return occurrence, event, calendar
+    seance = get_seance(occurrence, request, **kwargs)
+    calendar = get_calendar(seance, request, **kwargs)
+    return occurrence, seance, calendar
 
 
 def check_occurrence_permissions(function):
@@ -165,10 +160,10 @@ def check_occurrence_permissions(function):
         user = request.user
         if not user:
             return HttpResponseRedirect(settings.LOGIN_URL)
-        occurrence, event, calendar = get_objects(request, **kwargs)
-        if calendar and event:
+        occurrence, seance, calendar = get_objects(request, **kwargs)
+        if calendar and seance:
             allowed = (
-                CHECK_EVENT_PERM_FUNC(event, user)
+                CHECK_EVENT_PERM_FUNC(seance, user)
                 and CHECK_CALENDAR_PERM_FUNC(calendar, user)
                 and CHECK_OCCURRENCE_PERM_FUNC(occurrence, user)
             )
@@ -181,15 +176,15 @@ def check_occurrence_permissions(function):
     return decorator
 
 
-def check_event_permissions(function):
+def check_seance_permissions(function):
     @wraps(function)
     def decorator(request, *args, **kwargs):
         user = request.user
         if not user:
             return HttpResponseRedirect(settings.LOGIN_URL)
-        occurrence, event, calendar = get_objects(request, **kwargs)
+        occurrence, seance, calendar = get_objects(request, **kwargs)
         if calendar:
-            allowed = CHECK_EVENT_PERM_FUNC(event, user) and CHECK_CALENDAR_PERM_FUNC(
+            allowed = CHECK_EVENT_PERM_FUNC(seance, user) and CHECK_CALENDAR_PERM_FUNC(
                 calendar, user
             )
             if not allowed:
@@ -208,7 +203,7 @@ def check_calendar_permissions(function):
             user = request.user
             if not user:
                 return HttpResponseRedirect(settings.LOGIN_URL)
-            occurrence, event, calendar = get_objects(request, **kwargs)
+            occurrence, seance, calendar = get_objects(request, **kwargs)
             if calendar:
                 allowed = CHECK_CALENDAR_PERM_FUNC(calendar, user)
                 if not allowed:
