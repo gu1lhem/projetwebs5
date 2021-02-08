@@ -18,7 +18,7 @@ class SeanceAdmin(EventAdmin):
             None,
             {
                 "fields": [
-                    'timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle'
+                    'timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle', 'calendrier'
                 ]
             },
         ),

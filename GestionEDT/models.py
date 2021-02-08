@@ -190,6 +190,9 @@ class Seance(BSCTModelMixin, Event):
         UC, verbose_name="Matière de la séance", on_delete=models.CASCADE, default=None)
     fk_salle = models.ForeignKey(
         Salle, verbose_name="Dans quelle salle se déroule-t-elle?", on_delete=models.CASCADE)
+    calendrier = models.ForeignKey(
+        'SeanceCalendrier', on_delete=models.CASCADE, verbose_name=("A quel calendrier l'ajouter?")
+    )
 
     def __str__(self):
         return str(self.id_seance)
