@@ -177,11 +177,13 @@ class Formation(BSCTModelMixin, models.Model):
         return ['nom_formation', 'ufr_rattachement']
 
 
-class Seance(BSCTModelMixin, Event):
-    id_seance = models.AutoField("Identifiant de la séance", primary_key=True)
+class Seance(BSCTModelMixin, models.Model):
+    id_seance = models.AutoField(
+        "Identifiant de la séance", primary_key=True)
     timecode_debut = models.DateTimeField(
         "Date et heure de début de la séance")
-    timecode_fin = models.DateTimeField("Date et heure de fin de la séance")
+    timecode_fin = models.DateTimeField(
+        "Date et heure de fin de la séance")
     fk_professeur = models.ForeignKey(
         Professeur, verbose_name="Professeur en charge de la séance", on_delete=models.CASCADE)
     fk_groupe = models.ForeignKey(
@@ -194,9 +196,6 @@ class Seance(BSCTModelMixin, Event):
         'SeanceCalendrier', on_delete=models.CASCADE, verbose_name=("A quel calendrier l'ajouter?")
     )
 
-    def __str__(self):
-        return str(self.id_seance)
-
     class Meta:
         verbose_name = "Séance"
 
@@ -204,6 +203,296 @@ class Seance(BSCTModelMixin, Event):
     @classmethod
     def get_allowed_fields(cls):
         return ['timecode_debut', 'timecode_fin', 'fk_professeur', 'fk_groupe', 'fk_uc', 'fk_salle']
+
+    def __str__(self):
+        return gettext("%(id)s: %(timecode_debut)s - %(timecode_fin)s") % {
+            'id': self.id_seance,
+            'timecode_debut': date(self.timecode_debut, django_settings.DATE_FORMAT),
+            'timecode_fin': date(self.timecode_fin, django_settings.DATE_FORMAT),
+        }
+
+    @property
+    def seconds(self):
+        return (self.timecode_fin - self.timecode_debut).total_seconds()
+
+    @property
+    def minutes(self):
+        return float(self.seconds) / 60
+
+    @property
+    def hours(self):
+        return float(self.seconds) / 3600
+
+    def get_absolute_url(self):
+        return reverse('event', args=[self.id_seance])
+
+    def get_occurrences(self, start, end, clear_prefetch=True):
+        if clear_prefetch:
+            self.occurrence_set._remove_prefetched_objects()
+
+        persisted_occurrences = self.occurrence_set.all()
+        occ_replacer = SeanceOccurrenceReplacer(persisted_occurrences)
+        occurrences = self._get_occurrence_list(start, end)
+        final_occurrences = []
+        for occ in occurrences:
+            # replace occurrences with their persisted counterparts
+            if occ_replacer.has_occurrence(occ):
+                p_occ = occ_replacer.get_occurrence(occ)
+                # ...but only if they are within this period
+                if p_occ.start < end and p_occ.end >= start:
+                    final_occurrences.append(p_occ)
+            else:
+                final_occurrences.append(occ)
+        # then add persisted occurrences which originated outside of this period but now
+        # fall within it
+        final_occurrences += occ_replacer.get_additional_occurrences(
+            start, end)
+        return final_occurrences
+
+    def get_rrule_object(self, tzinfo):
+        if self.rule is None:
+            return
+        params = self._event_params()
+        frequency = self.rule.rrule_frequency()
+        if timezone.is_naive(self.start):
+            dtstart = self.start
+        else:
+            dtstart = tzinfo.normalize(self.start).replace(tzinfo=None)
+
+        if self.end_recurring_period is None:
+            until = None
+        elif timezone.is_naive(self.end_recurring_period):
+            until = self.end_recurring_period
+        else:
+            until = tzinfo.normalize(
+                self.end_recurring_period.astimezone(tzinfo)
+            ).replace(tzinfo=None)
+
+        return rrule.rrule(frequency, dtstart=dtstart, until=until, **params)
+
+    def _create_occurrence(self, start, end=None):
+        if end is None:
+            end = start + (self.end - self.start)
+        return SeanceOccurence(
+            seance=self, start=start, end=end, original_start=start, original_end=end
+        )
+
+    def get_occurrence(self, date):
+        use_naive = timezone.is_naive(date)
+        tzinfo = timezone.utc
+        if timezone.is_naive(date):
+            date = timezone.make_aware(date, timezone.utc)
+        if date.tzinfo:
+            tzinfo = date.tzinfo
+        rule = self.get_rrule_object(tzinfo)
+        if rule:
+            next_occurrence = rule.after(
+                tzinfo.normalize(date).replace(tzinfo=None), inc=True
+            )
+            next_occurrence = tzinfo.localize(next_occurrence)
+        else:
+            next_occurrence = self.start
+        if next_occurrence == date:
+            try:
+                return Occurrence.objects.get(event=self, original_start=date)
+            except Occurrence.DoesNotExist:
+                if use_naive:
+                    next_occurrence = timezone.make_naive(
+                        next_occurrence, tzinfo)
+                return self._create_occurrence(next_occurrence)
+
+    def _get_occurrence_list(self, start, end):
+        if self.rule is not None:
+            duration = self.timecode_fin - self.timecode_debut
+            use_naive = timezone.is_naive(start)
+
+            # Use the timezone from the start date
+            tzinfo = timezone.utc
+            if start.tzinfo:
+                tzinfo = start.tzinfo
+
+            # Limit timespan to recurring period
+            occurrences = []
+            if self.end_recurring_period and self.end_recurring_period < end:
+                end = self.end_recurring_period
+
+            start_rule = self.get_rrule_object(tzinfo)
+            start = start.replace(tzinfo=None)
+            if timezone.is_aware(end):
+                end = tzinfo.normalize(end).replace(tzinfo=None)
+
+            o_starts = []
+
+            # Occurrences that start before the timespan but ends inside or after timespan
+            closest_start = start_rule.before(start, inc=False)
+            if closest_start is not None and closest_start + duration > start:
+                o_starts.append(closest_start)
+
+            # Occurrences starts that happen inside timespan (end-inclusive)
+            occs = start_rule.between(start, end, inc=True)
+            # The occurrence that start on the end of the timespan is potentially
+            # included above, lets remove if thats the case.
+            if len(occs) > 0:
+                if occs[-1] == end:
+                    occs.pop()
+            # Add the occurrences found inside timespan
+            o_starts.extend(occs)
+
+            # Create the Occurrence objects for the found start dates
+            for o_start in o_starts:
+                o_start = tzinfo.localize(o_start)
+                if use_naive:
+                    o_start = timezone.make_naive(o_start, tzinfo)
+                o_end = o_start + duration
+                occurrence = self._create_occurrence(o_start, o_end)
+                if occurrence not in occurrences:
+                    occurrences.append(occurrence)
+            return occurrences
+        else:
+            # check if event is in the period
+            if self.timecode_debut < end and self.timecode_fin > start:
+                return [self._create_occurrence(self.timecode_debut)]
+            else:
+                return []
+
+    def _occurrences_after_generator(self, after=None):
+        """
+        returns a generator that produces unpresisted occurrences after the
+        datetime ``after``. (Optionally) This generator will return up to
+        ``max_occurrences`` occurrences or has reached ``self.end_recurring_period``, whichever is smallest.
+        """
+
+        tzinfo = timezone.utc
+        if after is None:
+            after = timezone.now()
+        elif not timezone.is_naive(after):
+            tzinfo = after.tzinfo
+        rule = self.get_rrule_object(tzinfo)
+        if rule is None:
+            if self.timecode_fin > after:
+                yield self._create_occurrence(self.timecode_debut, self.timecode_fin)
+            return
+        date_iter = iter(rule)
+        difference = self.timecode_fin - self.timecode_debut
+        loop_counter = 0
+        for o_start in date_iter:
+            o_start = tzinfo.localize(o_start)
+            o_end = o_start + difference
+            if o_end > after:
+                yield self._create_occurrence(o_start, o_end)
+
+            loop_counter += 1
+
+    def occurrences_after(self, after=None, max_occurrences=None):
+        """
+        returns a generator that produces occurrences after the datetime
+        ``after``.  Includes all of the persisted Occurrences. (Optionally) This generator will return up to
+        ``max_occurrences`` occurrences or has reached ``self.end_recurring_period``, whichever is smallest.
+        """
+        if after is None:
+            after = timezone.now()
+        occ_replacer = OccurrenceReplacer(self.occurrence_set.all())
+        generator = self._occurrences_after_generator(after)
+        trickies = list(
+            self.occurrence_set.filter(
+                original_start__lte=after, start__gte=after
+            ).order_by('timecode_debut')
+        )
+        for index, nxt in enumerate(generator):
+            if max_occurrences and index > max_occurrences - 1:
+                break
+            if len(trickies) > 0 and (nxt is None or nxt.timecode_debut > trickies[0].timecode_debut):
+                yield trickies.pop(0)
+            yield occ_replacer.get_occurrence(nxt)
+
+    @property
+    def event_start_params(self):
+        start = self.timecode_debut
+        params = {
+            "byyearday": start.timetuple().tm_yday,
+            "bymonth": start.month,
+            "bymonthday": start.day,
+            "byweekno": start.isocalendar()[1],
+            "byweekday": start.weekday(),
+            "byhour": start.hour,
+            "byminute": start.minute,
+            "bysecond": start.second,
+        }
+        return params
+
+    @property
+    def event_rule_params(self):
+        return self.rule.get_params()
+
+    def _event_params(self):
+        freq_order = freq_dict_order[self.rule.frequency]
+        rule_params = self.event_rule_params
+        start_params = self.event_start_params
+        event_params = {}
+
+        if len(rule_params) == 0:
+            return event_params
+
+        for param in rule_params:
+            # start date influences rule params
+            if (
+                param in param_dict_order
+                and param_dict_order[param] > freq_order
+                and param in start_params
+            ):
+                sp = start_params[param]
+                if sp == rule_params[param] or (
+                    hasattr(rule_params[param],
+                            "__iter__") and sp in rule_params[param]
+                ):
+                    event_params[param] = [sp]
+                else:
+                    event_params[param] = rule_params[param]
+            else:
+                event_params[param] = rule_params[param]
+
+        return event_params
+
+    @property
+    def event_params(self):
+        event_params = self._event_params()
+        start = self.effective_start
+        empty = False
+        if not start:
+            empty = True
+        elif self.end_recurring_period and start > self.end_recurring_period:
+            empty = True
+        return event_params, empty
+
+    @property
+    def effective_start(self):
+        if self.pk and self.end_recurring_period:
+            occ_generator = self._occurrences_after_generator(
+                self.timecode_debut)
+            try:
+                return next(occ_generator).timecode_debut
+            except StopIteration:
+                pass
+        elif self.pk:
+            return self.timecode_debut
+        return None
+
+    @property
+    def effective_end(self):
+        if self.pk and self.end_recurring_period:
+            params, empty = self.event_params
+            if empty or not self.effective_start:
+                return None
+            elif self.end_recurring_period:
+                occ = None
+                occ_generator = self._occurrences_after_generator(
+                    self.timecode_debut)
+                for occ in occ_generator:
+                    pass
+                return occ.end
+        elif self.pk:
+            return datetime.datetime.max
+        return None
 
 
 class SeanceManager(EventManager):
@@ -268,6 +557,8 @@ class SeanceRelation(EventRelation):
 class SeanceOccurence(Occurrence):
     seance = models.ForeignKey(
         Seance, on_delete=models.CASCADE, verbose_name=("Séance"))
+    debut = models.DateTimeField(("Début de l'occurrence"), db_index=True)
+    fin = models.DateTimeField(("Fin"), db_index=True)
 
     class Meta:
         verbose_name = ("Occurence")
@@ -289,6 +580,8 @@ class SeanceCalendrierManager(CalendarManager):
 
 
 class SeanceCalendrier(Calendar):
+    seances = SeanceCalendrierManager()
+
     def occurrences_after(self, date=None):
         return SeanceListManager(self.events.all()).occurrences_after(date)
 

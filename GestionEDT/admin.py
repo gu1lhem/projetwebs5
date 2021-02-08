@@ -12,7 +12,7 @@ class SeanceCalendrierAdmin(CalendarAdmin):
 
 
 @admin.register(Seance)
-class SeanceAdmin(EventAdmin):
+class SeanceAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             None,
@@ -33,7 +33,7 @@ class OccurenceSeanceAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": [
-                    'seance', 'start', 'end', 'original_start', 'original_end'
+                    'seance', 'debut', 'fin', 'original_start', 'original_end'
                 ]
             },
         ),

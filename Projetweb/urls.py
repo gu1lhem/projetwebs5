@@ -29,6 +29,7 @@ from bsct.urls import URLGenerator
 from django.views.generic import TemplateView
 
 from schedule.urls import *
+from schedule.views import EventView
 
 # Django Scheduler Sample
 admin.autodiscover()

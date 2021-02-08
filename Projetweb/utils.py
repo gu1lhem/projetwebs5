@@ -61,7 +61,7 @@ class SeanceOccurrenceReplacer(OccurrenceReplacer):
 
     def __init__(self, persisted_occurrences):
         lookup = [
-            ((occ.seance.id, occ.original_start, occ.original_end), occ)
+            ((occ.seance.id_seance), occ)
             for occ in persisted_occurrences
         ]
         self.lookup = dict(lookup)
@@ -72,7 +72,7 @@ class SeanceOccurrenceReplacer(OccurrenceReplacer):
         has already been matched
         """
         return self.lookup.pop(
-            (occ.seance.id, occ.original_start, occ.original_end), occ
+            (occ.seance.id_seance), occ
         )
 
     def has_occurrence(self, occ):
