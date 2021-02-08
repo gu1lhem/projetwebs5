@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 from decouple import config
 
-
 # Django Scheduler Sample
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 

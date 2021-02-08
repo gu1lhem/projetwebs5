@@ -1,47 +1,36 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+<!-- Ne semble pas nécessaire -->
 {% block extra_head %}
-<!-- Ce if/else permet d'utiliser le titre spécifié en contexte 'title' s'il y en a un, ou 'StudentManager' sinon. -->
-<title> {% if title %} {{title}} {% else %} Gestion EDT {% endif %} </title>
-  {{ block.super }}
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Voir pour override le head avec ça -->
-  <!-- Full Bootstrap. Override du BSCT_BOOTSTRAP_CDN de Bootstrap Crud Templates. -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
-  {% load static %}
-  <script src="{% static 'GestionEDT/script.js' %}"></script>
-  <link rel="stylesheet" type="text/css" href="{% static 'GestionEDT/layout.css' %}">
-
-  
-
+{{ block.super }}
 {% endblock %}
 
 {% block rtab_id %}id="schedule_tab"{% endblock %}
 
-{% block body %}
+{% block extra_upper_body %}
     {% include 'navbar.html' %}
-    <div class="container-fluid p-0">
-        <!-- Container basic pour tous usage.
-        Par défaut le container fluid a des marges de 15px. 
-        Solution recommandée ici : https://stackoverflow.com/questions/37978307/bootstrap-container-fluid-padding/50005919 -->
+{% endblock extra_upper_body %}
 
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" role="alert">
-            {{ message }}
+{% block body %}
+{% block content %} {% endblock %}
+
+<!-- Formulaires
+  Solution de centrage vertical pour Bootstrap 5 : https://stackoverflow.com/questions/26460441/element-width100-not-working-with-container-container-fluid
+  Jumbotron : boite flexible https://getbootstrap.com/docs/4.0/components/jumbotron/ -->
+  <div class="jumbotron vertical-center"> 
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <div class="col-md-4">
+          {% block BSCT_MAIN %} {% endblock %}
         </div>
-        {% endfor %}
-
-      {% block content %} {% endblock %}
+      </div>
     </div>
+  </div>
 {% endblock %}
 
-<!-- yessssss -->
+
+<!-- Ne semble pas fonctionner -->
 {% block subnav %}
 <ul>
     {% if user.is_authenticated %}
