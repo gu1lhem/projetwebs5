@@ -9,11 +9,13 @@ python -m venv env
 . env/bin/activate
 pip install -m wheel
 pip install -r requirements.txt
+pip install git+https://github.com/f14ke/django-scheduler.git
 sudo apt install npm
 sudo npm install -g bower
 export DJANGO_SETTINGS_MODULE=Projetweb.settings
 python manage.py bower install
 python manage.py migrate
+python manage.py collectstatic
 ```
 
 # Informations :
