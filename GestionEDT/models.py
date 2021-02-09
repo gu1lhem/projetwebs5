@@ -157,7 +157,7 @@ class Groupe(BSCTModelMixin, models.Model):
     # Fields qui seront récupérés par BSCT pour générer les fields.
     @classmethod
     def get_allowed_fields(cls):
-        return ['libelle', 'niveau']
+        return ['libelle', 'niveau', 'fk_formation']
 
 
 class Formation(BSCTModelMixin, models.Model):

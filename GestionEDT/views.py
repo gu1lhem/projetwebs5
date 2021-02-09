@@ -50,7 +50,7 @@ def import_fichier(request):
     io_string = io.StringIO(data_set)
     next(io_string)
     for column in csv.reader(io_string, delimiter=';'):
-        _, created = Etudiant.objects.update_or_create(
+        created = Etudiant.objects.update_or_create(
             prenom=column[0],
             nom=column[1],
             adresse_courriel=column[2],
