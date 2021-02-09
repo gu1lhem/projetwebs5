@@ -13,22 +13,21 @@ from .models import *
 
 
 def home(request):
-   # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
-   # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
+   # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
+   # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
    return render(request, 'home.html', {'title': 'Bienvenue'})
 
 
 
 def export_etudiant_csv(request):
-   response = HttpResponse(content_type='text/csv')
-   
+   response = HttpResponse(content_type='text/csv')   
 
    writer = csv.writer(response)
-   writer.writerow(['num_etudiant','prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe'])
+   writer.writerow(['prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe'])
 
-   etudiant = Etudiant.objects.all().values_list('num_etudiant','prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe')
+   etudiant = Etudiant.objects.all().values_list('prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe')
    for etudiants in etudiant:
-      writer.writerow(etudiants)  
+      writer.writerow(etudiants)
    response['Content-Disposition'] = 'attachment; filename="etudiants.csv"'
    return response   
    
@@ -60,9 +59,3 @@ def import_fichier(request):
     )
     context = {}
     return render(request, template, context)
-
-
-
-
-
-
