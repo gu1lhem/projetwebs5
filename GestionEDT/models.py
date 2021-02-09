@@ -254,10 +254,11 @@ class Seance(BSCTModelMixin, models.Model):
             return
         params = self._event_params()
         frequency = self.rule.rrule_frequency()
-        if timezone.is_naive(self.start):
-            dtstart = self.start
+        if timezone.is_naive(self.timecode_debut):
+            dtstart = self.timecode_debut
         else:
-            dtstart = tzinfo.normalize(self.start).replace(tzinfo=None)
+            dtstart = tzinfo.normalize(
+                self.timecode_debut).replace(tzinfo=None)
 
         if self.end_recurring_period is None:
             until = None
@@ -272,7 +273,7 @@ class Seance(BSCTModelMixin, models.Model):
 
     def _create_occurrence(self, start, end=None):
         if end is None:
-            end = start + (self.end - self.start)
+            end = start + (self.timecode_fin - self.timecode_debut)
         return SeanceOccurence(
             seance=self, start=start, end=end, original_start=start, original_end=end
         )
@@ -291,10 +292,10 @@ class Seance(BSCTModelMixin, models.Model):
             )
             next_occurrence = tzinfo.localize(next_occurrence)
         else:
-            next_occurrence = self.start
+            next_occurrence = self.timecode_debut
         if next_occurrence == date:
             try:
-                return Occurrence.objects.get(event=self, original_start=date)
+                return 'SeanceOccurrence'.objects.get(event=self, original_start=date)
             except Occurrence.DoesNotExist:
                 if use_naive:
                     next_occurrence = timezone.make_naive(
