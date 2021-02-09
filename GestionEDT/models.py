@@ -78,7 +78,7 @@ class UC(BSCTModelMixin, models.Model):
     id_uc = models.AutoField("Identifiant de l'UC", primary_key=True)
     nom_matiere = models.CharField(
         "Nom de la matière", max_length=30, default=' ')
-    ects = models.IntegerField("Son coefficient")
+    ects = models.FloatField("Son coefficient")
     type_uc = models.CharField("Domaine de l'UC", max_length=15)
     semestre = models.CharField(
         "A quelle semestre appartient-il?", max_length=3, choices=semestre_uni)
@@ -145,6 +145,8 @@ class Groupe(BSCTModelMixin, models.Model):
     libelle = models.CharField("Nom du groupe", max_length=100)
     niveau = models.CharField(
         "Niveau du groupe", max_length=2, choices=level_uni)
+    fk_formation = models.ForeignKey(
+        "Formation", verbose_name="Formation", on_delete=models.CASCADE)  # clés multiples
 
     def __str__(self):
         return self.libelle
