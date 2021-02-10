@@ -1,30 +1,29 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView,DetailView,ListView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-import csv
-import io
+import csv, io
 from django.contrib import messages
 
 from .models import *
 
 
+
 def home(request):
-    # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
-    # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
-    return render(request, 'home.html', {'title': 'Bienvenue'})
+   # Le contexte title permet, avec un if dans le template, de spécifier un titre à la page.
+   # Si aucun titre n'est spécifié, c'est le titre par défaut 'StudentManager' qui est utilisé.
+   return render(request, 'home.html', {'title': 'Bienvenue'})
 
 
 
 def export_etudiant_csv(request):
    response = HttpResponse(content_type='text/csv')   
-
-   writer = csv.writer(response)
+   csv.register_dialect("hashes", delimiter=";") 
+   writer = csv.writer(response,dialect="hashes")
    writer.writerow(['prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe'])
-
    etudiant = Etudiant.objects.all().values_list('prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe')
    for etudiants in etudiant:
       writer.writerow(etudiants)
