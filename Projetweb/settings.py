@@ -163,16 +163,6 @@ STATICFILES_DIRS = [
 ]
 
 
-SCHEDULER_BASE_CLASSES = {
-    'Event': ['GestionEDT.models.Seance']
-}
-
-
-SCHEDULER_ADMIN_FIELDS = {
-    'Event': [('id_seance', 'fk_professeur')]
-}
-
-
 # Django Scheduler Sample
 
 
