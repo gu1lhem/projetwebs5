@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView,DetailView,ListView,UpdateView,DeleteView
 from django.contrib.auth.decorators import login_required
@@ -57,4 +57,4 @@ def import_fichier(request):
         fk_groupe_id=column[5]
     )
     context = {}
-    return render(request, template, context)
+    return redirect('etudiant_list')
