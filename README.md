@@ -22,3 +22,6 @@ python manage.py collectstatic
 
 Attention : nous utilisons un fork non publié de *django-scheduler*. Le terme " django-scheduler " **ne doit pas** se retrouver dans *requirements.txt*. Pour mettre à jour ce librairie :
 pip install --upgrade git+https://github.com/f14ke/django-scheduler.git
+
+# Notes : 
+Le contributeur Landris18 correspond à malinlevaud avant qu'il ait configuré l'adresse mail de son git (qui était vous@exemple.fr)
