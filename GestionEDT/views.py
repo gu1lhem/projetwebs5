@@ -21,10 +21,9 @@ def home(request):
 
 def export_etudiant_csv(request):
    response = HttpResponse(content_type='text/csv')   
-
-   writer = csv.writer(response)
+   csv.register_dialect("hashes", delimiter=";") 
+   writer = csv.writer(response,dialect="hashes")
    writer.writerow(['prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe'])
-
    etudiant = Etudiant.objects.all().values_list('prenom','nom','adresse_courriel','date_naissance','niveau','fk_groupe')
    for etudiants in etudiant:
       writer.writerow(etudiants)
