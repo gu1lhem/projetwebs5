@@ -24,4 +24,4 @@ Attention : nous utilisons un fork non publié de *django-scheduler*. Le terme "
 pip install --upgrade git+https://github.com/f14ke/django-scheduler.git
 
 # Notes : 
-Le contributeur Landris18 correspond à malinlevaud avant qu'il ait configuré l'adresse mail de son git (qui était vous@exemple.fr)
+Le contributeur Landris18 correspond à malinlevaud avant qu'il ait eu la bonne idée de configurer l'adresse mail de son git (qui était vous@exemple.fr)
